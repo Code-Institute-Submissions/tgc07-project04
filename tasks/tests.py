@@ -98,6 +98,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(db_test_t.stage, test_t.stage)
         self.assertEqual(db_test_t.priority_level, test_t.priority_level)
         self.assertEqual(db_test_t.severity_level, test_t.severity_level)
+        self.assertEqual(db_test_t.assignee.count(), 1)
 
 class ChecklistItemModelTestCase(TestCase):
     def setUp(self):
