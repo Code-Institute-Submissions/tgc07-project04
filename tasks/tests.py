@@ -85,3 +85,55 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(db_test_t.priority_level, test_t.priority_level)
         self.assertEqual(db_test_t.severity_level, test_t.severity_level)
 
+class ChecklistItemsModelTestCase(TestCase):
+    def setUp(self):
+        self.team = Team(team_name="TestTeam")
+        self.team.save()
+
+        self.user = User(
+            username = "username_test",
+            email = "email_test@mailinator.com",
+            password = "pass123word",
+            )
+        self.user.save()
+
+        self.team_member = TeamMember(
+            user = self.user,
+            team = self.team
+            )
+        self.team_member.save()
+
+        self.stage = Stage(label="Completed Stage")
+        self.stage.save()
+
+        self.priority_level = PriorityLevel(priority_level="Urgent")
+        self.priority_level.save()
+
+        self.severity_level = SeverityLevel(severity_level="Critical")
+        self.severity_level.save()
+
+        self.task = Task(
+            title = "Solve testing bug",
+            description = "Test description, test description, test \
+                description",
+            date_due = date.today(),
+            task_creator = self.team_member,
+            stage = self.stage,
+            priority_level = self.priority_level,
+            severity_level = self.severity_level
+            )
+        self.task.save()
+    
+    def test_values(self):
+        test_c = ChecklistItem(
+            item = "Test checklist item",
+            task = self.task
+        )
+        test_c.save()
+
+        db_test_c = get_object_or_404(ChecklistItem, pk=test_c.id)
+
+        self.assertEqual(db_test_c.item, test_c.item)
+        self.assertEqual(db_test_c.completed, False)
+        self.assertEqual(db_test_c.task, test_c.task)
+
