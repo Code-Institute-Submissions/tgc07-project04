@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 from .models import *
+from .forms import *
 
 # Create your tests here.
 class TeamMemberModelTestCase(TestCase):
@@ -21,12 +22,19 @@ class TeamMemberModelTestCase(TestCase):
         test_team_member = TeamMember(
             user = test_user,
             team = self.team
-            )
+        )
         test_team_member.save()
         
         db_test_user = get_object_or_404(TeamMember, pk=test_user.id)
 
-        print(__name__)
         self.assertEqual(db_test_user.is_admin, False)
         self.assertEqual(db_test_user.is_project_manager, False)
+
+class TeamFormTestCase(TestCase):
+    def test_name_required(self):
+        form = TeamForm({
+            "team_name": None
+        })
+
+        self.assertFalse(form.is_valid())
 
