@@ -31,6 +31,8 @@ class Task(models.Model):
         PriorityLevel, on_delete=models.RESTRICT)
     severity_level = models.ForeignKey(
         SeverityLevel, on_delete=models.RESTRICT)
+    assignee = models.ManyToManyField(
+        TeamMember, related_name="task_assignee", blank=True)
 
     def __str__(self):
         return self.title
@@ -43,9 +45,3 @@ class ChecklistItem(models.Model):
     def __str__(self):
         return self.item
 
-class TaskAssignee(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    assignee = models.ForeignKey(TeamMember, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.assignee + " assigned to " + self.task
