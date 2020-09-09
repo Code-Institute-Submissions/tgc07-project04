@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     # My apps
     'sales',
@@ -126,3 +130,37 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+# Allows user to login/register via a username or email
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+# User must specify an email address
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Whether the must verify their email address
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Asks user to enter their email twice
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+# Minimal length of the username
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+# the url to go to display the login page
+LOGIN_URL = '/login/'
+
+# the url to go to if the user has logged in successful
+LOGIN_REDIRECT_URL = '/success'
+
+# Show django sign-up confirmation email shown in the terminal instead
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
