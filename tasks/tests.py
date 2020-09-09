@@ -85,7 +85,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(db_test_t.priority_level, test_t.priority_level)
         self.assertEqual(db_test_t.severity_level, test_t.severity_level)
 
-class ChecklistItemsModelTestCase(TestCase):
+class ChecklistItemModelTestCase(TestCase):
     def setUp(self):
         self.team = Team(team_name="TestTeam")
         self.team.save()
