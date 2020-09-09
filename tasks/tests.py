@@ -22,3 +22,12 @@ class PriorityLevelModelTestCase(TestCase):
 
         self.assertEqual(db_test_p.priority_level, test_p.priority_level)
 
+class SeverityLevelModelTestCase(TestCase):
+    def test_values(self):
+        test_s = SeverityLevel(severity_level="Critical")
+        test_s.save()
+
+        db_test_s = get_object_or_404(SeverityLevel, pk=test_s.id)
+
+        self.assertEqual(db_test_s.severity_level, test_s.severity_level)
+
