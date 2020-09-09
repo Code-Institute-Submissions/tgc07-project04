@@ -40,18 +40,25 @@ class TaskModelTestCase(TestCase):
         self.team = Team(team_name="TestTeam")
         self.team.save()
 
-        self.user = User(
-            username = "username_test",
-            email = "email_test@mailinator.com",
+        self.user_1 = User(
+            username = "username_test_1",
+            email = "email_test_1@mailinator.com",
             password = "pass123word",
-            )
-        self.user.save()
+        )
+        self.user_1.save()
 
-        self.team_member = TeamMember(
-            user = self.user,
+        self.user_2 = User(
+            username = "username_test_2",
+            email = "email_test_2@mailinator.com",
+            password = "pass123word",
+        )
+        self.user_2.save()
+
+        self.task_creator = TeamMember(
+            user = self.user_1,
             team = self.team
-            )
-        self.team_member.save()
+        )
+        self.task_creator.save()
 
         self.stage = Stage(label="Completed Stage")
         self.stage.save()
@@ -62,18 +69,25 @@ class TaskModelTestCase(TestCase):
         self.severity_level = SeverityLevel(severity_level="Critical")
         self.severity_level.save()
     
+        self.assignee = TeamMember(
+            user = self.user_2,
+            team = self.team
+        )
+        self.assignee.save()
+
     def test_values(self):
         test_t = Task(
             title = "Solve testing bug",
             description = "Test description, test description, test \
                 description",
             date_due = date.today(),
-            task_creator = self.team_member,
+            task_creator = self.task_creator,
             stage = self.stage,
             priority_level = self.priority_level,
             severity_level = self.severity_level
         )
         test_t.save()
+        test_t.assignee.add(self.assignee)
 
         db_test_t = get_object_or_404(Task, pk=test_t.id)
 
@@ -90,18 +104,25 @@ class ChecklistItemModelTestCase(TestCase):
         self.team = Team(team_name="TestTeam")
         self.team.save()
 
-        self.user = User(
-            username = "username_test",
-            email = "email_test@mailinator.com",
+        self.user_1 = User(
+            username = "username_test_1",
+            email = "email_test_1@mailinator.com",
             password = "pass123word",
-            )
-        self.user.save()
+        )
+        self.user_1.save()
 
-        self.team_member = TeamMember(
-            user = self.user,
+        self.user_2 = User(
+            username = "username_test_2",
+            email = "email_test_2@mailinator.com",
+            password = "pass123word",
+        )
+        self.user_2.save()
+
+        self.task_creator = TeamMember(
+            user = self.user_1,
             team = self.team
-            )
-        self.team_member.save()
+        )
+        self.task_creator.save()
 
         self.stage = Stage(label="Completed Stage")
         self.stage.save()
@@ -111,18 +132,25 @@ class ChecklistItemModelTestCase(TestCase):
 
         self.severity_level = SeverityLevel(severity_level="Critical")
         self.severity_level.save()
+    
+        self.assignee = TeamMember(
+            user = self.user_2,
+            team = self.team
+        )
+        self.assignee.save()
 
         self.task = Task(
             title = "Solve testing bug",
             description = "Test description, test description, test \
                 description",
             date_due = date.today(),
-            task_creator = self.team_member,
+            task_creator = self.task_creator,
             stage = self.stage,
             priority_level = self.priority_level,
             severity_level = self.severity_level
-            )
+        )
         self.task.save()
+        self.task.assignee.add(self.assignee)
     
     def test_values(self):
         test_c = ChecklistItem(
