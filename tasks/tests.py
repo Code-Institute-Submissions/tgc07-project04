@@ -13,3 +13,12 @@ class StageModelTestCase(TestCase):
 
         self.assertEqual(db_test_stage.label, test_stage.label)
 
+class PriorityLevelModelTestCase(TestCase):
+    def test_values(self):
+        test_p = PriorityLevel(priority_level="Urgent")
+        test_p.save()
+
+        db_test_p = get_object_or_404(PriorityLevel, pk=test_p.id)
+
+        self.assertEqual(db_test_p.priority_level, test_p.priority_level)
+
