@@ -42,3 +42,56 @@ class TeamFormTestCase(TestCase):
     def test_form_meta_fields(self):
         form = TeamForm()
         self.assertEqual(form.Meta.fields, '__all__')
+
+class MembershipFormTestCase(TestCase):
+    def setUp(self):
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+        self.team.team_member.add(self.team_member)
+
+    def test_form_valid(self):
+        form = MembershipForm({
+            "team_member": [self.team_member],
+            "team_name" : self.team,
+            "is_admin" : True
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_team_member_required(self):
+        form = MembershipForm({
+            "team_member": None,
+            "team_name" : self.team,
+            "is_admin" : True
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('team_member', form.errors.keys())
+        self.assertEqual(
+            form.errors['team_member'][0], 'This field is required.')
+
+    def test_team_name_required(self):
+        form = MembershipForm({
+            "team_member": [self.team_member],
+            "team_name" : None,
+            "is_admin" : True
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('team_name', form.errors.keys())
+        self.assertEqual(
+            form.errors['team_name'][0], 'This field is required.')
+
+    def test_admin_boolean_not_required(self):
+        form = MembershipForm({
+            "team_member": [self.team_member],
+            "team_name" : self.team
+        })
+        self.assertTrue(form.is_valid())
+
+
+
