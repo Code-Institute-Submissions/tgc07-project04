@@ -1,6 +1,5 @@
 from django.db import models
-
-from team_members.models import TeamMember
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Stage(models.Model):
@@ -25,14 +24,15 @@ class Task(models.Model):
     title = models.CharField(max_length=50, blank=False)
     description = models.TextField(blank=True, null=True)
     date_due = models.DateField(blank=True, null=True)
-    task_creator = models.ForeignKey(TeamMember, on_delete=models.RESTRICT)
+    task_creator = models.ForeignKey(
+        User, related_name="task_creator", on_delete=models.RESTRICT)
     stage = models.ForeignKey(Stage, on_delete=models.RESTRICT)
     priority_level = models.ForeignKey(
         PriorityLevel, on_delete=models.RESTRICT)
     severity_level = models.ForeignKey(
         SeverityLevel, on_delete=models.RESTRICT)
     assignee = models.ManyToManyField(
-        TeamMember, related_name="task_assignee", blank=True)
+        User, related_name="task_assignee", blank=True)
 
     def __str__(self):
         return self.title
