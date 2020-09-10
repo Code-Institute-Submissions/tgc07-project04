@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from datetime import date
 
 from .models import *
-from team_members.models import *
+from teams.models import *
 
 # Create your tests here.
 class StageModelTestCase(TestCase):
