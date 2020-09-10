@@ -68,7 +68,7 @@ class TaskFormTestCase(TestCase):
 
     def test_form_valid(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -97,7 +97,7 @@ class TaskFormTestCase(TestCase):
 
     def test_description_not_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : None,
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -110,7 +110,7 @@ class TaskFormTestCase(TestCase):
 
     def test_date_due_not_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : None,
             "task_creator" : self.task_creator,
@@ -123,7 +123,7 @@ class TaskFormTestCase(TestCase):
 
     def test_task_creator_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : None,
@@ -139,7 +139,7 @@ class TaskFormTestCase(TestCase):
 
     def test_stage_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -155,7 +155,7 @@ class TaskFormTestCase(TestCase):
 
     def test_priority_level_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -171,7 +171,7 @@ class TaskFormTestCase(TestCase):
 
     def test_severity_level_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -187,7 +187,7 @@ class TaskFormTestCase(TestCase):
 
     def test_assignee_not_required(self):
         form = TaskForm({
-            "title": "My Test Team",
+            "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
             "task_creator" : self.task_creator,
@@ -198,6 +198,77 @@ class TaskFormTestCase(TestCase):
         })
         self.assertTrue(form.is_valid())
 
+class ChecklistItemFormTestCase(TestCase):
+    def setUp(self):
+        self.task_creator = User(
+            username = "test_task_creator",
+            email = "task_creator@mailinator.com",
+            password = "pass123word"
+        )
+        self.task_creator.save()
 
+        self.stage = Stage(label="Test Stage")
+        self.stage.save()
 
+        self.priority_level = PriorityLevel(priority_level="Urgent")
+        self.priority_level.save()
 
+        self.severity_level = SeverityLevel(severity_level="Critical")
+        self.severity_level.save()
+
+        self.assignee = User(
+            username = "test_assignee",
+            email = "assignee@mailinator.com",
+            password = "pass123word"
+        )
+        self.assignee.save()
+
+        self.task = Task(
+            title = "My Test Team",
+            description = "Test description",
+            date_due = date.today(),
+            task_creator = self.task_creator,
+            stage = self.stage,
+            priority_level = self.priority_level,
+            severity_level = self.severity_level
+        )
+        self.task.save()
+        self.task.assignee.add(self.assignee)
+    
+    def test_form_valid(self):
+        form = ChecklistItemForm({
+            "item": "My test checklist item",
+            "completed" : False,
+            "task" : self.task
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_item_required(self):
+        form = ChecklistItemForm({
+            "item": None,
+            "completed" : False,
+            "task" : self.task
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('item', form.errors.keys())
+        self.assertEqual(
+            form.errors['item'][0], 'This field is required.')
+
+    def test_completed_not_required(self):
+        form = ChecklistItemForm({
+            "item": "My test checklist item",
+            "completed" : None,
+            "task" : self.task
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_item_required(self):
+        form = ChecklistItemForm({
+            "item": "My test checklist item",
+            "completed" : False,
+            "task" : None
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn('task', form.errors.keys())
+        self.assertEqual(
+            form.errors['task'][0], 'This field is required.')
