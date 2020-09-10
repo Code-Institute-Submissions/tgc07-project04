@@ -13,29 +13,37 @@ class TeamModelTestCase(TestCase):
         )
         self.team_member.save()
 
-        self.admin_user = User(
-            username = "test_admin_user",
-            email = "admin_user@mailinator.com",
-            password = "pass123word"
-        )
-        self.admin_user.save()
-    
-        self.project_manager = User(
-            username = "test_project_manager",
-            email = "project_manager@mailinator.com",
-            password = "pass123word"
-        )
-        self.project_manager.save()
-    
     def test_values(self):
         test = Team(team_name = "Test Team")
         test.save()
         test.team_member.add(self.team_member)
-        test.admin_user.add(self.admin_user)
-        test.project_manager.add(self.project_manager)
         
         db_test = get_object_or_404(Team, pk=test.id)
 
         self.assertEqual(db_test.team_member, test.team_member)
-        self.assertEqual(db_test.admin_user, test.admin_user)
-        self.assertEqual(db_test.project_manager, test.project_manager)
+
+class MembershipModelTestCase(TestCase):
+    def setUp(self):
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+
+        self.team = Team(team_name = "test_team_name")
+        self.team.save()
+        self.team.team_member.add(self.team_member)
+
+    def test_values(self):
+        test = Membership(
+            user = self.team_member,
+            team = self.team
+        )
+        test.save()
+        
+        db_test = get_object_or_404(Membership, pk=test.id)
+
+        self.assertEqual(db_test.user, test.user)
+        self.assertEqual(db_test.team, test.team)
+        self.assertEqual(db_test.is_admin, False)
