@@ -224,7 +224,7 @@ class ChecklistItemFormTestCase(TestCase):
         self.assignee.save()
 
         self.task = Task(
-            title = "My Test Team",
+            title = "My Test Task",
             description = "Test description",
             date_due = date.today(),
             task_creator = self.task_creator,
