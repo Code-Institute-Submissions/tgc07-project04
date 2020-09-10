@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from datetime import date
 
 from .models import *
-from team_members.models import Team
+from teams.models import Team
 
 # Create your tests here.
 class ServiceModelTestCase(TestCase):

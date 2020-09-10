@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     # My apps
     'sales',
     'tasks',
-    'team_members',
+    'teams',
 ]
 
 MIDDLEWARE = [
@@ -157,9 +157,9 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
 # the url to go to display the login page
-LOGIN_URL = '/login/'
+LOGIN_URL = '/users/login/'
 
-# the url to go to if the user has logged in successful
+# the url to go to if the user has logged in successfully
 LOGIN_REDIRECT_URL = '/success'
 
 # Show django sign-up confirmation email shown in the terminal instead

@@ -1,6 +1,6 @@
 from django.db import models
 
-from team_members.models import Team
+from teams.models import Team
 
 # Create your models here.
 class Service(models.Model):
