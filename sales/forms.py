@@ -7,3 +7,7 @@ class ServiceForm(forms.ModelForm):
         model = Service
         fields = "__all__"
 
+class TransactionForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
