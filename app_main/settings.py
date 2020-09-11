@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 
     # My apps
     'sales',
@@ -142,28 +143,25 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# allauth
 SITE_ID = 1
-
 # Allows user to login/register via a username or email
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-
 # User must specify an email address
 ACCOUNT_EMAIL_REQUIRED = True
-
 # Whether the must verify their email address
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
 # Asks user to enter their email twice
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-
 # Minimal length of the username
 ACCOUNT_USERNAME_MIN_LENGTH = 4
-
 # the url to go to display the login page
 LOGIN_URL = '/users/login/'
-
 # the url to go to if the user has logged in successfully
 LOGIN_REDIRECT_URL = '/success'
-
 # Show django sign-up confirmation email shown in the terminal instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
