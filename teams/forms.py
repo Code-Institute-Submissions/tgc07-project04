@@ -5,7 +5,7 @@ from .models import *
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = "__all__"
+        fields = ["team_name"]
 
 class MembershipForm(forms.ModelForm):
     class Meta:
