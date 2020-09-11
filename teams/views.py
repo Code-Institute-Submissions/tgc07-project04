@@ -40,6 +40,9 @@ def update_team(request, team_id):
         form = TeamForm(request.POST, instance=team_to_update)
         if form.is_valid():
             form.save()
+            messages.success(
+                request, f"Updated team name to \
+                    {form.cleaned_data['team_name']}")
             return redirect(reverse('home_route'))
         else:
             return render(request, 'teams/update-team.html', {
