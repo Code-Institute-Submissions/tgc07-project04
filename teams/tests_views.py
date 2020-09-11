@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 from .models import *
@@ -72,3 +73,13 @@ class UpdateTeamViewTestCase(TestCase):
             'update_team_route', kwargs={'team_id':self.team.id}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'teams/update-team.html')
+
+    def test_update_team(self):
+        new_data = {"team_name" : "Updated Team Name"}
+        response = self.client.post(reverse(
+            'update_team_route', kwargs={'team_id':self.team.id}), new_data)
+        self.assertEqual(response.status_code, 302)
+
+        db_updated = get_object_or_404(Team, pk=self.team.id)
+        for key, value in new_data.items():
+            self.assertEquals(getattr(db_updated, key), value)
