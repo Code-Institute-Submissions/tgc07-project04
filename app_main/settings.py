@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     # My apps
+    'home',
     'sales',
     'tasks',
     'teams',
