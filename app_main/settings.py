@@ -162,6 +162,8 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 # Show django sign-up confirmation email shown in the terminal instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Log user in if confirm email after account sign-up in same browser session
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 # Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
