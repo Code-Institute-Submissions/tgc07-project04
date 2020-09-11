@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Team(models.Model):
     team_name = models.CharField(max_length=50, blank=False)
-    team_member = models.ManyToManyField(User, through="Membership")
+    team_members = models.ManyToManyField(User, through="Membership")
 
     def __str__(self):
         return self.team_name
