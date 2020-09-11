@@ -16,11 +16,11 @@ class TeamModelTestCase(TestCase):
     def test_values(self):
         test = Team(team_name = "Test Team")
         test.save()
-        test.team_member.add(self.team_member)
+        test.team_members.add(self.team_member)
         
         db_test = get_object_or_404(Team, pk=test.id)
 
-        self.assertEqual(db_test.team_member, test.team_member)
+        self.assertEqual(db_test.team_members, test.team_members)
 
 class MembershipModelTestCase(TestCase):
     def setUp(self):
@@ -33,7 +33,7 @@ class MembershipModelTestCase(TestCase):
 
         self.team = Team(team_name = "test_team_name")
         self.team.save()
-        self.team.team_member.add(self.team_member)
+        self.team.team_members.add(self.team_member)
 
     def test_values(self):
         test = Membership(

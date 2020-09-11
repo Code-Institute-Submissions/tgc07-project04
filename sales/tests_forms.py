@@ -39,7 +39,7 @@ class TransactionFormTestCase(TestCase):
 
         self.team = Team(team_name = "Test Team")
         self.team.save()
-        self.team.team_member.add(self.team_member)
+        self.team.team_members.add(self.team_member)
     
         self.service = Service(
             service_name = "1 User",
