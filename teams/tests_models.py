@@ -16,7 +16,6 @@ class TeamModelTestCase(TestCase):
     def test_values(self):
         test = Team(team_name = "Test Team")
         test.save()
-        test.team_members.add(self.team_member)
         
         db_test = get_object_or_404(Team, pk=test.id)
 
@@ -33,7 +32,6 @@ class MembershipModelTestCase(TestCase):
 
         self.team = Team(team_name = "test_team_name")
         self.team.save()
-        self.team.team_members.add(self.team_member)
 
     def test_values(self):
         test = Membership(
