@@ -6,16 +6,21 @@ from .models import *
 
 class CreateTeamViewTestCase(TestCase):
     def setUp(self):
+        # Create user instance
         self.team_member = User(
             username = "test_team_member",
             email = "team_member@mailinator.com",
             password = "pass123word"
         )
         self.team_member.save()
+        # Log in user
+        self.client.force_login(self.team_member, backend=None)
 
+        # Create team instance
         self.team = Team(team_name="Test Team Name")
         self.team.save()
 
+        # Create membership instance
         self.membership_model = Membership(
                 user = self.team_member,
                 team = self.team,
@@ -48,6 +53,17 @@ class CreateTeamViewTestCase(TestCase):
 
 class UpdateTeamViewTestCase(TestCase):
     def setUp(self):
+        # Create user instance
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+        # Log in user
+        self.client.force_login(self.team_member, backend=None)
+
+        # Create team instance
         self.team = Team(team_name="Test Team Name")
         self.team.save()
     
