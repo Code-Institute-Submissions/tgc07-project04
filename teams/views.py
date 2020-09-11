@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
 
-# @login_required
+@login_required
 def create_team(request):
     if request.method == "POST":
         submitted_form = TeamForm(request.POST)
@@ -33,7 +33,7 @@ def create_team(request):
             'form': form
         })
 
-# @login_required
+@login_required
 def update_team(request, team_id):
     team_to_update = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
