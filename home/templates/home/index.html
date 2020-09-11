@@ -1,0 +1,14 @@
+{% extends 'base-template.html' %}
+
+{% block title %} {{request.user}} - Home {% endblock %}
+
+{% block content %}
+    <h1>Index - Test Home Page</h1>
+    {% if request.user.is_authenticated %}
+        <p>username: {{request.user}}</p>
+        <p>user ID: {{request.user.id}}</p>
+        <p>email: {{request.user.email}}</p>
+    {% else %}
+        <p>Please <a href="{% url 'account_login' %}">login</a></p>
+    {% endif %}
+{% endblock %} 
