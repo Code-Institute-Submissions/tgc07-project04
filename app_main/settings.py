@@ -159,7 +159,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 # the url to go to display the login page
 LOGIN_URL = '/users/login/'
 # the url to go to if the user has logged in successfully
-LOGIN_REDIRECT_URL = '/success'
+LOGIN_REDIRECT_URL = '/'
 # Show django sign-up confirmation email shown in the terminal instead
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
