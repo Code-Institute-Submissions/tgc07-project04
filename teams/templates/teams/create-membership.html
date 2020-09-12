@@ -8,6 +8,7 @@
 {% block content %}
 
   <h1>Create Membership</h1>
+  <h3>Team: {{ team }}</h3>
   <form method="POST">
     {% csrf_token %}
     {{ form|crispy }}

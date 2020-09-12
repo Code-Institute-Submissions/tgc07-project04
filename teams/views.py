@@ -68,12 +68,13 @@ def delete_team(request, team_id):
 
 @login_required
 def create_membership(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
         submitted_form = MembershipForm(request.POST)
 
         if submitted_form.is_valid():
             membership_model = submitted_form.save(commit=False)
-            membership_model.team = get_object_or_404(Team, pk=team_id)
+            membership_model.team = team
             try:
                 # Try to create membership
                 membership_model.save()
@@ -86,11 +87,13 @@ def create_membership(request, team_id):
                     with {membership_model.team} already exists. Please \
                         select another user.")
                 return render(request, "teams/create-membership.html", {
-                'form': submitted_form
-            })
+                    'form': submitted_form,
+                    'team': team
+                })
         else:
             return render(request, "teams/create-membership.html", {
-                'form': submitted_form
+                'form': submitted_form,
+                'team': team
             })
     else:
         # Query database membership matches for team_id and current user
@@ -100,7 +103,8 @@ def create_membership(request, team_id):
         if db_membership and db_membership[0].is_admin:
             form = MembershipForm()
             return render(request, 'teams/create-membership.html', {
-                'form': form
+                'form': form,
+                'team': team
             })
         # If no matches, or current user is not admin
         else:
