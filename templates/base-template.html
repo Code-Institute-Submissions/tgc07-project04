@@ -11,9 +11,9 @@
 <body>
     <!-- Messages -->
     {% if messages %}
-    <ul class="messages">
+    <ul class="messages pl-0">
         {% for message in messages %}
-        <div {% if message.tags %}class="alert alert-{{ message.tags }}"{% endif %}><li style="list-style:none;">{{ message }}</li></div>
+        <div {% if message.tags %}class="alert alert-{% if 'error' in message.tags %}danger{% else %}{{ message.tags }}{% endif %}"{% endif %}><li style="list-style:none;">{{ message }}</li></div>
         {% endfor %}
     </ul>
     {% endif %}
