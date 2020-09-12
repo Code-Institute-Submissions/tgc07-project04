@@ -115,3 +115,65 @@ class DeleteTeamViewTestCase(TestCase):
         # Check database entry does not exist
         deleted_item = Team.objects.filter(pk=self.team.id).first()
         self.assertEquals(deleted_item, None)
+
+class CreateMembershipViewTestCase(TestCase):
+    def setUp(self):
+        # Create user instance
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+        # Log in user
+        self.client.force_login(self.team_member, backend=None)
+
+        # Create team instance
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+
+        # Create membership instance
+        self.membership_model = Membership(
+                user = self.team_member,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_model.save()
+    
+    def test_get_response(self):
+        response = self.client.get(reverse('create_membership_route',
+            kwargs={'team_id':self.team.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'teams/create-membership.html')
+
+    def test_create_team(self):
+        new_team_member = User(
+            username = "new_team_member",
+            email = "new_team_member@mailinator.com",
+            password = "pass123word"
+        )
+        new_team_member.save()
+        
+        response = self.client.post(reverse('create_membership_route',
+            kwargs={'team_id':self.team.id}), {
+            "user" : str(new_team_member.id),
+            "team" : str(self.team.id),
+            "is_admin" : True
+        })
+        # Check redirect
+        self.assertEqual(response.status_code, 302)
+        # Check that there are 2 memberships in team queried
+        db_membership_team = Membership.objects.filter(team=self.team.id)
+        self.assertEqual(db_membership_team.count(), 2)
+        # Check that there is only 1 membership matching queried user
+        db_membership_user_1 = Membership.objects.filter(user=str(
+            self.team_member.id))
+        self.assertEqual(db_membership_user_1.count(), 1)
+        # Check that there is only 1 membership matching queried user
+        db_membership_user_2 = Membership.objects.filter(user=str(
+            new_team_member.id))
+        self.assertEqual(db_membership_user_2.count(), 1)
+        # Check that there are 2 memberships matching is_admin query
+        db_membership_is_admin = Membership.objects.filter(is_admin=True)
+        self.assertEqual(db_membership_is_admin.count(), 2)
+    
