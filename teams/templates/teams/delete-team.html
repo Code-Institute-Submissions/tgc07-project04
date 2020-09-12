@@ -1,0 +1,17 @@
+{% extends 'base-template.html' %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}Delete Team{% endblock %}
+
+{%block content %}
+
+  <h1>Delete Team</h1>
+  <form method="POST">
+    {% csrf_token %}
+    Are you sure you want to delete team {{team.team_name}}
+    <input type="submit" value="Delete Team">
+  </form>
+
+{% endblock %}

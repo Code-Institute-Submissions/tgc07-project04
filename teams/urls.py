@@ -6,4 +6,6 @@ urlpatterns = [
     path('create/', teams.views.create_team, name='create_team_route'),
     path('update/<team_id>', teams.views.update_team,
         name="update_team_route"),
+    path('delete/<team_id>', teams.views.delete_team,
+        name="delete_team_route"),
 ]

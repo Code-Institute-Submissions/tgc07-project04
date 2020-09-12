@@ -54,3 +54,15 @@ def update_team(request, team_id):
         return render(request, 'teams/update-team.html', {
             'form': form
         })
+
+@login_required
+def delete_team(request, team_id):
+    if request.method == "POST":
+        team_to_delete = get_object_or_404(Team, pk=team_id)
+        team_to_delete.delete()
+        return redirect(reverse('home_route'))
+    else:
+        team_to_delete = get_object_or_404(Team, pk=team_id)
+        return render(request, 'teams/delete-team.html', {
+            'team': team_to_delete
+        })
