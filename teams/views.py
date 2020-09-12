@@ -71,7 +71,6 @@ def create_membership(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
         submitted_form = MembershipForm(request.POST)
-
         if submitted_form.is_valid():
             membership_model = submitted_form.save(commit=False)
             membership_model.team = team
@@ -103,6 +102,58 @@ def create_membership(request, team_id):
         if db_membership and db_membership[0].is_admin:
             form = MembershipForm()
             return render(request, 'teams/create-membership.html', {
+                'form': form,
+                'team': team
+            })
+        # If no matches, or current user is not admin
+        else:
+            messages.add_message(request, messages.WARNING, "Sorry, you do \
+                not have the necessary access rights to view that page")
+            return redirect(reverse('account_login'))
+
+@login_required
+def update_membership(request, team_id, membership_id):
+    membership_to_update = get_object_or_404(Membership, pk=membership_id)
+    team = get_object_or_404(Team, pk=team_id)
+    if request.method == "POST":
+        submitted_form = MembershipForm(
+            request.POST, instance=membership_to_update)
+        ####################################################
+        admin_count = Membership.objects.filter(team=team_id).filter(
+            is_admin=True).count()
+        print(submitted_form)
+        ####################################################
+        if submitted_form.is_valid():
+            membership_model = submitted_form.save(commit=False)
+            membership_model.team = team
+            try:
+                # Try to create membership
+                membership_model.save()
+                messages.add_message(request, messages.SUCCESS, f"Membership \
+                    with {membership_model.team} has been updated")
+                return redirect(reverse('home_route'))
+            except IntegrityError:
+                # If error (e.g. unique constraint failed) then flash message
+                messages.add_message(request, messages.WARNING, f"Membership \
+                    with {membership_model.team} already exists. Please \
+                        select another user.")
+                return render(request, "teams/update-membership.html", {
+                    'form': submitted_form,
+                    'team': team
+                })
+        else:
+            return render(request, "teams/update-membership.html", {
+                'form': submitted_form,
+                'team': team
+            })
+    else:
+        form = MembershipForm(instance=membership_to_update)
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        # If match found and current user is_admin
+        if db_membership and db_membership[0].is_admin:
+            return render(request, 'teams/update-membership.html', {
                 'form': form,
                 'team': team
             })
