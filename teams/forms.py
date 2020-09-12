@@ -9,5 +9,5 @@ class TeamForm(forms.ModelForm):
 
 class MembershipForm(forms.ModelForm):
     class Meta:
-        model = Team
-        fields = "__all__"
+        model = Membership
+        exclude = ["team"]
