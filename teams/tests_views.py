@@ -80,6 +80,7 @@ class UpdateTeamViewTestCase(TestCase):
             'update_team_route', kwargs={'team_id':self.team.id}), new_data)
         self.assertEqual(response.status_code, 302)
 
+        # Check database entry has been updated correctly
         db_updated = get_object_or_404(Team, pk=self.team.id)
         for key, value in new_data.items():
             self.assertEquals(getattr(db_updated, key), value)
@@ -111,6 +112,6 @@ class DeleteTeamViewTestCase(TestCase):
             'delete_team_route', kwargs={'team_id':self.team.id}))
         self.assertEqual(response.status_code, 302)
 
-        # 3. Check database entry does not exist
+        # Check database entry does not exist
         deleted_item = Team.objects.filter(pk=self.team.id).first()
         self.assertEquals(deleted_item, None)
