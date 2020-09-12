@@ -1,0 +1,17 @@
+{% extends 'base-template.html' %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}Create Membership{% endblock %}
+
+{% block content %}
+
+  <h1>Create Membership</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Create Membership">
+  </form>
+
+{% endblock %}

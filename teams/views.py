@@ -66,3 +66,36 @@ def delete_team(request, team_id):
         return render(request, 'teams/delete-team.html', {
             'team': team_to_delete
         })
+
+@login_required
+def create_membership(request, team_id):
+    if request.method == "POST":
+        submitted_form = MembershipForm(request.POST)
+
+        if submitted_form.is_valid():
+            membership_model = submitted_form.save(commit=False)
+            membership_model.team = get_object_or_404(Team, pk=team_id)
+            membership_model.save()
+            messages.success(
+                request, f"Membership with {membership_model.team} \
+                    has been created")
+            return redirect(reverse('home_route'))
+        else:
+            return render(request, "teams/create-membership.html", {
+                'form': submitted_form
+            })
+    else:
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        # If match found and current user is_admin
+        if db_membership and db_membership[0].is_admin:
+            form = MembershipForm()
+            return render(request, 'teams/create-membership.html', {
+                'form': form
+            })
+        # If no matches, or current user is not admin
+        else:
+            messages.success(
+                request, "Sorry, you do not have the necessary access rights")
+            return redirect(reverse('account_login'))
