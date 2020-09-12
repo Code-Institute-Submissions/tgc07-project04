@@ -83,3 +83,34 @@ class UpdateTeamViewTestCase(TestCase):
         db_updated = get_object_or_404(Team, pk=self.team.id)
         for key, value in new_data.items():
             self.assertEquals(getattr(db_updated, key), value)
+
+class DeleteTeamViewTestCase(TestCase):
+    def setUp(self):
+        # Create user instance
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+        # Log in user
+        self.client.force_login(self.team_member, backend=None)
+
+        # Create team instance
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+    
+    def test_get_response(self):
+        response = self.client.get(reverse(
+            'delete_team_route', kwargs={'team_id':self.team.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'teams/delete-team.html')
+
+    def test_delete_team(self):
+        response = self.client.post(reverse(
+            'delete_team_route', kwargs={'team_id':self.team.id}))
+        self.assertEqual(response.status_code, 302)
+
+        # 3. Check database entry does not exist
+        deleted_item = Team.objects.filter(pk=self.team.id).first()
+        self.assertEquals(deleted_item, None)
