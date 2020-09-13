@@ -113,34 +113,58 @@ def create_membership(request, team_id):
 
 @login_required
 def update_membership(request, team_id, membership_id):
-    membership_to_update = get_object_or_404(Membership, pk=membership_id)
     team = get_object_or_404(Team, pk=team_id)
+    membership_to_update = get_object_or_404(Membership, pk=membership_id)
+
+    # Get user_id relating to membership being updated
+    membership_user_id = membership_to_update.user.id
+    
     if request.method == "POST":
         submitted_form = MembershipForm(
             request.POST, instance=membership_to_update)
-        ####################################################
-        admin_count = Membership.objects.filter(team=team_id).filter(
-            is_admin=True).count()
-        print(submitted_form)
-        ####################################################
         if submitted_form.is_valid():
             membership_model = submitted_form.save(commit=False)
             membership_model.team = team
-            try:
-                # Try to create membership
-                membership_model.save()
-                messages.add_message(request, messages.SUCCESS, f"Membership \
-                    with {membership_model.team} has been updated")
-                return redirect(reverse('home_route'))
-            except IntegrityError:
-                # If error (e.g. unique constraint failed) then flash message
-                messages.add_message(request, messages.WARNING, f"Membership \
-                    with {membership_model.team} already exists. Please \
-                        select another user.")
+
+            # Count number of admin users in team from database
+            admin_users = Membership.objects.filter(team=team_id).filter(
+                is_admin=True)
+            admin_count = admin_users.count()
+
+            # Initialise state variable
+            is_user_in_membership_table = False
+            # If user membership being updated is an admin user of team
+            for user in admin_users:
+                if user.user.id==membership_user_id:
+                    is_user_in_membership_table = True
+
+            # If is_admin NOT checked on submitted form
+            # AND user relating to membership being updated is_admin
+            # AND admin_count<=1, then error
+            if (not membership_model.is_admin) and (
+                is_user_in_membership_table) and (admin_count<=1):
+                messages.add_message(request, messages.WARNING, "Sorry, you \
+                    must have at least 1 admin user in the team")
                 return render(request, "teams/update-membership.html", {
                     'form': submitted_form,
                     'team': team
                 })
+            else:
+                try:
+                    # Try to create membership
+                    membership_model.save()
+                    messages.add_message(request, messages.SUCCESS, f"Membership \
+                        with {membership_model.team} has been updated")
+                    return redirect(reverse('home_route'))
+                except IntegrityError:
+                    # If error (e.g. unique constraint failed) then flash message
+                    messages.add_message(request, messages.WARNING, f"Membership \
+                        with {membership_model.team} already exists. Please \
+                            select another user.")
+                    return render(request, "teams/update-membership.html", {
+                        'form': submitted_form,
+                        'team': team
+                    })
         else:
             return render(request, "teams/update-membership.html", {
                 'form': submitted_form,
