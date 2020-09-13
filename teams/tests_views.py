@@ -68,6 +68,14 @@ class UpdateTeamViewTestCase(TestCase):
         self.team = Team(team_name="Test Team Name")
         self.team.save()
     
+        # Create membership instance
+        self.membership_model = Membership(
+                user = self.team_member,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_model.save()
+    
     def test_get_response(self):
         response = self.client.get(reverse(
             'update_team_route', kwargs={'team_id':self.team.id}))
@@ -100,6 +108,14 @@ class DeleteTeamViewTestCase(TestCase):
         # Create team instance
         self.team = Team(team_name="Test Team Name")
         self.team.save()
+    
+        # Create membership instance
+        self.membership_model = Membership(
+                user = self.team_member,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_model.save()
     
     def test_get_response(self):
         response = self.client.get(reverse(
