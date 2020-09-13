@@ -16,7 +16,8 @@ class Team(models.Model):
         return self.team_name
 
 class Membership(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user_membership')
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     is_admin = models.BooleanField(blank=True, default=False)
 
