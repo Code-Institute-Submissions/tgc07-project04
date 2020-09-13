@@ -69,6 +69,8 @@ def delete_team(request, team_id):
     if request.method == "POST":
         team_to_delete = get_object_or_404(Team, pk=team_id)
         team_to_delete.delete()
+        messages.add_message(request, messages.SUCCESS, f"Deleted team \
+            {team_to_delete.team_name}")
         return redirect(reverse('home_route'))
     else:
         # Query database membership matches for team_id and current user
