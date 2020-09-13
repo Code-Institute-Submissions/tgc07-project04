@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from teams.models import *
+
 # Create your models here.
 class Stage(models.Model):
     label = models.CharField(max_length=20, blank=False)
@@ -24,6 +26,7 @@ class Task(models.Model):
     title = models.CharField(max_length=50, blank=False)
     description = models.TextField(blank=True, null=True)
     date_due = models.DateField(blank=True, null=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     task_creator = models.ForeignKey(
         User, related_name="task_creator", on_delete=models.RESTRICT)
     stage = models.ForeignKey(Stage, on_delete=models.RESTRICT)
