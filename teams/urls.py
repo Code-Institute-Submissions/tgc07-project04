@@ -12,6 +12,6 @@ urlpatterns = [
         name='create_membership_route'),
     path('<team_id>/update-membership/<membership_id>',
         teams.views.update_membership, name="update_membership_route"),
-    # path('<team_id>/delete-membership/<membership_id>',
-    #     teams.views.delete_membership, name="delete_membership_route"),
+    path('<team_id>/delete-membership/<membership_id>',
+        teams.views.delete_membership, name="delete_membership_route"),
 ]

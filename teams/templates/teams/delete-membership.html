@@ -1,0 +1,18 @@
+{% extends 'base-template.html' %}
+
+{% load static %}
+
+{% block title %}Delete Membership{% endblock %}
+
+{% block content %}
+
+  <h1>Delete Membership</h1>
+  <h3>Team: {{ membership.team }}</h3>
+  <h3>User: {{ membership.user }}</h3>
+  <h3>Admin status: {{ membership.is_admin }}</h3>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete Membership">
+  </form>
+
+{% endblock %}
