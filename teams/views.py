@@ -49,10 +49,20 @@ def update_team(request, team_id):
             })
     
     else:
-        form = TeamForm(instance=team_to_update)
-        return render(request, 'teams/update-team.html', {
-            'form': form
-        })
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        # If match found and current user is_admin
+        if db_membership and db_membership[0].is_admin:
+            form = TeamForm(instance=team_to_update)
+            return render(request, 'teams/update-team.html', {
+                'form': form
+            })
+        # If no matches, or current user is not admin
+        else:
+            messages.add_message(request, messages.WARNING, "Sorry, you do \
+                not have the necessary access rights to view that page")
+            return redirect(reverse('account_login'))
 
 @login_required
 def delete_team(request, team_id):
@@ -61,10 +71,20 @@ def delete_team(request, team_id):
         team_to_delete.delete()
         return redirect(reverse('home_route'))
     else:
-        team_to_delete = get_object_or_404(Team, pk=team_id)
-        return render(request, 'teams/delete-team.html', {
-            'team': team_to_delete
-        })
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        # If match found and current user is_admin
+        if db_membership and db_membership[0].is_admin:
+            team_to_delete = get_object_or_404(Team, pk=team_id)
+            return render(request, 'teams/delete-team.html', {
+                'team': team_to_delete
+            })
+        # If no matches, or current user is not admin
+        else:
+            messages.add_message(request, messages.WARNING, "Sorry, you do \
+                not have the necessary access rights to view that page")
+            return redirect(reverse('account_login'))
 
 @login_required
 def create_membership(request, team_id):
