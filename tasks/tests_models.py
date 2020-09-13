@@ -37,6 +37,9 @@ class SeverityLevelModelTestCase(TestCase):
 
 class TaskModelTestCase(TestCase):
     def setUp(self):
+        self.test_team = Team(team_name = "Test Team")
+        self.test_team.save()
+
         self.task_creator = User(
             username = "test_task_creator",
             email = "task_creator@mailinator.com",
@@ -66,6 +69,7 @@ class TaskModelTestCase(TestCase):
             description = "Test description, test description, test \
                 description",
             date_due = date.today(),
+            team = self.test_team,
             task_creator = self.task_creator,
             stage = self.stage,
             priority_level = self.priority_level,
@@ -79,6 +83,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(db_test_t.title, test_t.title)
         self.assertEqual(db_test_t.description, test_t.description)
         self.assertEqual(db_test_t.date_due, test_t.date_due)
+        self.assertEqual(db_test_t.team, test_t.team)
         self.assertEqual(db_test_t.task_creator, test_t.task_creator)
         self.assertEqual(db_test_t.stage, test_t.stage)
         self.assertEqual(db_test_t.priority_level, test_t.priority_level)
@@ -87,6 +92,9 @@ class TaskModelTestCase(TestCase):
 
 class ChecklistItemModelTestCase(TestCase):
     def setUp(self):
+        self.test_team = Team(team_name = "Test Team")
+        self.test_team.save()
+
         self.task_creator = User(
             username = "test_task_creator",
             email = "task_creator@mailinator.com",
@@ -115,6 +123,7 @@ class ChecklistItemModelTestCase(TestCase):
             description = "Test description, test description, test \
                 description",
             date_due = date.today(),
+            team = self.test_team,
             task_creator = self.task_creator,
             stage = self.stage,
             priority_level = self.priority_level,
