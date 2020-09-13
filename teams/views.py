@@ -153,13 +153,15 @@ def update_membership(request, team_id, membership_id):
                 try:
                     # Try to create membership
                     membership_model.save()
-                    messages.add_message(request, messages.SUCCESS, f"Membership \
+                    messages.add_message(
+                        request, messages.SUCCESS, f"Membership \
                         with {membership_model.team} has been updated")
                     return redirect(reverse('home_route'))
                 except IntegrityError:
                     # If error (e.g. unique constraint failed) then flash message
-                    messages.add_message(request, messages.WARNING, f"Membership \
-                        with {membership_model.team} already exists. Please \
+                    messages.add_message(
+                        request, messages.WARNING, f"Membership with \
+                            {membership_model.team} already exists. Please \
                             select another user.")
                     return render(request, "teams/update-membership.html", {
                         'form': submitted_form,
@@ -195,9 +197,23 @@ def delete_membership(request, team_id, membership_id):
     membership_to_delete = get_object_or_404(Membership, pk=membership_id)
 
     if request.method == "POST":
-        membership_to_delete = get_object_or_404(Membership, pk=membership_id)
-        membership_to_delete.delete()
-        return redirect(reverse('home_route'))
+        # If number of admin users in team from database <= 1
+        # AND user of membership being deleted is_admin, don't delete
+        if (Membership.objects.filter(team=team_id).filter(
+            is_admin=True).count() <= 1) and membership_to_delete.is_admin:
+                messages.add_message(request, messages.WARNING, "Sorry, you \
+                    must have at least 1 admin user in the team")
+                return redirect(reverse('delete_membership_route', kwargs={
+                    'team_id': team_id,
+                    'membership_id': membership_id
+                }))
+        else:
+            membership_to_delete = get_object_or_404(
+                Membership, pk=membership_id)
+            membership_to_delete.delete()
+            messages.add_message(
+                request, messages.SUCCESS, "Membership deleted")
+            return redirect(reverse('home_route'))
     else:
         form = MembershipForm(instance=membership_to_delete)
         # Query database membership matches for team_id and current user

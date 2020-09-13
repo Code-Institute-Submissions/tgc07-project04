@@ -282,3 +282,30 @@ class DeleteMembershipViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'teams/delete-membership.html')
 
+    # def test_delete_membership(self):
+    #     response = self.client.post(reverse('update_membership_route',
+    #         kwargs={
+    #             'team_id': self.team.id,
+    #             'membership_id': self.membership_model.id
+    #         }), {
+    #             'user': str(self.new_team_member.id),
+    #             'team': str(self.team.id),
+    #             'is_admin': True
+    #     })
+    #     # Check redirect
+    #     self.assertEqual(response.status_code, 302)
+    #     # Check that there is only 1 membership in team queried
+    #     db_membership_team = Membership.objects.filter(team=self.team.id)
+    #     self.assertEqual(db_membership_team.count(), 1)
+    #     # Check that there is no memberships matching queried user
+    #     db_membership_user_1 = Membership.objects.filter(user=str(
+    #         self.team_member.id))
+    #     self.assertEqual(db_membership_user_1.count(), 0)
+    #     # Check that there is only 1 membership matching queried user
+    #     db_membership_user_2 = Membership.objects.filter(user=str(
+    #         self.new_team_member.id))
+    #     self.assertEqual(db_membership_user_2.count(), 1)
+    #     # Check that there are no memberships matching is_admin query
+    #     db_membership_is_admin = Membership.objects.filter(is_admin=True)
+    #     self.assertEqual(db_membership_is_admin.count(), 1)
+    
