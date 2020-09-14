@@ -187,3 +187,75 @@ class UpdateTaskViewTestCase(TestCase):
         self.assertEqual(db_assignee_1.count(), 1)
         db_assignee_2 = Task.objects.filter(assignee=self.task_creator)
         self.assertEqual(db_assignee_2.count(), 1)
+
+class DeleteTaskViewTestCase(TestCase):
+    def setUp(self):
+        self.task_creator = User(
+            username = "test_task_creator",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.task_creator.save()
+        # Log in user
+        self.client.force_login(self.task_creator, backend=None)
+
+        self.assignee = User(
+            username = "test_assignee",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.assignee.save()
+
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+
+        self.membership_task_creator = Membership(
+                user = self.task_creator,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_task_creator.save()
+    
+        self.membership_assignee = Membership(
+                user = self.assignee,
+                team = self.team,
+                is_admin = False
+        )
+        self.membership_assignee.save()
+
+        self.stage = Stage(label="Test Stage")
+        self.stage.save()
+
+        self.priority_level = PriorityLevel(priority_level="Urgent")
+        self.priority_level.save()
+
+        self.severity_level = SeverityLevel(severity_level="Critical")
+        self.severity_level.save()
+
+        self.task = Task(
+            title = "My Test Task",
+            team = self.team,
+            task_creator = self.task_creator,
+            stage = self.stage,
+            priority_level = self.priority_level,
+            severity_level = self.severity_level
+        )
+        self.task.save()
+
+    def test_get_response(self):
+        response = self.client.get(reverse(
+            'delete_task_route', kwargs={
+                'team_id': self.team.id,
+                'task_id': self.task.id
+        }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tasks/delete-task.html')
+
+    def test_delete_task(self):
+        response = self.client.post(reverse(
+            'delete_task_route', kwargs={
+                'team_id': self.team.id,
+                'task_id': self.task.id
+        }))
+        db_title = Task.objects.filter(title="My Test Task")
+        self.assertEqual(db_title.count(), 0)
