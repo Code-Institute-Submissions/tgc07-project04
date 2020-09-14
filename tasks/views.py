@@ -9,7 +9,7 @@ from .forms import *
 from .models import *
 from teams.models import *
 
-# @login_required
+@login_required
 def create_task(request, team_id):
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -59,7 +59,7 @@ def create_task(request, team_id):
                 not have the necessary access rights to view that page")
             return redirect(reverse('account_login'))
 
-# @login_required
+@login_required
 def update_task(request, team_id, task_id):
     team = get_object_or_404(Team, pk=team_id)
     task_to_update = get_object_or_404(Task, pk=task_id)
@@ -118,7 +118,7 @@ def update_task(request, team_id, task_id):
                 not have the necessary access rights to view that page")
             return redirect(reverse('account_login'))
 
-# @login_required
+@login_required
 def delete_task(request, team_id, task_id):
     task_to_delete = get_object_or_404(Task, pk=task_id)
     
