@@ -230,8 +230,6 @@ def delete_membership(request, team_id, membership_id):
                     'membership_id': membership_id
                 }))
         else:
-            membership_to_delete = get_object_or_404(
-                Membership, pk=membership_id)
             membership_to_delete.delete()
             messages.add_message(
                 request, messages.SUCCESS, "Membership deleted")
