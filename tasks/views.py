@@ -69,7 +69,7 @@ def update_task(request, team_id, task_id):
         form = TaskForm(request.POST, instance=task_to_update)
         if form.is_valid():
             model = form.save(commit=False)
-            model.team = get_object_or_404(Team, pk=team_id)
+            model.team = team
             model.task_creator = task_creator
             model.save()
             # Save first before adding ManyToMany entries because need id
@@ -113,6 +113,30 @@ def update_task(request, team_id, task_id):
                     'form': form
                 })
         # If not member, redirect
+        else:
+            messages.add_message(request, messages.WARNING, "Sorry, you do \
+                not have the necessary access rights to view that page")
+            return redirect(reverse('account_login'))
+
+# @login_required
+def delete_task(request, team_id, task_id):
+    task_to_delete = get_object_or_404(Task, pk=task_id)
+    
+    if request.method == "POST":
+        task_to_delete.delete()
+        messages.add_message(
+            request, messages.SUCCESS, "Task deleted")
+        return redirect(reverse('home_route'))
+    else:
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        # If current user task_creator or is_admin of team
+        if task_to_delete.task_creator==request.user or (
+            db_membership and db_membership[0].is_admin):
+            return render(request, 'tasks/delete-task.html', {
+                'task': task_to_delete
+            })
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \
                 not have the necessary access rights to view that page")

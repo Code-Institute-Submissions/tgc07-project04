@@ -1,0 +1,21 @@
+{% extends 'base-template.html' %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}Delete Task{% endblock %}
+
+{%block content %}
+
+  <h1>Delete Task</h1>
+  <p>Are you sure you want to delete task {{task.title}}</p>
+  <p>{{task.description}}</p>
+  <p>{{task.team}}</p>
+  <p>{{task.task_creator}}</p>
+  <p>{{task.date_due}}</p>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete Task">
+  </form>
+
+{% endblock %}

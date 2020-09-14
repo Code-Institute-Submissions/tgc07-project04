@@ -7,4 +7,6 @@ urlpatterns = [
         name='create_task_route'),
     path('<team_id>/update-task/<task_id>/', tasks.views.update_task,
         name='update_task_route'),
+    path('<team_id>/delete-task/<task_id>/', tasks.views.delete_task,
+        name='delete_task_route'),
 ]
