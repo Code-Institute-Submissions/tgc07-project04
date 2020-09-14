@@ -4,6 +4,7 @@ from datetime import date
 
 from .models import *
 from .forms import *
+from teams.models import *
 
 class StageFormTestCase(TestCase):
     def test_form_valid(self):
@@ -71,7 +72,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -84,7 +84,6 @@ class TaskFormTestCase(TestCase):
             "title": None,
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -100,7 +99,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : None,
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -113,7 +111,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : None,
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -121,28 +118,11 @@ class TaskFormTestCase(TestCase):
         })
         self.assertTrue(form.is_valid())
 
-    def test_task_creator_required(self):
-        form = TaskForm({
-            "title": "My Test Task",
-            "description" : "Test description",
-            "date_due" : date.today(),
-            "task_creator" : None,
-            "stage" : self.stage,
-            "priority_level" : self.priority_level,
-            "severity_level" : self.severity_level,
-            "assignee" : [self.assignee]
-        })
-        self.assertFalse(form.is_valid())
-        self.assertIn('task_creator', form.errors.keys())
-        self.assertEqual(
-            form.errors['task_creator'][0], 'This field is required.')
-
     def test_stage_required(self):
         form = TaskForm({
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : None,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -158,7 +138,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : None,
             "severity_level" : self.severity_level,
@@ -174,7 +153,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : None,
@@ -190,7 +168,6 @@ class TaskFormTestCase(TestCase):
             "title": "My Test Task",
             "description" : "Test description",
             "date_due" : date.today(),
-            "task_creator" : self.task_creator,
             "stage" : self.stage,
             "priority_level" : self.priority_level,
             "severity_level" : self.severity_level,
@@ -200,6 +177,9 @@ class TaskFormTestCase(TestCase):
 
 class ChecklistItemFormTestCase(TestCase):
     def setUp(self):
+        self.team = Team(team_name = "Test Team")
+        self.team.save()
+
         self.task_creator = User(
             username = "test_task_creator",
             email = "task_creator@mailinator.com",
@@ -227,6 +207,7 @@ class ChecklistItemFormTestCase(TestCase):
             title = "My Test Task",
             description = "Test description",
             date_due = date.today(),
+            team = self.team,
             task_creator = self.task_creator,
             stage = self.stage,
             priority_level = self.priority_level,
