@@ -20,7 +20,7 @@ class SeverityLevelForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = "__all__"
+        exclude = ['team', 'task_creator',]
 
 class ChecklistItemForm(forms.ModelForm):
     class Meta:
