@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+
+#main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100vh;
+}
+
+.stage {
+    background-color: #444444;
+    padding: 1rem;
+    height: 100%;
+    color: white;
+}
+
+.task-bucket {
+    background-color: #cccccc;
+    height: 80%;
+    padding: 0.2rem 0.6rem;
+}
+
+.draggable {
+    background-color: #155070;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    min-height: 4rem;
+    cursor: move;
+}
+
+.dragging {
+    opacity: 0.5;
+    border: dashed 1px
+}

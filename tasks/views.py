@@ -9,6 +9,17 @@ from .forms import *
 from .models import *
 from teams.models import *
 
+# @login_required
+def all_tasks(request, team_id):
+    tasks = Task.objects.filter(team=team_id)
+    
+    if request.method == "POST":
+        return redirect(reverse('all_tasks_route'))
+    else:
+        return render(request, 'tasks/all-tasks.html', {
+            'tasks': tasks
+        })
+
 @login_required
 def create_task(request, team_id):
     if request.method == "POST":

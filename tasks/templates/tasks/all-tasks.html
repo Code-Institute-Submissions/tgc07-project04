@@ -1,0 +1,64 @@
+{% extends 'base-template.html' %}
+
+{% block title %}All Tasks{% endblock %}
+
+{% block content %}
+<div id="main">
+  <div class="stage">
+      <h3>To Do</h3>
+      <div class="task-bucket">
+          <div class="draggable" draggable="true">
+              <p>01</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>02</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>03</p>
+          </div>
+      </div>
+  </div>
+  <div class="stage">
+      <h3>In Progress</h3>
+      <div class="task-bucket">
+          <div class="draggable" draggable="true">
+              <p>04</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>05</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>06</p>
+          </div>
+      </div>
+  </div>
+  <div class="stage">
+      <h3>Code Review</h3>
+      <div class="task-bucket">
+          <div class="draggable" draggable="true">
+              <p>07</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>08</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>09</p>
+          </div>
+      </div>
+  </div>
+  <div class="stage">
+      <h3>Done</h3>
+      <div class="task-bucket">
+          <div class="draggable" draggable="true">
+              <p>10</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>11</p>
+          </div>
+          <div class="draggable" draggable="true">
+              <p>12</p>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
