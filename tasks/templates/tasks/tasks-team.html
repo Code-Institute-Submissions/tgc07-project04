@@ -1,0 +1,27 @@
+{% extends 'base-template.html' %}
+
+{% block title %}All Tasks{% endblock %}
+
+{% block content %}
+
+<div id="main">
+    {% for stage_id, stage in tasks.items %}
+        <div class="stage">
+            <h3>{{ stage.stage_label }}</h3>
+            <div class="task-container" id="stage-{{ stage_id }}">
+                {% for task in stage.tasks %}
+                    <div class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
+                        <h5>{{ task.title }}</h5>
+                        <p class="mb-2">{{ task.description }}</p>
+                        <p class="mb-2 level-{{task.priority_level.id}}">P{{ task.priority_level.id }}: {{ task.priority_level.priority_level }}</p>
+                        <p class="mb-2 level-{{task.severity_level.id}}">S{{ task.severity_level.id }}: {{ task.severity_level.severity_level }}</p>
+                        <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
