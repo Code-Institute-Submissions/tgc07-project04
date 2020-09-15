@@ -31,23 +31,45 @@ def api_vanilla_post(request):
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serialisers import TaskSerialiser
+# All tasks
 @api_view(['GET'])
 def api_framework_get(request):
     if request.method == 'GET':
         tasks = Task.objects.all()
         serialiser = TaskSerialiser(tasks, many=True)
         return Response(serialiser.data)
-
+# Create task
 @api_view(['POST'])
-def api_framework_patch(request, task_id):
-	task = Task.objects.get(id=task_id)
-	serialiser = TaskSerialiser(instance=task, data=request.data)
-
+def api_framework_post(request):
+	serialiser = TaskSerialiser(data=request.data)
 	if serialiser.is_valid():
 		serialiser.save()
-
 	return Response(serialiser.data)
-
+# Update whole task
+@api_view(['PUT'])
+def api_framework_put(request, task_id):
+	task = Task.objects.get(id=task_id)
+	serialiser = TaskSerialiser(instance=task, data=request.data)
+	if serialiser.is_valid():
+		serialiser.save()
+	return Response(serialiser.data)
+# Update part task MANUAL
+# @api_view(['PATCH'])
+# def api_framework_patch(request, task_id, new_stage_id):
+#     task = Task.objects.get(id=task_id)
+#     new_stage = Stage.objects.get(id=new_stage_id)
+#     task.stage = new_stage
+#     task.save()
+#     return JsonResponse({"response": "PATCH"}, safe=False)
+# Update part task SERIALISER
+@api_view(['PATCH'])
+def api_framework_patch(request, task_id):
+    task = Task.objects.get(id=task_id)
+    serialiser = TaskSerialiser(task, data=request.data, partial=True)
+    if serialiser.is_valid():
+        serialiser.save()
+        return Response(serialiser.data)
+    return JsonResponse({"response":"wrong parameters"})
 
 
 

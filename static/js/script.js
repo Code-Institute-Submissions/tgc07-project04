@@ -53,3 +53,14 @@ async function postAPI() {
     let response = await axios.post("/tasks/vanilla/api/post/");
     console.log(response.data);
 }
+
+function patchAPI(task_id, new_stage_id){
+    fetch(`/tasks/api/framework/patch/${task_id}/`,
+    {
+        method: 'PATCH',
+        body: JSON.stringify({stage: `${new_stage_id}`}),
+        headers: {'Content-type': 'application/json; charset=UTF-8'}
+    }).then(response => response.json())
+    .then(json => console.log(json))
+}
+

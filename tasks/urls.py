@@ -13,10 +13,12 @@ urlpatterns = [
         name='delete_task_route'),
     
     # Vanilla API
-    path('vanilla/api/get/', tasks.views.api_vanilla_get),
-    path('vanilla/api/post/', tasks.views.api_vanilla_post),
+    path('api/vanilla/get/', tasks.views.api_vanilla_get),
+    path('api/vanilla/post/', tasks.views.api_vanilla_post),
 
     # Django REST framework
-    path('framework/api/get/', tasks.views.api_framework_get),
-    path('framework/api/patch/<task_id>', tasks.views.api_framework_patch),
+    path('api/framework/get/', tasks.views.api_framework_get),
+    path('api/framework/put/<task_id>/', tasks.views.api_framework_put),
+    # path('api/framework/patch/<task_id>/<new_stage_id>/', tasks.views.api_framework_patch), # MANUAL way
+    path('api/framework/patch/<task_id>/', tasks.views.api_framework_patch), # SERIALISER takes JSON e.g. {"stage":"1"}
 ]
