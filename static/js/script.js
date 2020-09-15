@@ -42,3 +42,14 @@ function getDragAfterElement(container, y) {
     }, {
         offset: Number.NEGATIVE_INFINITY }).element
 }
+
+
+async function getAPI() {
+    let response = await axios.get("/tasks/vanilla/api/get/");
+    console.log(response.data);
+}
+
+async function postAPI() {
+    let response = await axios.post("/tasks/vanilla/api/post/");
+    console.log(response.data);
+}

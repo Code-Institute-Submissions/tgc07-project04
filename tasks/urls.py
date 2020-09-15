@@ -11,4 +11,12 @@ urlpatterns = [
         name='update_task_route'),
     path('<team_id>/delete-task/<task_id>/', tasks.views.delete_task,
         name='delete_task_route'),
+    
+    # Vanilla API
+    path('vanilla/api/get/', tasks.views.api_vanilla_get),
+    path('vanilla/api/post/', tasks.views.api_vanilla_post),
+
+    # Django REST framework
+    path('framework/api/get/', tasks.views.api_framework_get),
+    path('framework/api/patch/<task_id>', tasks.views.api_framework_patch),
 ]

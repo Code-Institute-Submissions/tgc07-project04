@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+    # 3rd party
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'rest_framework',
 
     # My apps
     'home',

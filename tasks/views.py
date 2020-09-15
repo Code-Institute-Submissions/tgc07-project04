@@ -9,8 +9,56 @@ from .forms import *
 from .models import *
 from teams.models import *
 
+
+
+################## TEST vanilla API ##################
+from django.middleware.csrf import get_token
+# csrf_token = get_token(request)
+# csrf_token_html = '<input type="hidden" name="csrfmiddlewaretoken" value="{}" />'.format(csrf_token)
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+def api_vanilla_get(request):
+    tasks = Task.objects.all()
+    serialized = list(tasks.values())
+    return JsonResponse(serialized, safe=False)
+@csrf_exempt
+def api_vanilla_post(request):
+    if request.method == "POST":
+        print("POST request received")
+        return JsonResponse({"response": "POST"}, safe=False)
+
+################## TEST Django REST framework ##################
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serialisers import TaskSerialiser
+@api_view(['GET'])
+def api_framework_get(request):
+    if request.method == 'GET':
+        tasks = Task.objects.all()
+        serialiser = TaskSerialiser(tasks, many=True)
+        return Response(serialiser.data)
+
+@api_view(['POST'])
+def api_framework_patch(request, task_id):
+	task = Task.objects.get(id=task_id)
+	serialiser = TaskSerialiser(instance=task, data=request.data)
+
+	if serialiser.is_valid():
+		serialiser.save()
+
+	return Response(serialiser.data)
+
+
+
+
+
+
+
+
+
+
 # @login_required
-def tasks_team(request, team_id):    
+def tasks_team(request, team_id):
     if request.method == "POST":
         return redirect(reverse('tasks_team_route'))
     else:
