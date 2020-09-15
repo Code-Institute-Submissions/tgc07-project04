@@ -195,7 +195,7 @@ def update_membership(request, team_id, membership_id):
                 'team': team
             })
 
-    # request.method == "GET"
+    # GET method requests
     else:
         form = MembershipForm(instance=membership_to_update)
         # Query database membership matches for team_id and current user
