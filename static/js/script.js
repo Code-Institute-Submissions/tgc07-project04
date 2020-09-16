@@ -48,10 +48,13 @@ dragElements.forEach(d => {
         // Add new stage-id to draggable's class list
         containerId = d.parentElement.id;
         d.classList.add(containerId);
-        // Get team-id from URL
-        teamId = window.location.pathname.split('/')[2]
-        // Update database with new stage-id
-        updateTaskStage(teamId, d.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''))
+        // Check if user is_authenticated
+        if (document.querySelector('#is_authenticated').value) {
+            // Get team-id from URL
+            teamId = document.querySelector('#is_authenticated').name;
+            // Update database with new stage-id
+            updateTaskStage(teamId, d.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''));
+        }
     })
 })
 
