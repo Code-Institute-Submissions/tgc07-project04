@@ -27,6 +27,8 @@ def create_team(request):
             return render(request, "teams/create-team.html", {
                 'form': submitted_form
             })
+    
+    # GET method requests
     else:
         form = TeamForm()
         return render(request, 'teams/create-team.html', {
@@ -48,6 +50,7 @@ def update_team(request, team_id):
                 'form': form
             })
     
+    # GET method requests
     else:
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
@@ -72,6 +75,8 @@ def delete_team(request, team_id):
         messages.add_message(request, messages.SUCCESS, f"Deleted team \
             {team_to_delete.team_name}")
         return redirect(reverse('home_route'))
+    
+    # GET method requests
     else:
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
@@ -116,6 +121,8 @@ def create_membership(request, team_id):
                 'form': submitted_form,
                 'team': team
             })
+    
+    # GET method requests
     else:
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
@@ -195,7 +202,7 @@ def update_membership(request, team_id, membership_id):
                 'team': team
             })
 
-    # request.method == "GET"
+    # GET method requests
     else:
         form = MembershipForm(instance=membership_to_update)
         # Query database membership matches for team_id and current user
@@ -234,6 +241,8 @@ def delete_membership(request, team_id, membership_id):
             messages.add_message(
                 request, messages.SUCCESS, "Membership deleted")
             return redirect(reverse('home_route'))
+    
+    # GET method requests
     else:
         form = MembershipForm(instance=membership_to_delete)
         # Query database membership matches for team_id and current user
