@@ -9,6 +9,26 @@ from .forms import *
 from .models import *
 from teams.models import *
 
+# @login_required
+def tasks_team(request, team_id):
+    if request.method == "POST":
+        return redirect(reverse('tasks_team_route'))
+    else:
+        tasks = {}
+        tasks_team = Task.objects.filter(team=team_id)
+        stages =  Stage.objects.all()
+        for stage in stages:
+            tasks.update({
+                stage.id: {
+                    'stage_label': stage.label,
+                    'tasks': tasks_team.filter(
+                        stage=stage.id)
+                }
+            })
+        return render(request, 'tasks/tasks-team.html', {
+            'tasks': tasks
+        })
+
 @login_required
 def create_task(request, team_id):
     if request.method == "POST":
