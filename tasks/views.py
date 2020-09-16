@@ -123,25 +123,22 @@ def update_task(request, team_id, task_id):
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
-        # Check if user is task_creator or is_admin of team
-        if task_to_update.task_creator==request.user or (
-            len(db_membership) and db_membership[0].is_admin):
-            # If current user is_admin
-            if len(db_membership) and db_membership[0].is_admin:
-                # Filter assignee list by members of team
-                form.fields['assignee'].queryset = User.objects.filter(
-                    user_membership__team=team_id)
-                return render(request, 'tasks/update-task.html', {
-                    'form': form
-                })
-            # If current user is a member, but NOT admin
-            else:
-                # Only show self in list of assignees
-                form.fields['assignee'].queryset = User.objects.filter(
-                    id=request.user.id)
-                return render(request, 'tasks/update-task.html', {
-                    'form': form
-                })
+        # If current user is_admin
+        if len(db_membership) and db_membership[0].is_admin:
+            # Filter assignee list by members of team
+            form.fields['assignee'].queryset = User.objects.filter(
+                user_membership__team=team_id)
+            return render(request, 'tasks/update-task.html', {
+                'form': form
+            })
+        # If current user is a member, but NOT admin
+        elif len(db_membership) and not db_membership[0].is_admin:
+            # Only show self in list of assignees
+            form.fields['assignee'].queryset = User.objects.filter(
+                id=request.user.id)
+            return render(request, 'tasks/update-task.html', {
+                'form': form
+            })
         # If not member, redirect
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \

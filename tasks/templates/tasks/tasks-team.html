@@ -16,7 +16,7 @@
                         <p class="mb-2">{{ task.description }}</p>
                         <p class="mb-2 level-{{task.priority_level.id}}">P{{ task.priority_level.id }}: {{ task.priority_level.priority_level }}</p>
                         <p class="mb-2 level-{{task.severity_level.id}}">S{{ task.severity_level.id }}: {{ task.severity_level.severity_level }}</p>
-                        {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-warning btn-sm">Edit</a>{% endif %}
+                        <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-warning btn-sm">Edit</a>
                         {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
                     </div>
                 {% endfor %}
