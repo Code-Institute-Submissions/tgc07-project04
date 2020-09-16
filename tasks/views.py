@@ -31,7 +31,8 @@ def tasks_team(request, team_id):
                 }
             })
         return render(request, 'tasks/tasks-team.html', {
-            'tasks': tasks
+            'tasks': tasks,
+            'membership': db_membership
         })
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \
