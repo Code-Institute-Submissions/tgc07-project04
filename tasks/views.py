@@ -4,9 +4,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .forms import *
 from .models import *
+from .serialisers import *
 from teams.models import *
 
 # @login_required
@@ -51,7 +56,7 @@ def create_task(request, team_id):
                 'form': form
             })
 
-    # request.method == "GET"
+    # GET method requests
     else:
         form = TaskForm()
         # Query database membership matches for team_id and current user
@@ -107,7 +112,7 @@ def update_task(request, team_id, task_id):
                 'form': form
             })
 
-    # request.method == "GET"
+    # GET method requests
     else:
         form = TaskForm(instance=task_to_update)
         # Query database membership matches for team_id and current user
@@ -147,6 +152,8 @@ def delete_task(request, team_id, task_id):
         messages.add_message(
             request, messages.SUCCESS, "Task deleted")
         return redirect(reverse('home_route'))
+    
+    # GET method requests
     else:
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
@@ -161,3 +168,13 @@ def delete_task(request, team_id, task_id):
             messages.add_message(request, messages.WARNING, "Sorry, you do \
                 not have the necessary access rights to view that page")
             return redirect(reverse('account_login'))
+
+@api_view(['PATCH'])
+def api_task_patch(request, team_id, task_id):
+    task = Task.objects.get(id=task_id)
+    serialiser = TaskSerialiser(task, data=request.data, partial=True)
+    if serialiser.is_valid():
+        serialiser.save()
+        return Response(serialiser.data)
+    else:
+        return JsonResponse({"error":"wrong parameters"})
