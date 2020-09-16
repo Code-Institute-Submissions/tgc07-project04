@@ -5,11 +5,12 @@
 {% block content %}
 
 <div id="main">
-    <input type="hidden" name="{% if membership %}{% for m in membership %}{{ m.team.id }}{% endfor %}{% endif %}" id="is_authenticated" value="{{request.user.is_authenticated}}">
+    <input type="hidden" name="{{ team_id }}" id="is_authenticated" value="{{request.user.is_authenticated}}">
     {% for stage_id, stage in tasks.items %}
         <div class="stage">
             <h3>{{ stage.stage_label }}</h3>
             <div class="task-container" id="stage-{{ stage_id }}">
+                <a href="{% url 'create_task_route' team_id=team_id %}" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add task</a>
                 {% for task in stage.tasks %}
                     <div class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
                         <h5>{{ task.title }}</h5>

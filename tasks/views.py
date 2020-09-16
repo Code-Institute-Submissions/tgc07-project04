@@ -21,7 +21,7 @@ def tasks_team(request, team_id):
     if len(db_membership):
         tasks = {}
         tasks_team = Task.objects.filter(team=team_id)
-        stages =  Stage.objects.all()
+        stages = Stage.objects.all()
         for stage in stages:
             tasks.update({
                 stage.id: {
@@ -32,7 +32,8 @@ def tasks_team(request, team_id):
             })
         return render(request, 'tasks/tasks-team.html', {
             'tasks': tasks,
-            'membership': db_membership
+            'membership': db_membership,
+            'team_id': team_id
         })
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \
