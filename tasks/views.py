@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
@@ -14,11 +13,12 @@ from .models import *
 from .serialisers import *
 from teams.models import *
 
-# @login_required
+@login_required
 def tasks_team(request, team_id):
-    if request.method == "POST":
-        return redirect(reverse('tasks_team_route'))
-    else:
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
         tasks = {}
         tasks_team = Task.objects.filter(team=team_id)
         stages =  Stage.objects.all()
@@ -33,6 +33,10 @@ def tasks_team(request, team_id):
         return render(request, 'tasks/tasks-team.html', {
             'tasks': tasks
         })
+    else:
+        messages.add_message(request, messages.WARNING, "Sorry, you do \
+            not have the necessary access rights to view that page")
+        return redirect(reverse('account_login'))
 
 @login_required
 def create_task(request, team_id):
@@ -63,7 +67,7 @@ def create_task(request, team_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             # Filter assignee list by members of team
             form.fields['assignee'].queryset = User.objects.filter(
                 user_membership__team=team_id)
@@ -71,7 +75,7 @@ def create_task(request, team_id):
                 'form': form
             })
         # If current user is a member, but NOT admin
-        elif db_membership and not db_membership[0].is_admin:
+        elif len(db_membership) and not db_membership[0].is_admin:
             # Only show self in list of assignees
             form.fields['assignee'].queryset = User.objects.filter(
                 id=request.user.id)
@@ -120,9 +124,9 @@ def update_task(request, team_id, task_id):
             user=request.user)
         # Check if user is task_creator or is_admin of team
         if task_to_update.task_creator==request.user or (
-            db_membership and db_membership[0].is_admin):
+            len(db_membership) and db_membership[0].is_admin):
             # If current user is_admin
-            if db_membership and db_membership[0].is_admin:
+            if len(db_membership) and db_membership[0].is_admin:
                 # Filter assignee list by members of team
                 form.fields['assignee'].queryset = User.objects.filter(
                     user_membership__team=team_id)
@@ -160,7 +164,7 @@ def delete_task(request, team_id, task_id):
             user=request.user)
         # If current user task_creator or is_admin of team
         if task_to_delete.task_creator==request.user or (
-            db_membership and db_membership[0].is_admin):
+            len(db_membership) and db_membership[0].is_admin):
             return render(request, 'tasks/delete-task.html', {
                 'task': task_to_delete
             })
@@ -169,12 +173,19 @@ def delete_task(request, team_id, task_id):
                 not have the necessary access rights to view that page")
             return redirect(reverse('account_login'))
 
+@login_required
 @api_view(['PATCH'])
 def api_task_patch(request, team_id, task_id):
-    task = Task.objects.get(id=task_id)
-    serialiser = TaskSerialiser(task, data=request.data, partial=True)
-    if serialiser.is_valid():
-        serialiser.save()
-        return Response(serialiser.data)
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        task = Task.objects.get(id=task_id)
+        serialiser = TaskSerialiser(task, data=request.data, partial=True)
+        if serialiser.is_valid():
+            serialiser.save()
+            return Response(serialiser.data)
+        else:
+            return JsonResponse({"error":"wrong parameters"})
     else:
-        return JsonResponse({"error":"wrong parameters"})
+        return JsonResponse({"error":"wrong user credentials"})
