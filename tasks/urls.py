@@ -20,5 +20,5 @@ urlpatterns = [
     path('api/framework/get/', tasks.views.api_framework_get),
     path('api/framework/put/<task_id>/', tasks.views.api_framework_put),
     # path('api/framework/patch/<task_id>/<new_stage_id>/', tasks.views.api_framework_patch), # MANUAL way
-    path('api/framework/patch/<task_id>/', tasks.views.api_framework_patch), # SERIALISER takes JSON e.g. {"stage":"1"}
+    path('api/<team_id>/<task_id>/update-task-stage/', tasks.views.api_update_task_stage), # SERIALISER takes JSON e.g. {"stage":"1"}
 ]

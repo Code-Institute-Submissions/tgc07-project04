@@ -1,17 +1,56 @@
+// https://docs.djangoproject.com/en/3.1/ref/csrf/#ajax
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// Function to make AJAX call to update a task's stage_id
+function updateTaskStage(team_id, task_id, new_stage_id){
+    fetch(`/tasks/api/${team_id}/${task_id}/update-task-stage/`,
+    {
+        method: 'PATCH',
+        mode: 'same-origin',
+        body: JSON.stringify({stage: `${new_stage_id}`}),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': csrftoken
+        }
+    }).then(response => response.json())
+    .then(json => console.log(json))
+}
+
 const draggableElements = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.task-container')
 
 draggableElements.forEach(draggable => {
+    // Start dragging element
     draggable.addEventListener('dragstart', () => {
         draggable.classList.add('dragging');
-        console.log("Start dragging");
+        // Remove old stage-id from draggable's class list
         draggable.classList.remove(draggable.parentElement.id);
     })
-
+    // End dragging element
     draggable.addEventListener('dragend', () => {
         draggable.classList.remove('dragging');
-        console.log("End dragging");
-        draggable.classList.add(draggable.parentElement.id);
+        // Add new stage-id to draggable's class list
+        containerId = draggable.parentElement.id;
+        draggable.classList.add(containerId);
+        // Get team-id from URL
+        teamId = window.location.pathname.split('/')[2]
+        // Update database with new stage-id
+        updateTaskStage(teamId, draggable.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''))
     })
 })
 
@@ -44,23 +83,13 @@ function getDragAfterElement(container, y) {
 }
 
 
-async function getAPI() {
-    let response = await axios.get("/tasks/vanilla/api/get/");
-    console.log(response.data);
-}
+// async function getAPI() {
+//     let response = await axios.get("/tasks/vanilla/api/get/");
+//     console.log(response.data);
+// }
 
-async function postAPI() {
-    let response = await axios.post("/tasks/vanilla/api/post/");
-    console.log(response.data);
-}
-
-function patchAPI(task_id, new_stage_id){
-    fetch(`/tasks/api/framework/patch/${task_id}/`,
-    {
-        method: 'PATCH',
-        body: JSON.stringify({stage: `${new_stage_id}`}),
-        headers: {'Content-type': 'application/json; charset=UTF-8'}
-    }).then(response => response.json())
-    .then(json => console.log(json))
-}
+// async function postAPI() {
+//     let response = await axios.post("/tasks/vanilla/api/post/");
+//     console.log(response.data);
+// }
 

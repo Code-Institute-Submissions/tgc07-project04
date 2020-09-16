@@ -63,7 +63,7 @@ def api_framework_put(request, task_id):
 #     return JsonResponse({"response": "PATCH"}, safe=False)
 # Update part task SERIALISER
 @api_view(['PATCH'])
-def api_framework_patch(request, task_id):
+def api_update_task_stage(request, team_id, task_id):
     task = Task.objects.get(id=task_id)
     serialiser = TaskSerialiser(task, data=request.data, partial=True)
     if serialiser.is_valid():
