@@ -11,4 +11,7 @@ urlpatterns = [
         name='update_task_route'),
     path('<team_id>/delete-task/<task_id>/', tasks.views.delete_task,
         name='delete_task_route'),
+    
+    # API
+    path('api/<team_id>/<task_id>/update-task-stage/', tasks.views.api_task_patch),
 ]

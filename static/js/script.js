@@ -1,3 +1,36 @@
+// https://docs.djangoproject.com/en/3.1/ref/csrf/#ajax
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// Function to make AJAX call to update a task's stage_id
+function updateTaskStage(team_id, task_id, new_stage_id){
+    fetch(`/tasks/api/${team_id}/${task_id}/update-task-stage/`,
+    {
+        method: 'PATCH',
+        mode: 'same-origin',
+        body: JSON.stringify({stage: `${new_stage_id}`}),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': csrftoken
+        }
+    }).then(response => response.json())
+}
+
+
 // https://github.com/WebDevSimplified/Drag-And-Drop
 const dragElements = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.task-container')
@@ -15,6 +48,10 @@ dragElements.forEach(d => {
         // Add new stage-id to draggable's class list
         containerId = d.parentElement.id;
         d.classList.add(containerId);
+        // Get team-id from URL
+        teamId = window.location.pathname.split('/')[2]
+        // Update database with new stage-id
+        updateTaskStage(teamId, d.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''))
     })
 })
 
