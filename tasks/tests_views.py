@@ -260,7 +260,7 @@ class DeleteTaskViewTestCase(TestCase):
         db_title = Task.objects.filter(title="My Test Task")
         self.assertEqual(db_title.count(), 0)
 
-class ReadTaskViewTestCase(TestCase):
+class ReadTasksTeamViewTestCase(TestCase):
     def setUp(self):
         self.task_creator = User(
             username = "test_task_creator",
@@ -305,4 +305,53 @@ class ReadTaskViewTestCase(TestCase):
             'tasks_team_route', kwargs={'team_id': self.team.id}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'tasks/read-tasks-team.html')
+
+class ReadTaskSingleViewTestCase(TestCase):
+    def setUp(self):
+        self.task_creator = User(
+            username = "test_task_creator",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.task_creator.save()
+        # Log in user
+        self.client.force_login(self.task_creator, backend=None)
+
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+
+        self.membership_task_creator = Membership(
+                user = self.task_creator,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_task_creator.save()
+
+        self.stage = Stage(label="Test Stage")
+        self.stage.save()
+
+        self.priority_level = PriorityLevel(priority_level="Urgent")
+        self.priority_level.save()
+
+        self.severity_level = SeverityLevel(severity_level="Critical")
+        self.severity_level.save()
+
+        self.task = Task(
+            title = "My Test Task",
+            team = self.team,
+            task_creator = self.task_creator,
+            stage = self.stage,
+            priority_level = self.priority_level,
+            severity_level = self.severity_level
+        )
+        self.task.save()
+
+    def test_get_response(self):
+        response = self.client.get(reverse(
+            'task_single_route', kwargs={
+                'team_id': self.team.id,
+                'task_id': self.task.id
+        }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tasks/read-task-single.html')
 
