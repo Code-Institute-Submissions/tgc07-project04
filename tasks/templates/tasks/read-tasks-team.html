@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="tasks-main">
+    <input type="hidden" name="{{ team_id }}" id="is_authenticated" value="{{request.user.is_authenticated}}">
     {% include 'tasks/base-kanban-template.html' %}
 </div>
 {% endblock %}

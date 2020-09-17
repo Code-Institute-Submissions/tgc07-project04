@@ -1,3 +1,5 @@
+const isAuthenticatedElement = document.querySelector('#is_authenticated');
+
 // https://docs.djangoproject.com/en/3.1/ref/csrf/#ajax
 function getCookie(name) {
     let cookieValue = null;
@@ -33,7 +35,6 @@ function updateTaskStage(team_id, task_id, new_stage_id){
 // https://github.com/WebDevSimplified/Drag-And-Drop
 const dragElements = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.task-container')
-const isAuthenticated = document.querySelector('#is_authenticated').value;
 
 // https://github.com/WebDevSimplified/Drag-And-Drop
 dragElements.forEach(d => {
@@ -53,9 +54,9 @@ dragElements.forEach(d => {
         containerId = d.parentElement.id;
         d.classList.add(containerId);
         // Check if user is_authenticated
-        if (isAuthenticated) {
+        if (isAuthenticatedElement) {
             // Get team-id from URL
-            teamId = document.querySelector('#is_authenticated').name;
+            teamId = isAuthenticatedElement.name;
             // If task changes container, update database with new stage-id and reset state variable
             if (d.parentElement.id!==stageState) {
                 stageState = "";
