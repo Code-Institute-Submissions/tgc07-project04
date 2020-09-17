@@ -104,9 +104,9 @@ def user_memberships(request):
         })
     # If no matches
     else:
-        messages.add_message(request, messages.WARNING, "Sorry, you do \
-            not have the necessary access rights to view that page")
-        return redirect(reverse('account_login'))
+        messages.add_message(request, messages.WARNING, "You're not a member \
+            of a team yet. Would you like to create a team?")
+        return redirect(reverse('create_team_route'))
 
 @login_required
 def create_membership(request, team_id):
