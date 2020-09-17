@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-#main {
+.tasks-main {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     height: 100vh;

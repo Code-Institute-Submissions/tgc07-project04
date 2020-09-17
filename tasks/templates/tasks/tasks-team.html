@@ -3,27 +3,25 @@
 {% block title %}All Tasks{% endblock %}
 
 {% block content %}
-
-<div id="main">
+<div class="tasks-main">
     <input type="hidden" name="{{ team_id }}" id="is_authenticated" value="{{request.user.is_authenticated}}">
     {% for stage_id, stage in tasks.items %}
-        <div class="stage">
+        <section class="stage">
             <h3>{{ stage.stage_label }}</h3>
             <div class="task-container" id="stage-{{ stage_id }}">
                 <a href="{% url 'create_task_route' team_id=team_id %}" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add task</a>
                 {% for task in stage.tasks %}
-                    <div class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
+                    <article class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
                         <h5>{{ task.title }}</h5>
                         <p class="mb-2">{% if task.description %}{{ task.description|truncatechars:30 }}{% else %}<br>{% endif %}</p>
                         <p class="mb-2 level-{{task.priority_level.id}}">P{{ task.priority_level.id }}: {{ task.priority_level.priority_level }}</p>
                         <p class="mb-2 level-{{task.severity_level.id}}">S{{ task.severity_level.id }}: {{ task.severity_level.severity_level }}</p>
                         <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-warning btn-sm">Edit</a>
                         {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
-                    </div>
+                    </article>
                 {% endfor %}
             </div>
-        </div>
+        </section>
     {% endfor %}
 </div>
-
 {% endblock %}
