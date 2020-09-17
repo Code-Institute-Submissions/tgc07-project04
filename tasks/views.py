@@ -32,10 +32,24 @@ def tasks_team(request, team_id):
                         stage=stage.id)
                 }
             })
-        return render(request, 'tasks/tasks-team.html', {
+        return render(request, 'tasks/read-tasks-team.html', {
             'tasks': tasks,
             'membership': db_membership,
             'team_id': team_id
+        })
+    else:
+        messages.add_message(request, messages.WARNING, "Sorry, you do \
+            not have the necessary access rights to view that page")
+        return redirect(reverse('account_login'))
+
+def view_single_task(request, team_id, task_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        task = get_object_or_404(Task, pk=task_id)
+        return render(request, 'tasks/read-task-single.html', {
+            'task': task
         })
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \

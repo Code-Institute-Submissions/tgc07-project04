@@ -304,5 +304,5 @@ class ReadTaskViewTestCase(TestCase):
         response = self.client.get(reverse(
             'tasks_team_route', kwargs={'team_id': self.team.id}))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'tasks/tasks-team.html')
+        self.assertTemplateUsed(response, 'tasks/read-tasks-team.html')
 
