@@ -30,15 +30,18 @@ function updateTaskStage(team_id, task_id, new_stage_id){
     }).then(response => response.json())
 }
 
-
 // https://github.com/WebDevSimplified/Drag-And-Drop
 const dragElements = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.task-container')
 
+// https://github.com/WebDevSimplified/Drag-And-Drop
 dragElements.forEach(d => {
+    // State variable to track dragged task's current stage container
+    let stageState = "";
     // Start dragging element
     d.addEventListener('dragstart', () => {
         d.classList.add('dragging');
+        stageState = d.parentElement.id;
         // Remove old stage-id from draggable's class list
         d.classList.remove(d.parentElement.id);
     })
@@ -52,12 +55,18 @@ dragElements.forEach(d => {
         if (document.querySelector('#is_authenticated').value) {
             // Get team-id from URL
             teamId = document.querySelector('#is_authenticated').name;
-            // Update database with new stage-id
-            updateTaskStage(teamId, d.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''));
-        }
+            // If task changes container, update database with new stage-id and reset state variable
+            if (d.parentElement.id!==stageState) {
+                stageState = "";
+                updateTaskStage(teamId, d.id.replace(/^task-+/i, ''), containerId.replace(/^stage-+/i, ''));
+            } else {
+                stageState = "";
+            };
+        };
     })
 })
 
+// https://github.com/WebDevSimplified/Drag-And-Drop
 function getElementAfter(container, yPosition) {
     const targetElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
     return targetElements.reduce((closest, target) => {
@@ -72,6 +81,7 @@ function getElementAfter(container, yPosition) {
         offset: Number.NEGATIVE_INFINITY }).element
 }
 
+// https://github.com/WebDevSimplified/Drag-And-Drop
 containers.forEach(container => {
     container.addEventListener('dragover', event => {
         event.preventDefault();
