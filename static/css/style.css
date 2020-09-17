@@ -2,14 +2,19 @@
     box-sizing: border-box;
 }
 
+#main {
+    height: 100vh;
+    background-color: #444444;
+    color: white;
+}
+
 .tasks-main {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    height: 100vh;
+    height: 95%;
 }
 
 .stage {
-    background-color: #444444;
     padding: 1rem;
     height: 100%;
     color: white;
