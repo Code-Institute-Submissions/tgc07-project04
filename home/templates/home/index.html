@@ -1,6 +1,6 @@
 {% extends 'base-template.html' %}
 
-{% block title %} {{request.user}} - Home {% endblock %}
+{% block title %}Software Bug Reporter - Home {% endblock %}
 
 {% block content %}
     <h1>Index - Test Home Page</h1>
@@ -11,4 +11,7 @@
     {% else %}
         <p>Please <a href="{% url 'account_login' %}">login</a></p>
     {% endif %}
+    <div class="tasks-main">
+        {% include 'tasks/base-kanban-template.html' %}
+    </div>
 {% endblock %} 
