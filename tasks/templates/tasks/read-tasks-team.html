@@ -12,7 +12,7 @@
                 <a href="{% url 'create_task_route' team_id=team_id %}" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add task</a>
                 {% for task in stage.tasks %}
                     <article class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
-                        <h5>{{ task.title|truncatechars:24 }}</h5>
+                        <h5><a href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}">{{ task.title|truncatechars:24 }}</a></h5>
                         <p class="mb-2">{% if task.description %}{{ task.description|truncatechars:30 }}{% else %}<br>{% endif %}</p>
                         <p class="mb-2 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p>
                         <p class="mb-2 level-{{task.severity_level.id}} task-level">Severity: {{ task.severity_level.severity_level }}</p>
