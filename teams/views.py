@@ -56,7 +56,7 @@ def update_team(request, team_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             form = TeamForm(instance=team_to_update)
             return render(request, 'teams/update-team.html', {
                 'form': form
@@ -82,7 +82,7 @@ def delete_team(request, team_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             team_to_delete = get_object_or_404(Team, pk=team_id)
             return render(request, 'teams/delete-team.html', {
                 'team': team_to_delete
@@ -128,7 +128,7 @@ def create_membership(request, team_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             form = MembershipForm()
             return render(request, 'teams/create-membership.html', {
                 'form': form,
@@ -209,7 +209,7 @@ def update_membership(request, team_id, membership_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             return render(request, 'teams/update-membership.html', {
                 'form': form,
                 'team': team
@@ -249,7 +249,7 @@ def delete_membership(request, team_id, membership_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         # If match found and current user is_admin
-        if db_membership and db_membership[0].is_admin:
+        if len(db_membership) and db_membership[0].is_admin:
             return render(request, 'teams/delete-membership.html', {
                 'form': form,
                 'membership': membership_to_delete
