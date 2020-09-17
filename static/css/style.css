@@ -37,18 +37,27 @@
     border: dashed 1px
 }
 
+.task-level {
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+}
+
 .level-1 {
-    color: darkred;
+    background-color: darkred;
+    color: white;
 }
 
 .level-2 {
-    color: darkorange;
+    background-color: darkorange;
+    color: white;
 }
 
 .level-3 {
-    color: #444444;
+    background-color: #444444;
+    color: white;
 }
 
 .level-4 {
-    color: darkgreen;
+    background-color: darkgreen;
+    color: white;
 }
