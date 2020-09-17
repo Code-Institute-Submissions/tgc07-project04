@@ -1,0 +1,30 @@
+{% extends 'base-template.html' %}
+
+{% block title %}{{ request.user.username }}'s Memberships{% endblock %}
+
+{% block content %}
+    <h1>{{ request.user.username }}</h1>
+    <h3>Teams that you're a member of</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Team</th>
+                <th scope="col">Team Controls</th>
+                <th scope="col">User Role</th>
+                <th scope="col">Membership Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for membership in memberships %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{% url 'tasks_team_route' team_id=membership.team.id %}">{{ membership.team }}</a></td>
+                    <td>{% if membership.is_admin %}<a href="{% url 'update_team_route' team_id=membership.team.id %}" class="btn btn-info btn-sm">Edit team</a> <a href="{% url 'delete_team_route' team_id=membership.team.id %}" class="btn btn-secondary btn-sm">Delete team</a>{% else %}admin status required{% endif %}</td>
+                    <td>{% if membership.is_admin %}admin{% else %}limited user{% endif %}</td>
+                    <td>{% if membership.is_admin %}<a href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-info btn-sm">Edit membership</a>{% else %}admin status required{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

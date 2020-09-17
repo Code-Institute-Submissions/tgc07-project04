@@ -94,6 +94,21 @@ def delete_team(request, team_id):
             return redirect(reverse('account_login'))
 
 @login_required
+def user_memberships(request):
+    # Query database membership matches current user
+    db_membership = Membership.objects.filter(user=request.user)
+    # If match found
+    if len(db_membership):
+        return render(request, 'teams/read-user-memberships.html', {
+            'memberships': db_membership
+        })
+    # If no matches
+    else:
+        messages.add_message(request, messages.WARNING, "Sorry, you do \
+            not have the necessary access rights to view that page")
+        return redirect(reverse('account_login'))
+
+@login_required
 def create_membership(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
