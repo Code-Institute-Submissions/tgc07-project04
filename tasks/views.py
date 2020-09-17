@@ -19,6 +19,8 @@ def tasks_team(request, team_id):
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
     if len(db_membership):
+        for membership in db_membership:
+            db_membership = membership
         tasks = {}
         tasks_team = Task.objects.filter(team=team_id)
         stages = Stage.objects.all()
