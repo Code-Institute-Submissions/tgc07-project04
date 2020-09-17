@@ -42,6 +42,7 @@ def tasks_team(request, team_id):
             not have the necessary access rights to view that page")
         return redirect(reverse('account_login'))
 
+@login_required
 def view_single_task(request, team_id, task_id):
     # Query database membership matches for team_id and current user
     db_membership = Membership.objects.filter(team=team_id).filter(
