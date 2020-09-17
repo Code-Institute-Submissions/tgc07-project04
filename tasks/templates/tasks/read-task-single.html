@@ -1,0 +1,22 @@
+{% extends 'base-template.html' %}
+
+{% block title %}Bug: {{ task.title }}{% endblock %}
+
+{% block content %}
+    <h3>Bug</h3>
+    <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-info btn-sm">Back to {{ task.team }}'s tasks</a>
+    <h5>{{ task.title }}</h5>
+    <p class="mb-2">{% if task.description %}{{ task.description }}{% else %}<br>{% endif %}</p>
+    <p class="mb-2">{% if task.date_due %}Date due: {{ task.date_due }}{% else %}<br>{% endif %}</p>
+    <p class="mb-2">Stage: {{ task.stage }}</p>
+    <p class="mb-2 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p>
+    <p class="mb-2 level-{{task.severity_level.id}} task-level">Severity: {{ task.severity_level.severity_level }}</p>
+    <p>Assignees:</p>
+    <ul>
+        {% for assignee in task.assignee.all %}
+            <li>{{ assignee }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-info btn-sm">Edit</a>
+    {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
+{% endblock %}
