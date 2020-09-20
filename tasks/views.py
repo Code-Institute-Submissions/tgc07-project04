@@ -63,7 +63,6 @@ def view_single_task(request, team_id, task_id):
         for membership in db_membership:
             db_membership = membership
         # Check subscription expiry of team, if expired redirect to pay
-        print(db_membership.team.subscription_expiry) #######################################################
         if db_membership.team.subscription_expiry < timezone.now().date():
             messages.add_message(request, messages.ERROR, "Sorry, your \
                 subscription has ended. Please subscribe again to access \
@@ -115,7 +114,6 @@ def create_task(request, team_id):
             for membership in db_membership:
                 db_membership = membership
             # Check subscription expiry of team, if expired redirect to pay
-            print(db_membership.team.subscription_expiry) #######################################################
             if db_membership.team.subscription_expiry < timezone.now().date():
                 messages.add_message(request, messages.ERROR, "Sorry, your \
                     subscription has ended. Please subscribe again to access \
@@ -136,7 +134,6 @@ def create_task(request, team_id):
             for membership in db_membership:
                 db_membership = membership
             # Check subscription expiry of team, if expired redirect to pay
-            print(db_membership.team.subscription_expiry) #######################################################
             if db_membership.team.subscription_expiry < timezone.now().date():
                 messages.add_message(request, messages.ERROR, "Sorry, your \
                     subscription has ended. Please subscribe again to access \
@@ -197,7 +194,6 @@ def update_task(request, team_id, task_id):
             for membership in db_membership:
                 db_membership = membership
             # Check subscription expiry of team, if expired redirect to pay
-            print(db_membership.team.subscription_expiry) #######################################################
             if db_membership.team.subscription_expiry < timezone.now().date():
                 messages.add_message(request, messages.ERROR, "Sorry, your \
                     subscription has ended. Please subscribe again to access \
@@ -218,7 +214,6 @@ def update_task(request, team_id, task_id):
             for membership in db_membership:
                 db_membership = membership
             # Check subscription expiry of team, if expired redirect to pay
-            print(db_membership.team.subscription_expiry) #######################################################
             if db_membership.team.subscription_expiry < timezone.now().date():
                 messages.add_message(request, messages.ERROR, "Sorry, your \
                     subscription has ended. Please subscribe again to access \
@@ -261,7 +256,6 @@ def delete_task(request, team_id, task_id):
             for membership in db_membership:
                 db_membership = membership
             # Check subscription expiry of team, if expired redirect to pay
-            print(db_membership.team.subscription_expiry) #######################################################
             if db_membership.team.subscription_expiry < timezone.now().date():
                 messages.add_message(request, messages.ERROR, "Sorry, your \
                     subscription has ended. Please subscribe again to access \
