@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
+from django.utils import timezone
 
 from .forms import *
 from .models import *
@@ -99,8 +100,10 @@ def user_memberships(request):
     db_membership = Membership.objects.filter(user=request.user)
     # If match found
     if len(db_membership):
+        today = timezone.now().date()
         return render(request, 'teams/read-user-memberships.html', {
-            'memberships': db_membership
+            'memberships': db_membership,
+            'today': today
         })
     # If no matches
     else:
