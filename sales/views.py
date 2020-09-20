@@ -62,22 +62,31 @@ def select_subscription(request, team_id):
     
     # GET method requests
     else:
-        services_all = Service.objects.all()
-        service_list = []
-        for service in services_all:
-            service_list.append({
-                'id': service.id,
-                'service_name': service.service_name,
-                'price': service.price,
-                'service_description': service.service_description
+        # Query database membership matches for team_id and current user
+        db_membership = Membership.objects.filter(team=team_id).filter(
+            user=request.user)
+        
+        if len(db_membership):
+            services_all = Service.objects.all()
+            service_list = []
+            for service in services_all:
+                service_list.append({
+                    'id': service.id,
+                    'service_name': service.service_name,
+                    'price': service.price,
+                    'service_description': service.service_description
+                })
+            service_list[0].update({'new_expiry': thirty_days_later})
+            service_list[1].update({'new_expiry': one_year_later})
+            return render(request, 'sales/select-subscription.html', {
+                'team': team_db,
+                'services': service_list,
+                'subscription_expired': subscription_expired
             })
-        service_list[0].update({'new_expiry': thirty_days_later})
-        service_list[1].update({'new_expiry': one_year_later})
-        return render(request, 'sales/select-subscription.html', {
-            'team': team_db,
-            'services': service_list,
-            'subscription_expired': subscription_expired
-        })
+        else:
+            messages.add_message(request, messages.WARNING, "Sorry, you do \
+                not have the necessary access rights to view that page")
+            return redirect(reverse('account_login'))
 
 @login_required
 def checkout_stripe(request):
