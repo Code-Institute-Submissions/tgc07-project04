@@ -54,6 +54,7 @@ def select_subscription(request, team_id):
                     Team {team_db.team_name} has been selected. Redirecting \
                         to checkout.')
             return redirect(reverse('checkout_stripe_route'))
+        # If no service was selected, then ask user to make selection
         else:
             messages.add_message(
                 request, messages.WARNING, 'Please select a subscription')
@@ -66,6 +67,7 @@ def select_subscription(request, team_id):
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
         
+        # Only team members are able to make payment
         if len(db_membership):
             services_all = Service.objects.all()
             service_list = []
