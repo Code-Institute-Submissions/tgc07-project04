@@ -380,5 +380,36 @@ class ReadUserMembershipViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'teams/read-user-memberships.html')
 
+class ReadTeamMembershipViewTestCase(TestCase):
+    def setUp(self):
+        # Create user instance
+        self.team_member = User(
+            username = "test_team_member",
+            email = "team_member@mailinator.com",
+            password = "pass123word"
+        )
+        self.team_member.save()
+        # Log in user
+        self.client.force_login(self.team_member, backend=None)
+
+        # Create team instance
+        self.team = Team(team_name="Test Team Name")
+        self.team.save()
+
+        # Create membership instance
+        self.membership_model = Membership(
+                user = self.team_member,
+                team = self.team,
+                is_admin = True
+        )
+        self.membership_model.save()
+    
+    def test_get_response(self):
+        response = self.client.get(reverse('team_memberships_route', kwargs={
+            'team_id': self.team.id
+        }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'teams/read-team-memberships.html')
+
 
 
