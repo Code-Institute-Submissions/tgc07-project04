@@ -314,10 +314,22 @@ def delete_membership(request, team_id, membership_id):
             user=request.user)
         # If match found and current user is_admin
         if len(db_membership) and db_membership[0].is_admin:
-            return render(request, 'teams/delete-membership.html', {
-                'form': form,
-                'membership': membership_to_delete
-            })
+            for membership in db_membership:
+                db_membership = membership
+            # Check subscription expiry of team, if expired redirect to pay
+            if db_membership.team.subscription_expiry < timezone.now().date():
+                messages.add_message(request, messages.ERROR, "Sorry, your \
+                    subscription has ended. Please subscribe again to access \
+                        this page. Don't worry, all the past tasks have been \
+                            saved.")
+                return redirect(reverse('checkout_select_subscription_route',
+                    kwargs={'team_id':team_id}))
+            # If subscription still valid, then display
+            else:
+                return render(request, 'teams/delete-membership.html', {
+                    'form': form,
+                    'membership': membership_to_delete
+                })
         # If no matches, or current user is not admin
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \
