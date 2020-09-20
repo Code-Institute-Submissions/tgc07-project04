@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.utils import timezone
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,22 +22,33 @@ def tasks_team(request, team_id):
     if len(db_membership):
         for membership in db_membership:
             db_membership = membership
-        tasks = {}
-        tasks_team = Task.objects.filter(team=team_id)
-        stages = Stage.objects.all()
-        for stage in stages:
-            tasks.update({
-                stage.id: {
-                    'stage_label': stage.label,
-                    'tasks': tasks_team.filter(
-                        stage=stage.id)
-                }
+        # Check subscription expiry of team, if expired redirect to pay
+        if db_membership.team.subscription_expiry < timezone.now().date():
+            messages.add_message(request, messages.ERROR, "Sorry, your \
+                subscription has ended. Please subscribe again to access \
+                    your tasks. Don't worry, all the past tasks have been \
+                        saved.")
+            return redirect(reverse('checkout_select_subscription_route',
+                kwargs={'team_id':team_id}))
+        # If subscription still valid, then display tasks
+        else:
+            tasks = {}
+            tasks_team = Task.objects.filter(team=team_id)
+            stages = Stage.objects.all()
+            for stage in stages:
+                tasks.update({
+                    stage.id: {
+                        'stage_label': stage.label,
+                        'tasks': tasks_team.filter(
+                            stage=stage.id)
+                    }
+                })
+            return render(request, 'tasks/read-tasks-team.html', {
+                'tasks': tasks,
+                'membership': db_membership,
+                'team_id': team_id
             })
-        return render(request, 'tasks/read-tasks-team.html', {
-            'tasks': tasks,
-            'membership': db_membership,
-            'team_id': team_id
-        })
+    # If current user is not a member of team
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \
             not have the necessary access rights to view that page")
