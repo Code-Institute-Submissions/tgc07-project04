@@ -1,10 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import timedelta
 
-# Create your models here.
 class Team(models.Model):
+    def one_day_later():
+        return timezone.now().date() + timedelta(days=1)
+    
     team_name = models.CharField(max_length=50, blank=False)
     team_members = models.ManyToManyField(User, through="Membership")
+    subscription_expiry = models.DateField(default=one_day_later)
 
     class Meta:
         constraints = [
