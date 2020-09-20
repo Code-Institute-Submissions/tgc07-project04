@@ -148,8 +148,7 @@ def checkout_success(request):
             {team.subscription_expiry}. Thank you for the purchase!")
     # Empty shopping basket
     request.session['basket'] = {}
-    return redirect(reverse('checkout_select_subscription_route',
-        kwargs={'team_id':team.id}))
+    return redirect(reverse('tasks_team_route', kwargs={'team_id':team.id}))
 
 @login_required
 def checkout_cancelled(request):
