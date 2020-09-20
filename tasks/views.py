@@ -112,20 +112,46 @@ def create_task(request, team_id):
             user=request.user)
         # If match found and current user is_admin
         if len(db_membership) and db_membership[0].is_admin:
-            # Filter assignee list by members of team
-            form.fields['assignee'].queryset = User.objects.filter(
-                user_membership__team=team_id)
-            return render(request, 'tasks/create-task.html', {
-                'form': form
-            })
+            for membership in db_membership:
+                db_membership = membership
+            # Check subscription expiry of team, if expired redirect to pay
+            print(db_membership.team.subscription_expiry) #######################################################
+            if db_membership.team.subscription_expiry < timezone.now().date():
+                messages.add_message(request, messages.ERROR, "Sorry, your \
+                    subscription has ended. Please subscribe again to access \
+                        this page. Don't worry, all the past tasks have been \
+                            saved.")
+                return redirect(reverse('checkout_select_subscription_route',
+                    kwargs={'team_id':team_id}))
+            # If subscription still valid, then display
+            else:
+                # Filter assignee list by members of team
+                form.fields['assignee'].queryset = User.objects.filter(
+                    user_membership__team=team_id)
+                return render(request, 'tasks/create-task.html', {
+                    'form': form
+                })
         # If current user is a member, but NOT admin
         elif len(db_membership) and not db_membership[0].is_admin:
-            # Only show self in list of assignees
-            form.fields['assignee'].queryset = User.objects.filter(
-                id=request.user.id)
-            return render(request, 'tasks/create-task.html', {
-                'form': form
-            })
+            for membership in db_membership:
+                db_membership = membership
+            # Check subscription expiry of team, if expired redirect to pay
+            print(db_membership.team.subscription_expiry) #######################################################
+            if db_membership.team.subscription_expiry < timezone.now().date():
+                messages.add_message(request, messages.ERROR, "Sorry, your \
+                    subscription has ended. Please subscribe again to access \
+                        this page. Don't worry, all the past tasks have been \
+                            saved.")
+                return redirect(reverse('checkout_select_subscription_route',
+                    kwargs={'team_id':team_id}))
+            # If subscription still valid, then display
+            else:
+                # Only show self in list of assignees
+                form.fields['assignee'].queryset = User.objects.filter(
+                    id=request.user.id)
+                return render(request, 'tasks/create-task.html', {
+                    'form': form
+                })
         # If not member, redirect
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \
