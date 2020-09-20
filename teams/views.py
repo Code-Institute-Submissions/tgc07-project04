@@ -58,10 +58,22 @@ def update_team(request, team_id):
             user=request.user)
         # If match found and current user is_admin
         if len(db_membership) and db_membership[0].is_admin:
-            form = TeamForm(instance=team_to_update)
-            return render(request, 'teams/update-team.html', {
-                'form': form
-            })
+            for membership in db_membership:
+                db_membership = membership
+            # Check subscription expiry of team, if expired redirect to pay
+            if db_membership.team.subscription_expiry < timezone.now().date():
+                messages.add_message(request, messages.ERROR, "Sorry, your \
+                    subscription has ended. Please subscribe again to access \
+                        this page. Don't worry, all the past tasks have been \
+                            saved.")
+                return redirect(reverse('checkout_select_subscription_route',
+                    kwargs={'team_id':team_id}))
+            # If subscription still valid, then display
+            else:
+                form = TeamForm(instance=team_to_update)
+                return render(request, 'teams/update-team.html', {
+                    'form': form
+                })
         # If no matches, or current user is not admin
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \
