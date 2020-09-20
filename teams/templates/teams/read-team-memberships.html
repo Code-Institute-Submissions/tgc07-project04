@@ -1,0 +1,27 @@
+{% extends 'base-template.html' %}
+
+{% block title %}{{ team }}'s Members{% endblock %}
+
+{% block content %}
+    <h1>{{ team }}'s Members</h1>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Team Member</th>
+                <th scope="col">User Role</th>
+                <th scope="col">Membership Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for membership in memberships %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=membership.team.id %}">{{ membership.user }}</a></td>
+                    <td>{% if membership.is_admin %}admin{% else %}limited user{% endif %}</td>
+                    <td>{% if membership.is_admin %}<a href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-info btn-sm">Edit membership</a>{% else %}admin status required{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -95,6 +95,23 @@ def delete_team(request, team_id):
             return redirect(reverse('account_login'))
 
 @login_required
+def team_memberships(request, team_id):
+    # Query database membership matches current user
+    db_membership = Membership.objects.filter(team=team_id)
+    # If match found
+    if len(db_membership):
+        team = get_object_or_404(Team, pk=team_id)
+        return render(request, 'teams/read-team-memberships.html', {
+            'memberships': db_membership,
+            'team': team
+        })
+    # If no matches
+    else:
+        messages.add_message(request, messages.WARNING, "You're not a member \
+            of a team yet. Would you like to create a team?")
+        return redirect(reverse('create_team_route'))
+
+@login_required
 def user_memberships(request):
     # Query database membership matches current user
     db_membership = Membership.objects.filter(user=request.user)
