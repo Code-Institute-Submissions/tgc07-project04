@@ -18,6 +18,7 @@ from .models import *
 def select_subscription(request, team_id):
     team_db = get_object_or_404(Team, pk=team_id)
 
+    # Check if team's current subscription has expired
     if team_db.subscription_expiry < timezone.now().date():
         reference_date = timezone.now().date()
         subscription_expired = True
@@ -47,15 +48,15 @@ def select_subscription(request, team_id):
             
             # Save basket back to session
             request.session['basket'] = basket
-
-            messages.success(
-                request, f'{service_db.service_name} for Team \
-                    {team_db.team_name} has been selected. Redirecting to \
-                        checkout.')
+            
+            messages.add_message(
+                request, messages.SUCCESS, f'{service_db.service_name} for \
+                    Team {team_db.team_name} has been selected. Redirecting \
+                        to checkout.')
             return redirect(reverse('checkout_stripe_route'))
         else:
-            messages.warning(
-                request, 'Please select a subscription')
+            messages.add_message(
+                request, messages.WARNING, 'Please select a subscription')
             return redirect(reverse('checkout_select_subscription_route',
                 kwargs={'team_id':team_id}))
     
