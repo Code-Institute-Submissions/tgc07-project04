@@ -22,9 +22,23 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=membership.team.id %}">{{ membership.team }}</a></td>
                     <td><a class="btn btn-light btn-sm mr-2" href="{% url 'checkout_select_subscription_route' team_id=membership.team.id %}">{{ membership.team.subscription_expiry }}</a>{% if today > membership.team.subscription_expiry %}Expired!{% endif %}</td>
-                    <td>{% if membership.is_admin %}<a href="{% url 'update_team_route' team_id=membership.team.id %}" class="btn btn-info btn-sm">Edit team</a> <a href="{% url 'delete_team_route' team_id=membership.team.id %}" class="btn btn-secondary btn-sm">Delete team</a>{% else %}admin status required{% endif %}</td>
+                    <td>
+                        {% if membership.is_admin %}
+                            <a href="{% url 'update_team_route' team_id=membership.team.id %}" class="btn btn-info btn-sm">Edit team</a>
+                            <a href="{% url 'delete_team_route' team_id=membership.team.id %}" class="btn btn-secondary btn-sm">Delete team</a>
+                            <a href="{% url 'create_membership_route' team_id=membership.team.id %}" class="btn btn-light btn-sm">Add team member</a>
+                        {% else %}
+                            admin status required
+                        {% endif %}
+                    </td>
                     <td>{% if membership.is_admin %}admin{% else %}limited user{% endif %}</td>
-                    <td>{% if membership.is_admin %}<a href="{% url 'team_memberships_route' team_id=membership.team.id %}" class="btn btn-light btn-sm">{{ membership.team }}'s memberships</a>{% else %}admin status required{% endif %}</td>
+                    <td>
+                        {% if membership.is_admin %}
+                            <a href="{% url 'team_memberships_route' team_id=membership.team.id %}" class="btn btn-light btn-sm">{{ membership.team }}'s memberships</a>
+                        {% else %}
+                            admin status required
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
