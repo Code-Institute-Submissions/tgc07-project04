@@ -258,9 +258,22 @@ def delete_task(request, team_id, task_id):
         # If current user task_creator or is_admin of team
         if task_to_delete.task_creator==request.user or (
             len(db_membership) and db_membership[0].is_admin):
-            return render(request, 'tasks/delete-task.html', {
-                'task': task_to_delete
-            })
+            for membership in db_membership:
+                db_membership = membership
+            # Check subscription expiry of team, if expired redirect to pay
+            print(db_membership.team.subscription_expiry) #######################################################
+            if db_membership.team.subscription_expiry < timezone.now().date():
+                messages.add_message(request, messages.ERROR, "Sorry, your \
+                    subscription has ended. Please subscribe again to access \
+                        this page. Don't worry, all the past tasks have been \
+                            saved.")
+                return redirect(reverse('checkout_select_subscription_route',
+                    kwargs={'team_id':team_id}))
+            # If subscription still valid, then display
+            else:
+                return render(request, 'tasks/delete-task.html', {
+                    'task': task_to_delete
+                })
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \
                 not have the necessary access rights to view that page")
