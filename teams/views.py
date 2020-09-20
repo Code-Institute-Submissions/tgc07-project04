@@ -99,6 +99,7 @@ def team_memberships(request, team_id):
     # Query database membership matches for team_id and current user
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
+    is_admin = db_membership.all()[0].is_admin
     # If match found
     if len(db_membership):
         # Get all memberships for team
@@ -106,7 +107,8 @@ def team_memberships(request, team_id):
         team = get_object_or_404(Team, pk=team_id)
         return render(request, 'teams/read-team-memberships.html', {
             'memberships': db_membership,
-            'team': team
+            'team': team,
+            'is_admin': is_admin
         })
     # If no matches
     else:

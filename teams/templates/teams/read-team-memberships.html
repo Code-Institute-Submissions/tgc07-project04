@@ -18,9 +18,20 @@
             {% for membership in memberships %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{% if membership.is_admin %}<a class="btn btn-info btn-sm" href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}">{{ membership.user }}</a>{% else %}{{ membership.user }}{% endif %}</td>
+                    <td>
+                        {% if is_admin %}
+                            <a class="btn btn-info btn-sm" href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}">{{ membership.user }}</a>
+                        {% else %}
+                            {{ membership.user }}
+                        {% endif %}
+                    </td>
                     <td>{% if membership.is_admin %}admin{% else %}limited user{% endif %}</td>
-                    <td>{% if membership.is_admin %}<a href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-info btn-sm">Edit membership</a>{% else %}admin status required{% endif %}</td>
+                    <td>{% if is_admin %}
+                            <a href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-info btn-sm">Edit membership</a>
+                        {% else %}
+                            admin status required
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
