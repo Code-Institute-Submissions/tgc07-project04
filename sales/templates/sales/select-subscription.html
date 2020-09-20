@@ -1,0 +1,20 @@
+{% extends 'base-template.html' %}
+
+{% block title %}Select Subscription{% endblock %}
+
+{% block content %}
+
+{{ team }}
+
+<form method="post">
+    {% csrf_token %}
+    <p>{{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on {{ team.subscription_expiry }}.</p>
+    <p>Purchase an extra:</p>
+    {% for service in services %}
+        <label for="{{ service.service_name }}">{{ service.service_name }} until {{ service.new_expiry }}</label>
+        <input type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
+    {% endfor %}
+        <input type="submit" value="Purchase">
+</form>
+
+{% endblock %}
