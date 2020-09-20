@@ -60,10 +60,23 @@ def view_single_task(request, team_id, task_id):
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
     if len(db_membership):
-        task = get_object_or_404(Task, pk=task_id)
-        return render(request, 'tasks/read-task-single.html', {
-            'task': task
-        })
+        for membership in db_membership:
+            db_membership = membership
+        # Check subscription expiry of team, if expired redirect to pay
+        print(db_membership.team.subscription_expiry) #######################################################
+        if db_membership.team.subscription_expiry < timezone.now().date():
+            messages.add_message(request, messages.ERROR, "Sorry, your \
+                subscription has ended. Please subscribe again to access \
+                    this page. Don't worry, all the past tasks have been \
+                        saved.")
+            return redirect(reverse('checkout_select_subscription_route',
+                kwargs={'team_id':team_id}))
+        # If subscription still valid, then display
+        else:
+            task = get_object_or_404(Task, pk=task_id)
+            return render(request, 'tasks/read-task-single.html', {
+                'task': task
+            })
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \
             not have the necessary access rights to view that page")
