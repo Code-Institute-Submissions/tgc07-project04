@@ -2,7 +2,7 @@
     <section class="stage">
         <h3>{{ stage.stage_label }}</h3>
         <div class="task-container" id="stage-{{ stage_id }}">
-            <a {% if demo %}{% else %}href="{% url 'create_task_route' team_id=team_id %}"{% endif %} class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add task</a>
+            <a {% if demo %}{% else %}href="{% url 'create_task_route' team_id=team_id %}"{% endif %} class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
             {% for task in stage.tasks %}
                 <article class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
                     <h6><a {% if demo %}{% else %}href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}"{% endif %}>{{ task.title|truncatechars:24 }}</a></h6>
