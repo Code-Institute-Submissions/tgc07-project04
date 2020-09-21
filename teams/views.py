@@ -23,7 +23,8 @@ def create_team(request):
             membership_model.save()
             messages.add_message(request, messages.SUCCESS, f"Team \
                 {submitted_form.cleaned_data['team_name']} has been created")
-            return redirect(reverse('home_route'))
+            return redirect(reverse('tasks_team_route',
+                kwargs={'team_id':team_model.id}))
         else:
             return render(request, "teams/create-team.html", {
                 'form': submitted_form
