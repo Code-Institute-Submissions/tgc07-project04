@@ -145,7 +145,7 @@ def checkout_success(request):
     team = get_object_or_404(Team, pk=basket.get('team_id'))
     messages.add_message(request, messages.SUCCESS, f"Team \
         {team.team_name}'s subscription extended until \
-            {team.subscription_expiry}. Thank you for the purchase!")
+            {team.subscription_expiry.strftime('%d %b %Y')}. Thank you!")
     # Empty shopping basket
     request.session['basket'] = {}
     return redirect(reverse('tasks_team_route', kwargs={'team_id':team.id}))
