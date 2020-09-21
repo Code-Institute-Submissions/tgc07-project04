@@ -5,11 +5,14 @@
 
 {% block content %}
 
-  <h1>Create Team</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Create Team">
-  </form>
+    <h1>Create Team</h1>
+
+    <h3>All teams get a 1 day free trial!</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Create Team">
+    </form>
 
 {% endblock %}
