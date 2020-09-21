@@ -2,16 +2,19 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #444444;
+}
+
 #main {
     height: 100vh;
-    background-color: #444444;
     color: white;
 }
 
 .tasks-main {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    height: 95%;
+    height: 85%;
 }
 
 .stage {
@@ -23,7 +26,7 @@
 .task-container {
     background-color: #cccccc;
     border-radius: 0.5rem;
-    height: 80%;
+    height: 90%;
     padding: 0.2rem 0.6rem;
 }
 
