@@ -1,15 +1,21 @@
 {% extends 'base-template.html' %}
-{%load crispy_forms_tags %}
 
 {% block title %}Delete Team{% endblock %}
 
 {%block content %}
-
-  <h1>Delete Team</h1>
-  <form method="POST">
-    {% csrf_token %}
-    Are you sure you want to delete team {{team.team_name}}
-    <input type="submit" value="Delete Team">
-  </form>
-
+    <h1>Delete Team</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete team {{team.team_name}}?</p>
+        <p>Once deleted, all your bug reports will be lost forever.</p>
+        <label for="delete_team_confirmation">To confirm deletion of team {{team.team_name}} enter the following phrase:</label>
+        <p><strong><em>Please delete team {{ team.team_name }}</em></strong></p>
+        <input type="text" name="delete_team_confirmation" id="delete_team_confirmation" class="{% if error %}is-invalid{% endif %}">
+        <div id="delete_team_feedback" class="invalid-feedback">
+            The deletion confirmation phrase must match exactly.
+        </div>
+        <div>
+            <input type="submit" value="Delete Team">
+        </div>
+    </form>
 {% endblock %}

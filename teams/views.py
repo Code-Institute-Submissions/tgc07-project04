@@ -85,10 +85,17 @@ def update_team(request, team_id):
 def delete_team(request, team_id):
     if request.method == "POST":
         team_to_delete = get_object_or_404(Team, pk=team_id)
-        team_to_delete.delete()
-        messages.add_message(request, messages.SUCCESS, f"Deleted team \
-            {team_to_delete.team_name}")
-        return redirect(reverse('home_route'))
+        if request.POST.get('delete_team_confirmation')==(
+            "Please delete team " + team_to_delete.team_name):
+            team_to_delete.delete()
+            messages.add_message(request, messages.SUCCESS, f"Deleted team \
+                {team_to_delete.team_name}")
+            return redirect(reverse('user_memberships_route'))
+        else:
+            return render(request, 'teams/delete-team.html', {
+                'team': team_to_delete,
+                'error': True
+            })
     
     # GET method requests
     else:
