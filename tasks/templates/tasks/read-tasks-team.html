@@ -2,6 +2,20 @@
 
 {% block title %}Team {{ membership.team }}'s Tasks{% endblock %}
 
+{% block nav_page_specific_is_authenticated %}
+    {% if membership.is_admin %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'team_memberships_route' team_id=membership.team.id %}">{{ membership.team }}'s memberships</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'create_membership_route' team_id=membership.team.id %}">Add team member</a>
+        </li>
+    {% endif %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'checkout_select_subscription_route' team_id=membership.team.id %}">{{ membership.team }}'s subscription</a>
+        </li>
+{% endblock %}
+
 {% block content %}
 
     {% if membership.is_admin %}

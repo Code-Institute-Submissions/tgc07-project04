@@ -28,6 +28,9 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {% if request.user.is_authenticated %}
+
+                        {% block nav_page_specific_is_authenticated %}{% endblock %}
+
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'create_team_route' %}">Create Team</a>
                         </li>
@@ -40,13 +43,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a>
                         </li>
+
                     {% else %}
+
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
                         </li>
+
                     {% endif %}
                 </ul>
             </div>
