@@ -14,7 +14,7 @@ class TeamModelTestCase(TestCase):
         self.team_member.save()
 
     def test_values(self):
-        test = Team(team_name = "Test Team")
+        test = Team(team_name = "test_team")
         test.save()
         
         db_test = get_object_or_404(Team, pk=test.id)

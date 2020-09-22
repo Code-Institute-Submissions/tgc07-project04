@@ -14,7 +14,7 @@ class TeamFormTestCase(TestCase):
 
     def test_form_valid(self):
         form = TeamForm({
-            "team_name": "My Test Team"
+            "team_name": "test_team"
         })
         self.assertTrue(form.is_valid())
 
@@ -40,7 +40,7 @@ class MembershipFormTestCase(TestCase):
         )
         self.team_member.save()
 
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
     def test_form_valid(self):

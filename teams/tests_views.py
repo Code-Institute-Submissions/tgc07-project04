@@ -18,7 +18,7 @@ class CreateTeamViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
@@ -42,7 +42,7 @@ class CreateTeamViewTestCase(TestCase):
             "is_admin" : True
         })
         self.assertEqual(response.status_code, 200)
-        db_team = Team.objects.filter(team_name="Test Team Name")
+        db_team = Team.objects.filter(team_name=self.team)
         self.assertEqual(db_team.count(), 1)
         db_membership_user = Membership.objects.filter(user=str(
             self.team_member.id))
@@ -65,7 +65,7 @@ class UpdateTeamViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
     
         # Create membership instance
@@ -83,7 +83,7 @@ class UpdateTeamViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'teams/update-team.html')
 
     def test_update_team(self):
-        new_data = {"team_name" : "Updated Team Name"}
+        new_data = {"team_name" : "updated_test_team"}
         response = self.client.post(reverse(
             'update_team_route', kwargs={'team_id':self.team.id}), new_data)
         self.assertEqual(response.status_code, 302)
@@ -106,7 +106,7 @@ class DeleteTeamViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
     
         # Create membership instance
@@ -145,7 +145,7 @@ class CreateMembershipViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
@@ -213,7 +213,7 @@ class UpdateMembershipViewTestCase(TestCase):
         self.new_team_member.save()
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
@@ -279,7 +279,7 @@ class DeleteMembershipViewTestCase(TestCase):
         self.new_team_member.save()
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
@@ -364,7 +364,7 @@ class ReadUserMembershipViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
@@ -393,7 +393,7 @@ class ReadTeamMembershipViewTestCase(TestCase):
         self.client.force_login(self.team_member, backend=None)
 
         # Create team instance
-        self.team = Team(team_name="Test Team Name")
+        self.team = Team(team_name="test_team")
         self.team.save()
 
         # Create membership instance
