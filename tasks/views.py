@@ -14,6 +14,9 @@ from .models import *
 from .serialisers import *
 from teams.models import *
 
+###################################################################################
+from django.db.models import Q
+
 @login_required
 def tasks_team(request, team_id):
     # Query database membership matches for team_id and current user
@@ -32,8 +35,31 @@ def tasks_team(request, team_id):
                 kwargs={'team_id':team_id}))
         # If subscription still valid, then display tasks
         else:
+            filter_form = FilterTasksForm(request.GET)
+
+            query = ~Q(pk__in=[])
+            query = query & Q(team=team_id)
+
+            if request.GET:
+                if 'search_terms' in request.GET and (
+                        request.GET['search_terms']):
+                    query = query & (
+                        Q(title__icontains=request.GET['search_terms']) | 
+                        Q(description__icontains=request.GET['search_terms'])
+                    )
+
+                if 'priority_level' in request.GET and (
+                        request.GET['priority_level']):
+                    query = query & Q(
+                        priority_level=request.GET['priority_level'])
+
+                if 'severity_level' in request.GET and (
+                        request.GET['severity_level']):
+                    query = query & Q(
+                        severity_level=request.GET['severity_level'])
+            
             tasks = {}
-            tasks_team = Task.objects.filter(team=team_id)
+            tasks_team = Task.objects.filter(query)
             stages = Stage.objects.all()
             for stage in stages:
                 tasks.update({
@@ -46,7 +72,8 @@ def tasks_team(request, team_id):
             return render(request, 'tasks/read-tasks-team.html', {
                 'tasks': tasks,
                 'membership': db_membership,
-                'team_id': team_id
+                'team_id': team_id,
+                'filter_tasks_form': filter_form
             })
     # If current user is not a member of team
     else:

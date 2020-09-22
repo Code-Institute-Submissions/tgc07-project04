@@ -26,3 +26,11 @@ class ChecklistItemForm(forms.ModelForm):
     class Meta:
         model = ChecklistItem
         fields = "__all__"
+
+class FilterTasksForm(forms.Form):
+    search_terms = forms.CharField(max_length=100, required=False)
+    priority_level = forms.ModelChoiceField(
+        queryset=PriorityLevel.objects.all(), required=False)
+    severity_level = forms.ModelChoiceField(
+        queryset=SeverityLevel.objects.all(), required=False
+    )

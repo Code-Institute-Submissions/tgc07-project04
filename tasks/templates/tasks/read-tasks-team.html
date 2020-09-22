@@ -25,6 +25,13 @@
 
     <a href="{% url 'checkout_select_subscription_route' team_id=membership.team.id %}" class="btn btn-light">{{ membership.team }}'s subscription</a>
 
+    <form method="GET">
+        {% load crispy_forms_tags %}
+        {{filter_tasks_form|crispy}}
+        <input type="submit" class="btn btn-primary" value="Filter"/>
+        <a href="{% url 'tasks_team_route' team_id=membership.team.id %}" class="btn btn-success">Reset Search</a>
+    </form>
+
     <div class="tasks-main">
         <input type="hidden" name="{{ team_id }}" id="is_authenticated" value="{{request.user.is_authenticated}}">
         {% include 'tasks/base-kanban-template.html' %}
