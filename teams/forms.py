@@ -11,12 +11,13 @@ class TeamForm(forms.ModelForm):
     
     def clean_team_name(self):
         data = self.cleaned_data['team_name']
-        teams = Team.objects.filter(team_name__icontains=data)
+        teams = Team.objects.filter(team_name=data)
         if teams.count() > 0:
             raise ValidationError("A team with this name already exists.")
-        if not re.search('^[a-z]\w{3}', data):
-            raise ValidationError("Team name must start with a letter and \
-                must contain at least 4 characters.")
+        if not re.search('^[a-z]\w{3,}', data):
+            raise ValidationError("Team name must start with a letter, \
+                must contain only lower case letters, numbers or underscores \
+                    and be at least 4 characters long.")
         return data
 
 class MembershipForm(forms.ModelForm):
