@@ -33,31 +33,36 @@ def tasks_team(request, team_id):
                 kwargs={'team_id':team_id}))
         # If subscription still valid, then display tasks
         else:
+            # GET method requests form
             filter_form = FilterTasksForm(request.GET)
+            # Only show assignees that are members of the team
             filter_form.fields['assignee'].queryset = User.objects.filter(
                 user_membership__team=team_id)
             
+            # Empty Query
             query = ~Q(pk__in=[])
+            # Results must match team_id
             query = query & Q(team=team_id)
 
             if request.GET:
+                # Search box Query by either title OR description
                 if 'search_terms' in request.GET and (
                         request.GET['search_terms']):
                     query = query & (
                         Q(title__icontains=request.GET['search_terms']) | 
                         Q(description__icontains=request.GET['search_terms'])
                     )
-
+                # Query by selected priority_level
                 if 'priority_level' in request.GET and (
                         request.GET['priority_level']):
                     query = query & Q(
                         priority_level=request.GET['priority_level'])
-
+                # Query by selected severity_level
                 if 'severity_level' in request.GET and (
                         request.GET['severity_level']):
                     query = query & Q(
                         severity_level=request.GET['severity_level'])
-            
+                # Query by assignee
                 if 'assignee' in request.GET and (
                         request.GET['assignee']):
                     query = query & Q(
