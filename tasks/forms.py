@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 from .models import *
 
@@ -34,3 +35,6 @@ class FilterTasksForm(forms.Form):
     severity_level = forms.ModelChoiceField(
         queryset=SeverityLevel.objects.all(), required=False
     )
+    assignee = forms.ModelChoiceField(
+        queryset=User.objects.all(), required=False
+    )    

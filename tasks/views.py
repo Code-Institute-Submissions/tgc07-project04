@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils import timezone
+from django.db.models import Q
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,9 +14,6 @@ from .forms import *
 from .models import *
 from .serialisers import *
 from teams.models import *
-
-###################################################################################
-from django.db.models import Q
 
 @login_required
 def tasks_team(request, team_id):
@@ -36,7 +34,9 @@ def tasks_team(request, team_id):
         # If subscription still valid, then display tasks
         else:
             filter_form = FilterTasksForm(request.GET)
-
+            filter_form.fields['assignee'].queryset = User.objects.filter(
+                user_membership__team=team_id)
+            
             query = ~Q(pk__in=[])
             query = query & Q(team=team_id)
 
@@ -57,6 +57,11 @@ def tasks_team(request, team_id):
                         request.GET['severity_level']):
                     query = query & Q(
                         severity_level=request.GET['severity_level'])
+            
+                if 'assignee' in request.GET and (
+                        request.GET['assignee']):
+                    query = query & Q(
+                        assignee=request.GET['assignee'])
             
             tasks = {}
             tasks_team = Task.objects.filter(query)
