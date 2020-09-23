@@ -1,0 +1,14 @@
+{% extends 'base-template.html' %}
+
+{% block title %}{{ request.user }}'s Profile{% endblock %}
+
+{% block content %}
+
+    <h3>{{ request.user.id }}</h3>
+    <h3>{{ request.user }}</h3>
+    <h3>{{ request.user.email }}</h3>
+
+    <a class="nav-link" href="{% url 'account_email' %}">Change email</a>
+    <a class="nav-link" href="{% url 'account_change_password' %}">Change password</a>
+
+{% endblock %}

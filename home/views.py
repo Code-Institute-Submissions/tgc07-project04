@@ -20,3 +20,6 @@ def index(request):
         'demo': True
     })
 
+def user_profile(request):
+    return render(request, 'home/user-profile.html')
+
