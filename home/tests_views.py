@@ -6,3 +6,9 @@ class HomeViewTestCase(TestCase):
         response = self.client.get(reverse('home_route'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/index.html')
+
+class UserProfileViewTestCase(TestCase):
+    def test_get_response(self):
+        response = self.client.get(reverse('user_profile_route'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home/user-profile.html')
