@@ -124,8 +124,10 @@ class DeleteTeamViewTestCase(TestCase):
         self.assertTemplateUsed(response, 'teams/delete-team.html')
 
     def test_delete_team(self):
-        response = self.client.post(reverse(
-            'delete_team_route', kwargs={'team_id':self.team.id}))
+        response = self.client.post(reverse('delete_team_route',
+            kwargs={'team_id':self.team.id}), {"delete_team_confirmation\
+                ": "Please delete team " + self.team.team_name
+        })
         self.assertEqual(response.status_code, 302)
 
         # Check database entry does not exist
