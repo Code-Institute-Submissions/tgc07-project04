@@ -121,7 +121,7 @@ def team_transaction_history(request, team_id):
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
     
-    # Only team members are able to make payment
+    # Only team members are able to access
     if len(db_membership):
         team_db = get_object_or_404(Team, pk=team_id)
         # Purchase transaction history of team
