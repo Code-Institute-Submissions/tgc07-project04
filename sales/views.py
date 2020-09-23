@@ -69,6 +69,7 @@ def select_subscription(request, team_id):
         
         # Only team members are able to make payment
         if len(db_membership):
+            # Service subscriptions available for purchase
             services_all = Service.objects.all()
             service_list = []
             for service in services_all:
@@ -78,8 +79,11 @@ def select_subscription(request, team_id):
                     'price': service.price,
                     'service_description': service.service_description
                 })
+            
+            # Capture new subscription extension date calculations
             service_list[0].update({'new_expiry': thirty_days_later})
             service_list[1].update({'new_expiry': one_year_later})
+            
             return render(request, 'sales/select-subscription.html', {
                 'team': team_db,
                 'services': service_list,
