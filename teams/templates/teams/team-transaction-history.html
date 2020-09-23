@@ -1,0 +1,33 @@
+{% extends 'base-template.html' %}
+
+{% block title %}{{ team }} Transaction History{% endblock %}
+
+{% block content %}
+
+<h5>Team {{ team }} Transaction History</h5>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Subscription</th>
+            <th scope="col">Price</th>
+            <th scope="col">Paid By</th>
+            <th scope="col">Ref</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ transaction.date }}</td>
+            <td>{{ transaction.service }}</td>
+            <td>{{ transaction.service.price }}</td>
+            <td>{{ transaction.paid_by_user }}</td>
+            <td>{{ transaction.transaction_ref }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

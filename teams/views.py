@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from .forms import *
 from .models import *
+from sales.models import Transaction
 
 @login_required
 def create_team(request):
@@ -113,6 +114,28 @@ def delete_team(request, team_id):
             messages.add_message(request, messages.WARNING, "Sorry, you do \
                 not have the necessary access rights to view that page")
             return redirect(reverse('account_login'))
+
+@login_required
+def team_transaction_history(request, team_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    
+    # Only team members are able to make payment
+    if len(db_membership):
+        team_db = get_object_or_404(Team, pk=team_id)
+        # Purchase transaction history of team
+        transactions = Transaction.objects.filter(team_id=team_id)
+
+        return render(request, 'teams/team-transaction-history.html', {
+            'team': team_db,
+            'transactions': transactions,
+        })
+    
+    else:
+        messages.add_message(request, messages.WARNING, "Sorry, you do \
+            not have the necessary access rights to view that page")
+        return redirect(reverse('account_login'))
 
 @login_required
 def team_memberships(request, team_id):

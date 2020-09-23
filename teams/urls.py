@@ -8,6 +8,8 @@ urlpatterns = [
         name="update_team_route"),
     path('<team_id>/delete-team/', teams.views.delete_team,
         name="delete_team_route"),
+    path('<team_id>/purchases/', teams.views.team_transaction_history,
+        name='team_transaction_history_route'),
     path('<team_id>/create-membership/', teams.views.create_membership,
         name='create_membership_route'),
     path('<team_id>/update-membership/<membership_id>',
