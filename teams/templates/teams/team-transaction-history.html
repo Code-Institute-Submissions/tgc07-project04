@@ -1,4 +1,6 @@
 {% extends 'base-template.html' %}
+{% load humanize %}
+{% load mathfilters %}
 
 {% block title %}{{ team }} Transaction History{% endblock %}
 
@@ -22,7 +24,7 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ transaction.date }}</td>
             <td>{{ transaction.service }}</td>
-            <td>{{ transaction.service.price }}</td>
+            <td>USD {{ transaction.service.price|div:100|floatformat:2|intcomma }}</td>
             <td>{{ transaction.paid_by_user }}</td>
             <td>{{ transaction.transaction_ref }}</td>
         </tr>
