@@ -123,6 +123,7 @@ def team_transaction_history(request, team_id):
     
     # Only team members are able to access
     if len(db_membership):
+        today = timezone.now().date()
         team_db = get_object_or_404(Team, pk=team_id)
         # Purchase transaction history of team
         transactions = Transaction.objects.filter(team_id=team_id)
@@ -130,6 +131,7 @@ def team_transaction_history(request, team_id):
         return render(request, 'teams/team-transaction-history.html', {
             'team': team_db,
             'transactions': transactions,
+            'today': today
         })
     
     else:
@@ -168,7 +170,7 @@ def user_memberships(request):
         today = timezone.now().date()
         return render(request, 'teams/read-user-memberships.html', {
             'memberships': db_membership,
-            'today': today
+            'today': today,
         })
     # If no matches
     else:

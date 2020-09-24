@@ -6,6 +6,33 @@
 
 {% block content %}
 
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Team</th>
+            <th scope="col">Subscription Expiry</th>
+            <th scope="col">Team Controls</th>
+            <th scope="col">Membership Controls</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <!-- Team, link to team's tasks -->
+            <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=team.id %}">{{ team.team_name }}</a></td>
+            <!-- Subscription -->
+            <td><a class="btn btn-light btn-sm mr-2" href="{% url 'checkout_select_subscription_route' team_id=team.id %}">{{ team.subscription_expiry }}</a>{% if today > team.subscription_expiry %}Expired!{% endif %}</td>
+            <!-- Team Controls -->
+            <td>
+                <a href="{% url 'update_team_route' team_id=team.id %}" class="btn btn-info btn-sm">Edit team</a>
+                <a href="{% url 'delete_team_route' team_id=team.id %}" class="btn btn-secondary btn-sm">Delete team</a>
+                <a href="{% url 'create_membership_route' team_id=team.id %}" class="btn btn-light btn-sm">Add team member</a>
+            </td>
+            <!-- Membership Controls -->
+            <td><a href="{% url 'team_memberships_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team.team_name }}'s memberships</a></td>
+        </tr>
+    </tbody>
+</table>
+
 <h5>Team {{ team }} Transaction History</h5>
 <table class="table table-dark">
     <thead>
