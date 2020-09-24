@@ -120,9 +120,9 @@ def team_transaction_history(request, team_id):
     # Query database membership matches for team_id and current user
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
-    
-    # Only team members are able to access
-    if len(db_membership):
+
+    # If match found and current user is_admin
+    if len(db_membership) and db_membership[0].is_admin:
         today = timezone.now().date()
         team_db = get_object_or_404(Team, pk=team_id)
         # Purchase transaction history of team
