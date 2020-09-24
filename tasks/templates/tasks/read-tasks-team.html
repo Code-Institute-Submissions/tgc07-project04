@@ -21,19 +21,19 @@
     <!-- Filter tasks -->
     <div class="filter-tasks">
         <!-- Filter toggle button -->
-        <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span><i class="fa fa-filter" aria-hidden="true"></i></span>
+                <span><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
             </button>
-        </nav>
+        </span>
         <!-- Filter form -->
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
                 <form method="GET">
                     {% load crispy_forms_tags %}
                     {{filter_tasks_form|crispy}}
-                    <input type="submit" class="btn btn-primary" value="Filter"/>
-                    <a href="{% url 'tasks_team_route' team_id=membership.team.id %}" class="btn btn-success">Reset Search</a>
+                    <input type="submit" class="btn btn-light" value="Filter"/>
+                    <a href="{% url 'tasks_team_route' team_id=membership.team.id %}" class="btn btn-secondary">Reset Search</a>
                 </form>
             </div>
         </div>
