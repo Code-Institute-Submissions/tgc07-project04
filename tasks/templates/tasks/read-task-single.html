@@ -1,4 +1,5 @@
 {% extends 'base-template.html' %}
+{% load static %}
 
 {% block title %}{{ task.title }}{% endblock %}
 
@@ -19,4 +20,16 @@
     </ul>
     <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-info btn-sm">Edit</a>
     {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
+    
+    <div>
+        <label for="add-checklist-item">Add checklist item</label>
+        <input type="text" name="add-checklist-item" id="add-checklist-item-input" placeholder="Something to do">
+        <input type="submit" value="Add" id="add-checklist-item-btn">
+    </div>
+    <div id="checklist-items-container">
+        <div>
+            <input type="checkbox" name="" id=""><span>Test</span>
+        </div>
+    </div>
+    <script src="{% static 'js/checklist-items.js' %}"></script>
 {% endblock %}
