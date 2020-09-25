@@ -43,7 +43,7 @@ class Task(models.Model):
 class ChecklistItem(models.Model):
     item = models.CharField(max_length=50, blank=False)
     completed = models.BooleanField(blank=True, default=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.item
