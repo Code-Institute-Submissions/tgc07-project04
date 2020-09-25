@@ -1,4 +1,5 @@
 {% extends 'base-template.html' %}
+{% load static %}
 
 {% block title %}Team {{ membership.team }}'s Tasks{% endblock %}
 
@@ -45,3 +46,5 @@
     </div>
     
 {% endblock %}
+
+{% block javascript_page_specific %}<script src="{% static 'js/drag-and-drop.js' %}"></script>{% endblock %}
