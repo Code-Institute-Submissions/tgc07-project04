@@ -33,8 +33,9 @@ function displayChecklistItemsProgress(teamId, taskId){
         }
     ).then(response => response.json()
     ).then(data => {
-        progressBar.style.width = `${Math.floor(data.checked_items_count/data.items_count*100)}%`;
-        progressBar.setAttribute('aria-valuenow', Math.floor(data.checked_items_count/data.items_count*100));
+        percentageComplete = Math.floor(data.checked_items_count/data.items_count*100);
+        progressBar.style.width = `${percentageComplete}%`;
+        progressBar.setAttribute('aria-valuenow', percentageComplete);
         progressBarSpan.innerText = `${data.checked_items_count}/${data.items_count}`;
     })
 }
