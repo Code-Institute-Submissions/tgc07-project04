@@ -133,8 +133,8 @@ function readChecklistItems(teamId, taskId){
         for (let item of data) {
             // Create a div container for each checklist item
             let newDiv =  document.createElement('div');
-
             newDiv.id = 'checklist-item-' + item.id;
+
             // Create delete button for checklist item
             let deleteBtn = document.createElement('button');
             deleteBtn.innerText = "Delete";
@@ -147,7 +147,7 @@ function readChecklistItems(teamId, taskId){
             });
             newDiv.appendChild(deleteBtn);
 
-            // Create checkbox element, add data, append to div container
+            // Create checkbox element, append to div container
             let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.id = 'checkbox-' + item.id;
@@ -166,6 +166,7 @@ function readChecklistItems(teamId, taskId){
             newLabel.innerText = item.item;
             newLabel.className = 'checklist-item';
             newSpan.appendChild(newLabel);
+            // When label is clicked, change element to text input so user can update checklist item
             newLabel.addEventListener('click', function() {
                 newSpan.innerText = "";
                 let newTextInput = document.createElement('input');
@@ -176,14 +177,14 @@ function readChecklistItems(teamId, taskId){
                 let updateBtn = document.createElement('button');
                 updateBtn.innerText = "Update";
                 updateBtn.className = "btn btn-info btn-sm";
-                newSpan.appendChild(updateBtn);
                 updateBtn.addEventListener('click', async function() {
                     await updateChecklistText(teamId, item.id, newTextInput.value);
                     setTimeout( function() {
                         readChecklistItems(teamId, taskId);
                     }, 200);
-                })
-            })
+                });
+                newSpan.appendChild(updateBtn);
+            });
             newDiv.appendChild(newSpan);
 
             // Append div container to parent container
