@@ -26,7 +26,7 @@ function createChecklistItem(teamId, taskId){
         {
             method: 'POST',
             mode: 'same-origin',
-            body: JSON.stringify({item: checklistItemInput.value}),
+            body: JSON.stringify({item: checklistItemInput.value.slice(0,50)}),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'X-CSRFToken': csrftoken
@@ -50,13 +50,27 @@ function updateCheckbox(teamId, checklistId, checkboxChecked){
     ).then(response => response.json())
 }
 
-// Function to make AJAX call to update checkbox
+// Function to make AJAX call to update checklist item
 function updateChecklistText(teamId, checklistId, newText){
     fetch(`/tasks/api/${teamId}/${checklistId}/update-checklist-item/`,
         {
             method: 'PATCH',
             mode: 'same-origin',
-            body: JSON.stringify({item: newText}),
+            body: JSON.stringify({item: newText.slice(0,50)}),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRFToken': csrftoken
+            }
+        }
+    ).then(response => response.json())
+}
+
+// Function to make AJAX call to delete checklist item
+function deleteChecklistItem(teamId, checklistId){
+    fetch(`/tasks/api/${teamId}/${checklistId}/delete-checklist-item/`,
+        {
+            method: 'DELETE',
+            mode: 'same-origin',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'X-CSRFToken': csrftoken
@@ -66,7 +80,7 @@ function updateChecklistText(teamId, checklistId, newText){
 }
 
 // Function to make AJAX call to get all checklist items belonging to taskId
-function readChecklistItems(teamId, taskId){
+async function readChecklistItems(teamId, taskId){
     let parentElement = document.querySelector('#checklist-items-container')
     parentElement.innerText = "";
     fetch(`/tasks/api/${teamId}/${taskId}/read-checklist-items/`,
@@ -83,7 +97,18 @@ function readChecklistItems(teamId, taskId){
         for (let item of data) {
             // Create a div container for each checklist item
             let newDiv =  document.createElement('div');
+
             newDiv.id = 'checklist-item-' + item.id;
+            // Create delete button for checlist item
+            let deleteBtn = document.createElement('button');
+            deleteBtn.innerText = "Delete";
+            deleteBtn.className = "btn btn-secondary btn-sm";
+            newDiv.appendChild(deleteBtn);
+            deleteBtn.addEventListener('click', async () => {
+                await deleteChecklistItem(teamId, item.id);
+                await readChecklistItems(teamId, taskId);
+            })
+
             // Create checkbox element, add data, append to div container
             let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
@@ -91,12 +116,13 @@ function readChecklistItems(teamId, taskId){
             newCheckbox.name = 'checkbox-' + item.id;
             newCheckbox.checked = item.completed;
             // Add event listener to update database when checkbox changes
-            newCheckbox.addEventListener('change', function() {
-                updateCheckbox(teamId, item.id, this.checked);
+            newCheckbox.addEventListener('change', async function() {
+                await updateCheckbox(teamId, item.id, this.checked);
             });
             newDiv.appendChild(newCheckbox);
-            let newSpan = document.createElement('span');
+
             // Create label for checkbox
+            let newSpan = document.createElement('span');
             let newLabel = document.createElement('label');
             newLabel.htmlFor = 'checkbox-' + item.id;
             newLabel.innerText = item.item;
@@ -109,16 +135,17 @@ function readChecklistItems(teamId, taskId){
                 newTextInput.value = item.item;
                 newTextInput.name = 'checklist-item-' + item.id;
                 newSpan.appendChild(newTextInput);
-                let newBtn = document.createElement('button');
-                newBtn.innerText = "Update";
-                newBtn.className = "btn btn-info btn-sm";
-                newSpan.appendChild(newBtn);
-                newBtn.addEventListener('click', async function() {
+                let updateBtn = document.createElement('button');
+                updateBtn.innerText = "Update";
+                updateBtn.className = "btn btn-info btn-sm";
+                newSpan.appendChild(updateBtn);
+                updateBtn.addEventListener('click', async function() {
                     await updateChecklistText(teamId, item.id, newTextInput.value);
                     await readChecklistItems(teamId, taskId);
                 })
             })
             newDiv.appendChild(newSpan);
+
             // Append div container to parent container
             parentElement.appendChild(newDiv);
         }

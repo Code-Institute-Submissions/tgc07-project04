@@ -376,3 +376,17 @@ def api_update_checklist_item_patch(request, team_id, checklist_id):
             return JsonResponse({"error":"wrong parameters"})
     else:
         return JsonResponse({"error":"wrong user credentials"})
+
+@login_required
+@api_view(['DELETE'])
+def api_delete_checklist_item(request, team_id, checklist_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        checklist_item = ChecklistItem.objects.get(id=checklist_id)
+        checklist_item.delete()
+        return JsonResponse({"response":"deleted"})
+    else:
+        return JsonResponse({"error":"wrong user credentials"})
+
