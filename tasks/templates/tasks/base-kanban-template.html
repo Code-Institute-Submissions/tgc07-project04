@@ -2,15 +2,15 @@
     <section class="stage">
         <h3>{{ stage.stage_label }}</h3>
         <div class="task-container" id="stage-{{ stage_id }}">
-            <a {% if demo %}{% else %}href="{% url 'create_task_route' team_id=team_id %}"{% endif %} class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
+            <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in and view your teams')"{% else %}href="{% url 'create_task_route' team_id=team_id %}"{% endif %} class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
             {% for task in stage.tasks %}
                 <article class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
-                    <h6><a {% if demo %}{% else %}href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}"{% endif %}>{{ task.title|truncatechars:24 }}</a></h6>
+                    <h6><a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in and view your teams')"{% else %}href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}"{% endif %}>{{ task.title|truncatechars:24 }}</a></h6>
                     <p class="mb-2">{% if task.description %}{{ task.description|truncatechars:30 }}{% else %}<br>{% endif %}</p>
                     <p class="mb-2 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p>
                     <p class="mb-2 level-{{task.severity_level.id}} task-level">Severity: {{ task.severity_level.severity_level }}</p>
-                    <a {% if demo %}{% else %}href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}"{% endif %} class="btn btn-info btn-sm">Edit</a>
-                    {% if demo %}<a class="btn btn-secondary btn-sm">Delete</a>{% elif membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
+                    <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in and view your teams')"{% else %}href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}"{% endif %} class="btn btn-info btn-sm">Edit</a>
+                    {% if demo %}<a class="btn btn-secondary btn-sm" onclick="toastr.info('This is just a demo. Please sign up for an account or log in and view your teams')">Delete</a>{% elif membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
                 </article>
             {% endfor %}
         </div>
