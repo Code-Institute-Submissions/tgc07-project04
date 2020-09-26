@@ -24,4 +24,6 @@ urlpatterns = [
         tasks.views.api_update_checklist_item_patch),
     path('api/<team_id>/<checklist_id>/delete-checklist-item/',
         tasks.views.api_delete_checklist_item),
+    path('api/<team_id>/<task_id>/count-checklist-items/',
+        tasks.views.api_count_checklist_items_get),
 ]

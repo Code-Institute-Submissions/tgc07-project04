@@ -390,3 +390,20 @@ def api_delete_checklist_item(request, team_id, checklist_id):
     else:
         return JsonResponse({"error":"wrong user credentials"})
 
+@login_required
+@api_view(['GET'])
+def api_count_checklist_items_get(request, team_id, task_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        items_count = ChecklistItem.objects.filter(task=task_id).count()
+        checked_items_count = ChecklistItem.objects.filter(task=task_id).filter(
+            completed=True).count()
+        return JsonResponse({
+            "items_count": items_count,
+            "checked_items_count": checked_items_count,
+            })
+    else:
+        return JsonResponse({"error":"wrong user credentials"})
+
