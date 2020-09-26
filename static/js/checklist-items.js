@@ -32,7 +32,11 @@ function createChecklistItem(teamId, taskId){
                 'X-CSRFToken': csrftoken
             }
         }
-    ).then(response => response.json())
+    ).then(response => response.json()
+    ).then( () => {
+        // Reset input field value at end
+        checklistItemInput.value = "";
+    })
 }
 
 // Function to make AJAX call to update checkbox
@@ -80,7 +84,7 @@ function deleteChecklistItem(teamId, checklistId){
 }
 
 // Function to make AJAX call to get all checklist items belonging to taskId
-async function readChecklistItems(teamId, taskId){
+function readChecklistItems(teamId, taskId){
     let parentElement = document.querySelector('#checklist-items-container')
     parentElement.innerText = "";
     fetch(`/tasks/api/${teamId}/${taskId}/read-checklist-items/`,
@@ -99,15 +103,17 @@ async function readChecklistItems(teamId, taskId){
             let newDiv =  document.createElement('div');
 
             newDiv.id = 'checklist-item-' + item.id;
-            // Create delete button for checlist item
+            // Create delete button for checklist item
             let deleteBtn = document.createElement('button');
             deleteBtn.innerText = "Delete";
             deleteBtn.className = "btn btn-secondary btn-sm";
-            newDiv.appendChild(deleteBtn);
             deleteBtn.addEventListener('click', async () => {
                 await deleteChecklistItem(teamId, item.id);
-                await readChecklistItems(teamId, taskId);
-            })
+                setTimeout( function() {
+                    readChecklistItems(teamId, taskId);
+                }, 200);
+            });
+            newDiv.appendChild(deleteBtn);
 
             // Create checkbox element, add data, append to div container
             let newCheckbox = document.createElement('input');
@@ -116,8 +122,8 @@ async function readChecklistItems(teamId, taskId){
             newCheckbox.name = 'checkbox-' + item.id;
             newCheckbox.checked = item.completed;
             // Add event listener to update database when checkbox changes
-            newCheckbox.addEventListener('change', async function() {
-                await updateCheckbox(teamId, item.id, this.checked);
+            newCheckbox.addEventListener('change', function() {
+                updateCheckbox(teamId, item.id, this.checked);
             });
             newDiv.appendChild(newCheckbox);
 
@@ -141,7 +147,9 @@ async function readChecklistItems(teamId, taskId){
                 newSpan.appendChild(updateBtn);
                 updateBtn.addEventListener('click', async function() {
                     await updateChecklistText(teamId, item.id, newTextInput.value);
-                    await readChecklistItems(teamId, taskId);
+                    setTimeout( function() {
+                        readChecklistItems(teamId, taskId);
+                    }, 200);
                 })
             })
             newDiv.appendChild(newSpan);
@@ -152,9 +160,17 @@ async function readChecklistItems(teamId, taskId){
     })
 }
 
-document.querySelector('#add-checklist-item-btn').addEventListener('click', async () => {
-    await createChecklistItem(teamId, taskId);
-    await readChecklistItems(teamId, taskId);
+// Wait until page loads
+window.addEventListener('load', () => {
+    // Add event listener to create checklist item button to activate AJAX call
+    document.querySelector('#add-checklist-item-btn').addEventListener('click', async () => {
+        await createChecklistItem(teamId, taskId);
+        setTimeout( function() {
+            readChecklistItems(teamId, taskId);
+        }, 200);
+    });
+    
+    // Get all checklist items belogning to task
+    readChecklistItems(teamId, taskId);
+    
 });
-
-readChecklistItems(teamId, taskId);
