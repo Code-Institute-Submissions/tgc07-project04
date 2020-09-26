@@ -37,12 +37,26 @@ function createChecklistItem(teamId, taskId){
 
 // Function to make AJAX call to update checkbox
 function updateCheckbox(teamId, checklistId, checkboxChecked){
-    let checklistItemInput = document.querySelector('#add-checklist-item-input');
     fetch(`/tasks/api/${teamId}/${checklistId}/update-checklist-item/`,
         {
             method: 'PATCH',
             mode: 'same-origin',
             body: JSON.stringify({completed: checkboxChecked}),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRFToken': csrftoken
+            }
+        }
+    ).then(response => response.json())
+}
+
+// Function to make AJAX call to update checkbox
+function updateChecklistText(teamId, checklistId, newText){
+    fetch(`/tasks/api/${teamId}/${checklistId}/update-checklist-item/`,
+        {
+            method: 'PATCH',
+            mode: 'same-origin',
+            body: JSON.stringify({item: newText}),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'X-CSRFToken': csrftoken
@@ -81,11 +95,28 @@ function readChecklistItems(teamId, taskId){
                 updateCheckbox(teamId, item.id, this.checked);
             });
             newDiv.appendChild(newCheckbox);
+            let newSpan = document.createElement('span');
             // Create label for checkbox
             let newLabel = document.createElement('label');
             newLabel.htmlFor = 'checklist-item-' + item.id;
             newLabel.innerText = item.item;
-            newDiv.appendChild(newLabel);
+            newSpan.appendChild(newLabel);
+            newLabel.addEventListener('click', function() {
+                newSpan.innerText = "";
+                let newTextInput = document.createElement('input');
+                newTextInput.type = 'text';
+                newTextInput.value = item.item;
+                newSpan.appendChild(newTextInput);
+                let newBtn = document.createElement('button');
+                newBtn.innerText = "Update";
+                newBtn.className = "btn btn-info btn-sm";
+                newSpan.appendChild(newBtn);
+                newBtn.addEventListener('click', async function() {
+                    await updateChecklistText(teamId, item.id, newTextInput.value);
+                    await readChecklistItems(teamId, taskId);
+                })
+            })
+            newDiv.appendChild(newSpan);
             // Append div container to parent container
             parentElement.appendChild(newDiv);
         }
