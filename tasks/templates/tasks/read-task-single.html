@@ -5,7 +5,7 @@
 
 {% block content %}
     <h3>Bug</h3>
-    <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-info btn-sm">Back to {{ task.team }}'s tasks</a>
+    <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-light btn-sm">Back to {{ task.team }}'s tasks</a>
     <h5>{{ task.title }}</h5>
     <p class="mb-2">{% if task.description %}{{ task.description }}{% else %}<br>{% endif %}</p>
     <p class="mb-2">{% if task.date_due %}Date due: {{ task.date_due }}{% else %}<br>{% endif %}</p>
@@ -22,14 +22,14 @@
     {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
     
     <div>
+        <input type="hidden" name="{{ task.team.id }}" value="{{ task.id }}" id="task-id">
         <label for="add-checklist-item">Add checklist item</label>
         <input type="text" name="add-checklist-item" id="add-checklist-item-input" placeholder="Something to do">
         <input type="submit" value="Add" id="add-checklist-item-btn">
     </div>
-    <div id="checklist-items-container">
-        <div>
-            <input type="checkbox" name="" id=""><span>Test</span>
-        </div>
-    </div>
-    <script src="{% static 'js/checklist-items.js' %}"></script>
+
+    <div id="checklist-items-container"></div>
+    
 {% endblock %}
+
+{% block javascript_page_specific %}<script src="{% static 'js/checklist-items.js' %}"></script>{% endblock %}
