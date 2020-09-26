@@ -88,7 +88,7 @@ function readChecklistItems(teamId, taskId){
             let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.id = 'checkbox-' + item.id;
-            newCheckbox.name = 'checklist-item-' + item.id;
+            newCheckbox.name = 'checkbox-' + item.id;
             newCheckbox.checked = item.completed;
             // Add event listener to update database when checkbox changes
             newCheckbox.addEventListener('change', function() {
@@ -98,14 +98,16 @@ function readChecklistItems(teamId, taskId){
             let newSpan = document.createElement('span');
             // Create label for checkbox
             let newLabel = document.createElement('label');
-            newLabel.htmlFor = 'checklist-item-' + item.id;
+            newLabel.htmlFor = 'checkbox-' + item.id;
             newLabel.innerText = item.item;
+            newLabel.className = 'checklist-item';
             newSpan.appendChild(newLabel);
             newLabel.addEventListener('click', function() {
                 newSpan.innerText = "";
                 let newTextInput = document.createElement('input');
                 newTextInput.type = 'text';
                 newTextInput.value = item.item;
+                newTextInput.name = 'checklist-item-' + item.id;
                 newSpan.appendChild(newTextInput);
                 let newBtn = document.createElement('button');
                 newBtn.innerText = "Update";
