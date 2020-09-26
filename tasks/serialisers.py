@@ -7,7 +7,12 @@ class TaskSerialiser(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-class ChecklistItemSerialiser(serializers.ModelSerializer):
+class ChecklistItemCreateSerialiser(serializers.ModelSerializer):
     class Meta:
         model = ChecklistItem
         fields = ['item']
+
+class ChecklistItemReadSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = ChecklistItem
+        fields = '__all__'

@@ -335,12 +335,26 @@ def api_create_checklist_item_post(request, team_id, task_id):
         user=request.user)
     if len(db_membership):
         task = Task.objects.get(id=task_id)
-        serialiser = ChecklistItemSerialiser(data=request.data)
+        serialiser = ChecklistItemCreateSerialiser(data=request.data)
         if serialiser.is_valid():
             serialiser.validated_data.update({'task': task})
             serialiser.save()
             return Response(serialiser.data)
         else:
             return JsonResponse({"error":"wrong parameters"})
+    else:
+        return JsonResponse({"error":"wrong user credentials"})
+
+@login_required
+@api_view(['GET'])
+def api_read_checklist_items_get(request, team_id, task_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        task = Task.objects.get(id=task_id)
+        checklist_items = ChecklistItem.objects.all()
+        serialiser = ChecklistItemReadSerialiser(checklist_items, many=True)
+        return Response(serialiser.data)
     else:
         return JsonResponse({"error":"wrong user credentials"})

@@ -18,4 +18,6 @@ urlpatterns = [
         tasks.views.api_task_patch),
     path('api/<team_id>/<task_id>/create-checklist-item/',
         tasks.views.api_create_checklist_item_post),
+    path('api/<team_id>/<task_id>/read-checklist-items/',
+        tasks.views.api_read_checklist_items_get),
 ]
