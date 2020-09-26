@@ -337,6 +337,7 @@ def api_create_checklist_item_post(request, team_id, task_id):
         task = Task.objects.get(id=task_id)
         serialiser = ChecklistItemCreateSerialiser(data=request.data)
         if serialiser.is_valid():
+            # Add task ForeignKey separately
             serialiser.validated_data.update({'task': task})
             serialiser.save()
             return Response(serialiser.data)
@@ -352,9 +353,26 @@ def api_read_checklist_items_get(request, team_id, task_id):
     db_membership = Membership.objects.filter(team=team_id).filter(
         user=request.user)
     if len(db_membership):
-        task = Task.objects.get(id=task_id)
-        checklist_items = ChecklistItem.objects.all()
-        serialiser = ChecklistItemReadSerialiser(checklist_items, many=True)
+        checklist_items = ChecklistItem.objects.filter(task=task_id)
+        serialiser = ChecklistItemSerialiser(checklist_items, many=True)
         return Response(serialiser.data)
+    else:
+        return JsonResponse({"error":"wrong user credentials"})
+
+@login_required
+@api_view(['PATCH'])
+def api_update_checklist_item_patch(request, team_id, checklist_id):
+    # Query database membership matches for team_id and current user
+    db_membership = Membership.objects.filter(team=team_id).filter(
+        user=request.user)
+    if len(db_membership):
+        checklist_item = ChecklistItem.objects.get(id=checklist_id)
+        serialiser = ChecklistItemSerialiser(
+            checklist_item, data=request.data, partial=True)
+        if serialiser.is_valid():
+            serialiser.save()
+            return Response(serialiser.data)
+        else:
+            return JsonResponse({"error":"wrong parameters"})
     else:
         return JsonResponse({"error":"wrong user credentials"})

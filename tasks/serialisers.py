@@ -12,7 +12,7 @@ class ChecklistItemCreateSerialiser(serializers.ModelSerializer):
         model = ChecklistItem
         fields = ['item']
 
-class ChecklistItemReadSerialiser(serializers.ModelSerializer):
+class ChecklistItemSerialiser(serializers.ModelSerializer):
     class Meta:
         model = ChecklistItem
         fields = '__all__'

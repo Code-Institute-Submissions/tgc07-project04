@@ -35,6 +35,22 @@ function createChecklistItem(teamId, taskId){
     ).then(response => response.json())
 }
 
+// Function to make AJAX call to update checkbox
+function updateCheckbox(teamId, checklistId, checkboxChecked){
+    let checklistItemInput = document.querySelector('#add-checklist-item-input');
+    fetch(`/tasks/api/${teamId}/${checklistId}/update-checklist-item/`,
+        {
+            method: 'PATCH',
+            mode: 'same-origin',
+            body: JSON.stringify({completed: checkboxChecked}),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRFToken': csrftoken
+            }
+        }
+    ).then(response => response.json())
+}
+
 // Function to make AJAX call to get all checklist items belonging to taskId
 function readChecklistItems(teamId, taskId){
     let parentElement = document.querySelector('#checklist-items-container')
@@ -49,22 +65,28 @@ function readChecklistItems(teamId, taskId){
         }
     ).then(response => response.json()
     ).then(data => {
+        // Loop through checklist items
         for (let item of data) {
+            // Create a div container for each checklist item
             let newDiv =  document.createElement('div');
             newDiv.id = 'checklist-item-' + item.id;
+            // Create checkbox element, add data, append to div container
             let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.id = 'checkbox-' + item.id;
-            newCheckbox.name = item.id;
+            newCheckbox.name = 'checklist-item-' + item.id;
             newCheckbox.checked = item.completed;
+            // Add event listener to update database when checkbox changes
             newCheckbox.addEventListener('change', function() {
-                console.log(this)
-            })
+                updateCheckbox(teamId, item.id, this.checked);
+            });
             newDiv.appendChild(newCheckbox);
+            // Create label for checkbox
             let newLabel = document.createElement('label');
             newLabel.htmlFor = 'checklist-item-' + item.id;
             newLabel.innerText = item.item;
             newDiv.appendChild(newLabel);
+            // Append div container to parent container
             parentElement.appendChild(newDiv);
         }
     })
