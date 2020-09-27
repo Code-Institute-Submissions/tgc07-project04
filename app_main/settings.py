@@ -31,10 +31,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get('DEBUB_MODE')=="True" else False
+DEBUG = True if os.environ.get('DEBUG_MODE')=="True" else False
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if os.environ.get('DEBUB_MODE')=="True" else ["tgc07-project04.herokuapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if os.environ.get('DEBUG_MODE')=="True" else ["tgc07-project04.herokuapp.com"]
 
 
 # Application definition
@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'app_main.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if os.environ.get('DEBUB_MODE')=="True":
+if os.environ.get('DEBUG_MODE')=="True":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -183,7 +183,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 # emails
-if os.environ.get('DEBUB_MODE')=="True":
+if os.environ.get('DEBUG_MODE')=="True":
     # If debug_mode, emails displayed in terminal
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
