@@ -132,9 +132,9 @@ def create_task(request, team_id):
             for assignee in form.cleaned_data.get('assignee').all():
                 model.assignee.add(assignee)
             messages.add_message(request, messages.SUCCESS, f"Task \
-                {form.cleaned_data['title']} has been created")
+                \"{form.cleaned_data['title']}\" has been created")
             return redirect(reverse(
-                'create_task_route', kwargs={'team_id':team_id}))
+                'tasks_team_route', kwargs={'team_id':team_id}))
         else:
             return render(request, "tasks/create-task.html", {
                 'form': form
@@ -209,9 +209,9 @@ def update_task(request, team_id, task_id):
             for assignee in form.cleaned_data.get('assignee').all():
                 model.assignee.add(assignee)
             messages.add_message(request, messages.SUCCESS, f"Task \
-                {form.cleaned_data['title']} has been updated")
+                \"{form.cleaned_data['title']}\" has been updated")
             return redirect(reverse(
-                'update_task_route', kwargs={
+                'tasks_team_route', kwargs={
                     'team_id': team_id,
                     'task_id': task_id
             }))
@@ -280,7 +280,7 @@ def delete_task(request, team_id, task_id):
         task_to_delete.delete()
         messages.add_message(
             request, messages.SUCCESS, "Task deleted")
-        return redirect(reverse('home_route'))
+        return redirect(reverse('tasks_team_route'))
     
     # GET method requests
     else:
