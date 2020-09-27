@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True if os.environ.get('DEBUG_MODE')=="True" else False
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if os.environ.get('DEBUG_MODE')=="True" else ["tgc07-project04.herokuapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", os.environ.get('DEBUG_URL')] if os.environ.get('DEBUG_MODE')=="True" else ["tgc07-project04.herokuapp.com"]
 
 
 # Application definition
@@ -204,4 +204,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Stripe
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
-STRIPE_WEBHOOK_SIGNING_SECRET = os.environ.get('STRIPE_WEBHOOK_SIGNING_SECRET')
+STRIPE_WEBHOOK_SIGNING_SECRET = os.environ.get('STRIPE_WEBHOOK_DEBUG') if os.environ.get('DEBUG_MODE')=="True" else os.environ.get('STRIPE_WEBHOOK_SIGNING_SECRET')
