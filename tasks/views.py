@@ -277,7 +277,8 @@ def delete_task(request, team_id, task_id):
         task_to_delete.delete()
         messages.add_message(
             request, messages.SUCCESS, "Task deleted")
-        return redirect(reverse('tasks_team_route'))
+        return redirect(reverse('tasks_team_route',
+            kwargs={'team_id': team_id}))
     
     # GET method requests
     else:
