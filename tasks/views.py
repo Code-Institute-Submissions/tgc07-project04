@@ -211,10 +211,7 @@ def update_task(request, team_id, task_id):
             messages.add_message(request, messages.SUCCESS, f"Task \
                 \"{form.cleaned_data['title']}\" has been updated")
             return redirect(reverse(
-                'tasks_team_route', kwargs={
-                    'team_id': team_id,
-                    'task_id': task_id
-            }))
+                'tasks_team_route', kwargs={'team_id': team_id}))
         else:
             return render(request, "tasks/update-task.html", {
                 'form': form
