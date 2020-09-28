@@ -59,6 +59,14 @@ a:hover {
     border: dashed 1px
 }
 
+.task-title-link {
+    color: #007bff;
+}
+
+.task-title-link:hover {
+    color: #52baff;
+}
+
 .task-level {
     border-radius: 0.2rem;
     padding-left: 0.5rem;

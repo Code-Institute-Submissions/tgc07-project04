@@ -7,7 +7,7 @@
         <div class="task-container" id="stage-{{ stage_id }}">
             {% for task in stage.tasks %}
                 <article class="draggable stage-{{ stage_id }}" draggable="true" id="task-{{ task.id }}">
-                    <h6><a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}"{% endif %}>{{ task.title|truncatechars:24 }}</a></h6>
+                    <h6><a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}class="task-title-link" href="{% url 'task_single_route' team_id=task.team.id task_id=task.id %}"{% endif %}>{{ task.title|truncatechars:24 }}</a></h6>
                     {% if task.description %}<p class="d-none d-xl-block mb-2">{{ task.description|truncatechars:30 }}</p>{% endif %}
                     <div class="row mb-1 mx-0">
                         <span class="col-12 col-xl-6 px-0 pr-xl-1"><p class="mb-1 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p></span>
