@@ -7,6 +7,14 @@ body {
     min-width: 320px;
 }
 
+a {
+    color: #52baff;
+}
+
+a:hover {
+    color: #90d2ff;
+}
+
 #main {
     height: 100vh;
     color: white;
