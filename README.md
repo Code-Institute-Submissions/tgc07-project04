@@ -41,7 +41,7 @@ Back in the bash terminal:
 `sudo apt install libpq-dev python3-dev`
 - Install the dependencies: `pip install -r requirements.txt`
 - Setup and run a public URL for testing using a service such as [ngrok](https://ngrok.com/) and your chosen <port_number>. Note down this public URL for use in step below referenced as <ngrok_URL>. This is required for Stripe webhook redirects.
-- In root folder of project, create a `.env` file and set the following environment variables: `SECRET_KEY = <your own key>`, `DEBUG_MODE = "True"`, `DEBUG_URL = "<ngrok_URL>"`, `STRIPE_PUBLISHABLE_KEY = <Stripe publishable key>`, `STRIPE_SECRET_KEY = <Stripe secret key>`, `STRIPE_WEBHOOK_DEBUG = <Stripe webhook endpoint signing secret>`, `EMAIL_HOST_PASSWORD = <email host password>`, `EMAIL_HOST_USER = <email address>`
+- In root folder of project, create a `.env` file and set the following environment variables: `export = SECRET_KEY = <your own key>`, `export = DEBUG_MODE = "True"`, `export = DEBUG_URL = "<ngrok_URL>"`, `export = STRIPE_PUBLISHABLE_KEY = <Stripe publishable key>`, `export = STRIPE_SECRET_KEY = <Stripe secret key>`, `export = STRIPE_WEBHOOK_DEBUG = <Stripe webhook endpoint signing secret>`
 - Make database migrations `python manage.py makemigrations`
 - Migrate `python manage.py migrate`
 - Run the web app `python manage.py runserver <port_number>`
