@@ -20,7 +20,11 @@ a:hover {
     color: white;
 }
 
-.tasks-main {
+.container-fluid {
+    max-width: 1920px;
+}
+
+#tasks-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     height: calc(100vh - 110px);
