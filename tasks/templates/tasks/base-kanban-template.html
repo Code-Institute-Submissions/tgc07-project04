@@ -13,8 +13,11 @@
                         <span class="col-12 col-xl-6 px-0 pr-xl-1"><p class="mb-1 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p></span>
                         <span class="col-12 col-xl-6 px-0 pl-xl-1"><p class="mb-1 level-{{task.severity_level.id}} task-level">Severity: {{ task.severity_level.severity_level }}</p></span>
                     </div>
-                    <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}"{% endif %} class="btn btn-info btn-sm">Edit</a>
-                    {% if demo %}<a class="btn btn-secondary btn-sm" onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')">Delete</a>{% elif membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
+                    <div class="row mb-1 mx-0">
+                        <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}"{% endif %} class="btn btn-info btn-sm">Edit</a>
+                        {% if demo %}<a class="btn btn-secondary btn-sm ml-1" onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')">Delete</a>{% elif membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm ml-1">Delete</a>{% endif %}
+                        {% if task.date_due %}<p class="date-due ml-auto mb-0 pt-2">Due: {{ task.date_due }}</p>{% endif %}
+                    </div>
                 </article>
             {% endfor %}
         </div>

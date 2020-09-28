@@ -79,3 +79,9 @@ body {
 .checklist-item:hover {
     cursor: pointer;
 }
+
+@media (max-width: 1200px) {
+    .date-due {
+        display: none;
+    }
+}
