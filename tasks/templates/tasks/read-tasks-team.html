@@ -23,8 +23,9 @@
     <div class="filter-tasks">
         <!-- Filter toggle button -->
         <span class="navbar navbar-dark bg-dark">
+            <a href="{% url 'create_task_route' team_id=team_id %}" class="navbar-toggler btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Report new bug</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+                <span><i class="fa fa-filter" aria-hidden="true"></i> Filter bug reports</span>
             </button>
         </span>
         <!-- Filter form -->
