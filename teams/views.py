@@ -47,7 +47,8 @@ def update_team(request, team_id):
             form.save()
             messages.add_message(request, messages.SUCCESS, f"Updated team \
                 name to {form.cleaned_data['team_name']}")
-            return redirect(reverse('home_route'))
+            return redirect(reverse('tasks_team_route',
+                kwargs={'team_id':team_id}))
         else:
             return render(request, 'teams/update-team.html', {
                 'form': form
