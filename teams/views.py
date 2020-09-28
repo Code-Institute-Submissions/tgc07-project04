@@ -191,7 +191,8 @@ def create_membership(request, team_id):
                 membership_model.save()
                 messages.add_message(request, messages.SUCCESS, f"Membership \
                     with {membership_model.team} has been created")
-                return redirect(reverse('home_route'))
+                return redirect(reverse('team_memberships_route',
+                    kwargs={'team_id':team_id}))
             except IntegrityError:
                 # If error (e.g. unique constraint failed) then flash message
                 messages.add_message(request, messages.WARNING, f"Membership \
@@ -282,7 +283,8 @@ def update_membership(request, team_id, membership_id):
                     messages.add_message(
                         request, messages.SUCCESS, f"Membership \
                         with {membership_model.team} has been updated")
-                    return redirect(reverse('home_route'))
+                    return redirect(reverse('team_memberships_route',
+                        kwargs={'team_id':team_id}))
                 except IntegrityError:
                     # If error (e.g. unique constraint failed) then flash message
                     messages.add_message(
@@ -337,7 +339,8 @@ def delete_membership(request, team_id, membership_id):
             membership_to_delete.delete()
             messages.add_message(
                 request, messages.SUCCESS, "Membership deleted")
-            return redirect(reverse('home_route'))
+            return redirect(reverse('team_memberships_route',
+                    kwargs={'team_id':team_id}))
     
     # GET method requests
     else:
