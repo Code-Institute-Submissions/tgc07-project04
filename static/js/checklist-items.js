@@ -143,7 +143,7 @@ function readChecklistItems(teamId, taskId){
                 await deleteChecklistItem(teamId, item.id);
                 setTimeout( function() {
                     readChecklistItems(teamId, taskId);
-                }, 200);
+                }, 500);
             });
             newDiv.appendChild(deleteBtn);
 
@@ -181,7 +181,7 @@ function readChecklistItems(teamId, taskId){
                     await updateChecklistText(teamId, item.id, newTextInput.value);
                     setTimeout( function() {
                         readChecklistItems(teamId, taskId);
-                    }, 200);
+                    }, 500);
                 });
                 newSpan.appendChild(updateBtn);
             });
@@ -200,7 +200,7 @@ window.addEventListener('load', () => {
         await createChecklistItem(teamId, taskId);
         setTimeout( function() {
             readChecklistItems(teamId, taskId);
-        }, 200);
+        }, 500);
     });
     
     // Get all checklist items belogning to task
