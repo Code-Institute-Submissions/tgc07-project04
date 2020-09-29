@@ -137,7 +137,8 @@ def create_task(request, team_id):
                 'tasks_team_route', kwargs={'team_id':team_id}))
         else:
             return render(request, "tasks/create-task.html", {
-                'form': form
+                'form': form,
+                'team_id': team_id,
             })
 
     # GET method requests
@@ -164,7 +165,8 @@ def create_task(request, team_id):
                 form.fields['assignee'].queryset = User.objects.filter(
                     user_membership__team=team_id)
                 return render(request, 'tasks/create-task.html', {
-                    'form': form
+                    'form': form,
+                    'team_id': team_id,
                 })
         # If current user is a member, but NOT admin
         elif len(db_membership) and not db_membership[0].is_admin:

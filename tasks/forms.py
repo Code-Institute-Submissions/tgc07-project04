@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 from .models import *
@@ -22,6 +23,12 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = ['team', 'task_creator',]
+    
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        if len(data) < 2:
+            raise ValidationError("Please input at least 2 characters")
+        return data
 
 class ChecklistItemForm(forms.ModelForm):
     class Meta:
