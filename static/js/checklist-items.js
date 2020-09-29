@@ -43,28 +43,24 @@ function displayChecklistItemsProgress(teamId, taskId){
 // Function to make AJAX call to create checklist item
 function createChecklistItem(teamId, taskId){
     let checklistItemInput = document.querySelector('#add-checklist-item-input');
-    if (checklistItemInput.value.length < 2) {
-        toastr.warning("Please input at least 2 characters")
-    } else {
-        fetch(`/tasks/api/${teamId}/${taskId}/create-checklist-item/`,
-            {
-                method: 'POST',
-                mode: 'same-origin',
-                body: JSON.stringify({item: checklistItemInput.value.slice(0,50)}),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'X-CSRFToken': csrftoken
-                }
+    fetch(`/tasks/api/${teamId}/${taskId}/create-checklist-item/`,
+        {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({item: checklistItemInput.value.slice(0,50)}),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRFToken': csrftoken
             }
-        ).then(response => response.json()
-        ).then( () => {
-            // Reset input field value at end
-            checklistItemInput.value = "";
-        }).then( () => {
-            // Get checked items count and display progress
-            displayChecklistItemsProgress(teamId, taskId);
-        })
-    };
+        }
+    ).then(response => response.json()
+    ).then( () => {
+        // Reset input field value at end
+        checklistItemInput.value = "";
+    }).then( () => {
+        // Get checked items count and display progress
+        displayChecklistItemsProgress(teamId, taskId);
+    })
 }
 
 // Function to make AJAX call to update checkbox
@@ -210,10 +206,14 @@ function readChecklistItems(teamId, taskId){
 window.addEventListener('load', () => {
     // Add event listener to create checklist item button to activate AJAX call
     document.querySelector('#add-checklist-item-btn').addEventListener('click', async () => {
-        await createChecklistItem(teamId, taskId);
-        setTimeout( function() {
-            readChecklistItems(teamId, taskId);
-        }, 500);
+        if (document.querySelector('#add-checklist-item-input').value.length < 2) {
+            toastr.warning("Please input at least 2 characters")
+        } else {
+            await createChecklistItem(teamId, taskId);
+            setTimeout( function() {
+                readChecklistItems(teamId, taskId);
+            }, 500);
+        };
     });
     
     // Get all checklist items belogning to task
