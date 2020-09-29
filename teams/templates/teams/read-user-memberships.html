@@ -3,8 +3,8 @@
 {% block title %}{{ request.user.username }}'s Memberships{% endblock %}
 
 {% block content %}
-    <h1>{{ request.user.username }}</h1>
-    <h3>Teams that you're a member of</h3>
+<h3>Hi {{ request.user.username }}, you're a member of the following teams:</h3>
+<div class="table-responsive-xl mt-3">
     <table class="table table-dark">
         <thead>
             <tr>
@@ -49,4 +49,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}
