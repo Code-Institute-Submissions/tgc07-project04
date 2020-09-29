@@ -24,6 +24,10 @@ a:hover {
     max-width: 1920px;
 }
 
+.navbar-toggler {
+    min-height: 34px;
+}
+
 #tasks-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
