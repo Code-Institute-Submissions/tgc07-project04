@@ -2,20 +2,47 @@
 
 {% block title %}Delete Team{% endblock %}
 
+{% block nav_page_specific_is_authenticated %}
+<li class="nav-item active">
+    <a href="{% url 'update_team_route' team_id=team.id %}" class="nav-link">Edit team</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'delete_team_route' team_id=team.id %}" class="nav-link">Delete team</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link">Add team member</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link">Transaction history</a>
+</li>
+{% endblock %}
+
 {%block content %}
-    <h1>Delete Team</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <p>Are you sure you want to delete team {{team.team_name}}?</p>
-        <p>Once deleted, all your bug reports will be lost forever.</p>
-        <label for="delete_team_confirmation">To confirm deletion of team {{team.team_name}} enter the following phrase:</label>
-        <p><strong><em>Please delete team {{ team.team_name }}</em></strong></p>
-        <input type="text" name="delete_team_confirmation" id="delete_team_confirmation" class="{% if error %}is-invalid{% endif %}">
-        <div id="delete_team_feedback" class="invalid-feedback">
-            The deletion confirmation phrase must match exactly.
+<section class="row px-3">
+    <div class="col-12 py-0 px-0 d-flex justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+
+            <div class="row">
+                <div class="col mb-2 pt-3 pb-1">
+                    <h3>Delete Team:<strong class="ml-3">{{ team }}</strong></h3>
+                </div>
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <p>Are you sure you want to delete team {{team.team_name}}?</p>
+                <p>Once deleted, all your bug reports will be lost forever.</p>
+                <label for="delete_team_confirmation">To confirm deletion of team {{team.team_name}} enter the following phrase:</label>
+
+                <ul class="messages mt-3 mb-4 pl-0">
+                    <div class="mb-0 alert alert-danger"><li style="list-style:none;">Please delete team {{ team.team_name }}</li></div>
+                </ul>
+
+                <input type="text" name="delete_team_confirmation" id="delete_team_confirmation" class="{% if error %}is-invalid{% endif %} form-control">
+                <div id="delete_team_feedback" class="invalid-feedback">The deletion confirmation phrase must match exactly.</div>
+                <input type="submit" value="Delete Team" class="mt-4">
+            </form>
         </div>
-        <div>
-            <input type="submit" value="Delete Team">
-        </div>
-    </form>
+    </div>
+</section>
 {% endblock %}
