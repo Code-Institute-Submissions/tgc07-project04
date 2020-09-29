@@ -3,11 +3,13 @@
 {% block title %}{{ team }}'s Members{% endblock %}
 
 {% block content %}
-    <h1>{{ team }}'s Members</h1>
-    <a href="{% url 'tasks_team_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team }}'s Tasks</a>
-    {% if is_admin %}
-        <a href="{% url 'create_membership_route' team_id=team.id %}" class="btn btn-light btn-sm">Add team member</a>
-    {% endif %}
+<h1>Team {{ team }}'s members</h1>
+<a href="{% url 'tasks_team_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team }}'s Tasks</a>
+{% if is_admin %}
+    <a href="{% url 'create_membership_route' team_id=team.id %}" class="btn btn-light btn-sm">Add team member</a>
+{% endif %}
+
+<div class="table-responsive-md mt-3">
     <table class="table table-dark">
         <thead>
             <tr>
@@ -40,4 +42,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}
