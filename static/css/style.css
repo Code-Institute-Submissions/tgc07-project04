@@ -66,13 +66,14 @@ a:hover {
 
 .dragging {
     opacity: 0.5;
-    border: dashed 1px
+    border: dashed 1px;
 }
 
 .task-title-link {
     color: #007bff;
     display: inline-block;
     max-height: 20px;
+    max-width: 130px;
     overflow: hidden;
 }
 
@@ -109,14 +110,20 @@ a:hover {
     cursor: pointer;
 }
 
+@media (max-width: 560px) {
+    #reset-filter {
+        display: none;
+    }
+}
+
 @media (max-width: 1200px) {
     .date-due {
         display: none;
     }
 }
 
-@media (max-width: 560px) {
-    #reset-filter {
-        display: none;
+@media (min-width: 960px) {
+    .task-title-link {
+        max-width: max-content;
     }
 }
