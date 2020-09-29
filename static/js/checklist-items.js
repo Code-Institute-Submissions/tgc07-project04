@@ -43,24 +43,28 @@ function displayChecklistItemsProgress(teamId, taskId){
 // Function to make AJAX call to create checklist item
 function createChecklistItem(teamId, taskId){
     let checklistItemInput = document.querySelector('#add-checklist-item-input');
-    fetch(`/tasks/api/${teamId}/${taskId}/create-checklist-item/`,
-        {
-            method: 'POST',
-            mode: 'same-origin',
-            body: JSON.stringify({item: checklistItemInput.value.slice(0,50)}),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'X-CSRFToken': csrftoken
+    if (checklistItemInput.value.length < 2) {
+        toastr.warning("Please input at least 2 characters")
+    } else {
+        fetch(`/tasks/api/${teamId}/${taskId}/create-checklist-item/`,
+            {
+                method: 'POST',
+                mode: 'same-origin',
+                body: JSON.stringify({item: checklistItemInput.value.slice(0,50)}),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'X-CSRFToken': csrftoken
+                }
             }
-        }
-    ).then(response => response.json()
-    ).then( () => {
-        // Reset input field value at end
-        checklistItemInput.value = "";
-    }).then( () => {
-        // Get checked items count and display progress
-        displayChecklistItemsProgress(teamId, taskId);
-    })
+        ).then(response => response.json()
+        ).then( () => {
+            // Reset input field value at end
+            checklistItemInput.value = "";
+        }).then( () => {
+            // Get checked items count and display progress
+            displayChecklistItemsProgress(teamId, taskId);
+        })
+    };
 }
 
 // Function to make AJAX call to update checkbox
@@ -169,10 +173,14 @@ function readChecklistItems(teamId, taskId){
                 updateBtn.innerText = "Update";
                 updateBtn.className = "btn btn-info btn-sm mt-n1";
                 updateBtn.addEventListener('click', async function() {
-                    await updateChecklistText(teamId, item.id, newTextInput.value);
-                    setTimeout( function() {
-                        readChecklistItems(teamId, taskId);
-                    }, 500);
+                    if (newTextInput.value.length < 2) {
+                        toastr.warning("Please input at least 2 characters")
+                    } else {
+                        await updateChecklistText(teamId, item.id, newTextInput.value);
+                        setTimeout( function() {
+                            readChecklistItems(teamId, taskId);
+                        }, 500);
+                    };
                 });
                 newTdLabel.appendChild(updateBtn);
             });
