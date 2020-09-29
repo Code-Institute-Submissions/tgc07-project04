@@ -4,15 +4,24 @@
 {% block title %}Create Team{% endblock %}
 
 {% block content %}
+<section class="row px-3">
+    <div class="col-12 py-0 px-0 d-flex justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
 
-    <h1>Create Team</h1>
-
-    <h3>All teams get a 1 day free trial!</h3>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Create Team">
-    </form>
-
+            <div class="row">
+                <div class="col mb-2 pt-3 pb-1">
+                    <h3>Create New Team</h3>
+                </div>
+            </div>
+            
+            <h3 class="mt-2 mb-4">All teams get a 1 day free trial!</h3>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Create Team">
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}
