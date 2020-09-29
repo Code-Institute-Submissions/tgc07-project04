@@ -22,10 +22,10 @@
     <div class="filter-tasks">
         <!-- Filter toggle button -->
         <span class="navbar navbar-dark bg-dark">
-            <a href="{% url 'create_task_route' team_id=team_id %}" class="navbar-toggler btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> Report new bug</a>
+            <a href="{% url 'create_task_route' team_id=team_id %}" class="navbar-toggler btn btn-secondary"><i class="fa fa-plus" aria-hidden="true"></i> New bug</a>
             <span>
-                <a href="{% url 'tasks_team_route' team_id=membership.team.id %}" class="navbar-toggler btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Reset Search</a>
-                <a class="navbar-toggler btn btn-secondary" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-filter" aria-hidden="true"></i> Filter bug reports</a>
+                <a href="{% url 'tasks_team_route' team_id=membership.team.id %}" class="navbar-toggler btn btn-secondary" id="reset-filter"><i class="fa fa-undo" aria-hidden="true"></i> Reset Search</a>
+                <a class="navbar-toggler btn btn-secondary" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
             </span>
         </span>
         <!-- Filter form -->

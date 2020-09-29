@@ -17,7 +17,7 @@ a:hover {
 }
 
 #main {
-    height: 100vh;
+    min-height: 100vh;
     color: white;
 }
 
@@ -111,6 +111,12 @@ a:hover {
 
 @media (max-width: 1200px) {
     .date-due {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    #reset-filter {
         display: none;
     }
 }
