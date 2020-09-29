@@ -4,59 +4,76 @@
 
 {% block title %}{{ team }} Transaction History{% endblock %}
 
+{% block nav_page_specific_is_authenticated %}
+<li class="nav-item active">
+    <a href="{% url 'update_team_route' team_id=team.id %}" class="nav-link">Edit team</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'delete_team_route' team_id=team.id %}" class="nav-link">Delete team</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link">Add team member</a>
+</li>
+<li class="nav-item active">
+    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link">Transaction history</a>
+</li>
+{% endblock %}
+
 {% block content %}
+<div class="table-responsive-xl">
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Subscription Expiry</th>
+                <th scope="col">Team Controls</th>
+                <th scope="col">Membership Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- Team, link to team's tasks -->
+                <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=team.id %}">{{ team.team_name }}</a></td>
+                <!-- Subscription -->
+                <td><a class="btn btn-light btn-sm mr-2" href="{% url 'checkout_select_subscription_route' team_id=team.id %}">{{ team.subscription_expiry }}</a>{% if today > team.subscription_expiry %}Expired!{% endif %}</td>
+                <!-- Team Controls -->
+                <td>
+                    <a href="{% url 'update_team_route' team_id=team.id %}" class="btn btn-info btn-sm">Edit team</a>
+                    <a href="{% url 'delete_team_route' team_id=team.id %}" class="btn btn-secondary btn-sm">Delete team</a>
+                    <a href="{% url 'create_membership_route' team_id=team.id %}" class="btn btn-light btn-sm">Add team member</a>
+                </td>
+                <!-- Membership Controls -->
+                <td><a href="{% url 'team_memberships_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team.team_name }}'s memberships</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th scope="col">Team</th>
-            <th scope="col">Subscription Expiry</th>
-            <th scope="col">Team Controls</th>
-            <th scope="col">Membership Controls</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <!-- Team, link to team's tasks -->
-            <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=team.id %}">{{ team.team_name }}</a></td>
-            <!-- Subscription -->
-            <td><a class="btn btn-light btn-sm mr-2" href="{% url 'checkout_select_subscription_route' team_id=team.id %}">{{ team.subscription_expiry }}</a>{% if today > team.subscription_expiry %}Expired!{% endif %}</td>
-            <!-- Team Controls -->
-            <td>
-                <a href="{% url 'update_team_route' team_id=team.id %}" class="btn btn-info btn-sm">Edit team</a>
-                <a href="{% url 'delete_team_route' team_id=team.id %}" class="btn btn-secondary btn-sm">Delete team</a>
-                <a href="{% url 'create_membership_route' team_id=team.id %}" class="btn btn-light btn-sm">Add team member</a>
-            </td>
-            <!-- Membership Controls -->
-            <td><a href="{% url 'team_memberships_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team.team_name }}'s memberships</a></td>
-        </tr>
-    </tbody>
-</table>
-
-<h5>Team {{ team }} Transaction History</h5>
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Subscription</th>
-            <th scope="col">Price</th>
-            <th scope="col">Paid By</th>
-            <th scope="col">Ref</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for transaction in transactions %}
-        <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ transaction.date }}</td>
-            <td>{{ transaction.service }}</td>
-            <td>USD {{ transaction.service.price|div:100|floatformat:2|intcomma }}</td>
-            <td>{{ transaction.paid_by_user }}</td>
-            <td>{{ transaction.transaction_ref }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+<div class="table-responsive-xl">
+    <h5>Team {{ team }} Transaction History</h5>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Subscription</th>
+                <th scope="col">Price</th>
+                <th scope="col">Paid By</th>
+                <th scope="col">Ref</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.service }}</td>
+                <td>USD {{ transaction.service.price|div:100|floatformat:2|intcomma }}</td>
+                <td>{{ transaction.paid_by_user }}</td>
+                <td>{{ transaction.transaction_ref }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
