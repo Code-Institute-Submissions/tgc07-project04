@@ -212,7 +212,4 @@ window.addEventListener('load', () => {
     // Get checked items count and display progress
     displayChecklistItemsProgress(teamId, taskId);
 
-    document.querySelector('#check-all').addEventListener('change', function() {
-        console.log(this)
-    })
 });
