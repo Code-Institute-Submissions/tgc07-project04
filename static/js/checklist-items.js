@@ -167,7 +167,7 @@ function readChecklistItems(teamId, taskId){
                 newTdLabel.appendChild(newTextInput);
                 let updateBtn = document.createElement('button');
                 updateBtn.innerText = "Update";
-                updateBtn.className = "btn btn-info btn-sm";
+                updateBtn.className = "btn btn-info btn-sm mt-n1";
                 updateBtn.addEventListener('click', async function() {
                     await updateChecklistText(teamId, item.id, newTextInput.value);
                     setTimeout( function() {
