@@ -4,6 +4,7 @@
 
 body {
     background-color: #444444;
+    background-image: linear-gradient(#343a40, #444444);
     min-width: 320px;
 }
 
@@ -60,6 +61,7 @@ a:hover {
     min-height: 4rem;
     cursor: move;
     color: #444444;
+    box-shadow: 4px 4px 4px grey;
 }
 
 .dragging {
@@ -69,6 +71,9 @@ a:hover {
 
 .task-title-link {
     color: #007bff;
+    display: inline-block;
+    max-height: 20px;
+    overflow: hidden;
 }
 
 .task-title-link:hover {
