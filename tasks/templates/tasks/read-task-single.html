@@ -27,6 +27,14 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>Team:</th>
+                            <td>{{ task.team }}</td>
+                        </tr>
+                        <tr>
+                            <td>Created by:</th>
+                            <td>{{ task.task_creator }}</td>
+                        </tr>
+                        <tr>
                             <td>Description:</th>
                             <td>{% if task.description %}{{ task.description }}{% else %}unspecified{% endif %}</td>
                         </tr>
