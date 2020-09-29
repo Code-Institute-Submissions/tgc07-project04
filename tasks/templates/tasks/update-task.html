@@ -4,12 +4,24 @@
 {% block title %}Update Bug Report{% endblock %}
 
 {% block content %}
+<section class="row px-3">
+    <div class="col-12 py-0 px-0 d-flex justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
 
-  <h1>Update Bug Report</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Update bug report">
-  </form>
-
+            <div class="row">
+                <div class="col mb-2 pt-3 pb-1">
+                    <h3>Edit Bug Report</h3>
+                </div>
+            </div>
+        
+            <a href="{% url 'tasks_team_route' team_id=team.id %}" class="btn btn-light btn-sm mb-3">Back to {{ team }}'s tasks</a>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Update bug report">
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

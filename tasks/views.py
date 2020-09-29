@@ -216,7 +216,8 @@ def update_task(request, team_id, task_id):
                 'tasks_team_route', kwargs={'team_id': team_id}))
         else:
             return render(request, "tasks/update-task.html", {
-                'form': form
+                'form': form,
+                'team': team,
             })
 
     # GET method requests
@@ -243,7 +244,8 @@ def update_task(request, team_id, task_id):
                 form.fields['assignee'].queryset = User.objects.filter(
                     user_membership__team=team_id)
                 return render(request, 'tasks/update-task.html', {
-                    'form': form
+                    'form': form,
+                    'team': team,
                 })
         # If current user is a member, but NOT admin
         elif len(db_membership) and not db_membership[0].is_admin:
@@ -263,7 +265,8 @@ def update_task(request, team_id, task_id):
                 form.fields['assignee'].queryset = User.objects.filter(
                     id=request.user.id)
                 return render(request, 'tasks/update-task.html', {
-                    'form': form
+                    'form': form,
+                    'team': team,
                 })
         # If not member, redirect
         else:
