@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-12 mt-2 px-0">
                         <input type="hidden" name="{{ task.team.id }}" value="{{ task.id }}" id="task-id">
-                        <label for="add-checklist-item">Add item</label>
+                        <label for="add-checklist-item" class="mr-sm-3">Add item</label>
                         <input type="text" name="add-checklist-item" id="add-checklist-item-input" placeholder="Something to do">
                         <input type="submit" value="Add" id="add-checklist-item-btn">
                     </div>
@@ -77,7 +77,24 @@
                     </div>
                 </div>
 
-                <div id="checklist-items-container"></div>
+                <div>
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Done?<input type="checkbox" name="check_all" id="check-all" class="ml-2"></th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checklist-items-container">
+                            <tr>
+                                <td>Checkbox</td>
+                                <td>Item description</td>
+                                <td>Button</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         </div>

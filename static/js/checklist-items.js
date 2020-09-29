@@ -131,23 +131,12 @@ function readChecklistItems(teamId, taskId){
     ).then(data => {
         // Loop through checklist items
         for (let item of data) {
-            // Create a div container for each checklist item
-            let newDiv =  document.createElement('div');
-            newDiv.id = 'checklist-item-' + item.id;
+            // Create a <tr> element container for each checklist item
+            let newTr =  document.createElement('tr');
+            newTr.id = 'checklist-item-' + item.id;
 
-            // Create delete button for checklist item
-            let deleteBtn = document.createElement('button');
-            deleteBtn.innerText = "Delete";
-            deleteBtn.className = "btn btn-secondary btn-sm";
-            deleteBtn.addEventListener('click', async () => {
-                await deleteChecklistItem(teamId, item.id);
-                setTimeout( function() {
-                    readChecklistItems(teamId, taskId);
-                }, 500);
-            });
-            newDiv.appendChild(deleteBtn);
-
-            // Create checkbox element, append to div container
+            // Create checkbox element, append to container
+            let newTdCheckbox = document.createElement('td');
             let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.id = 'checkbox-' + item.id;
@@ -157,23 +146,24 @@ function readChecklistItems(teamId, taskId){
             newCheckbox.addEventListener('change', function() {
                 updateCheckbox(teamId, item.id, this.checked);
             });
-            newDiv.appendChild(newCheckbox);
+            newTdCheckbox.appendChild(newCheckbox);
+            newTr.appendChild(newTdCheckbox);
 
             // Create label for checkbox
-            let newSpan = document.createElement('span');
+            let newTdLabel = document.createElement('td');
             let newLabel = document.createElement('label');
             newLabel.htmlFor = 'checkbox-' + item.id;
             newLabel.innerText = item.item;
             newLabel.className = 'checklist-item';
-            newSpan.appendChild(newLabel);
+            newTdLabel.appendChild(newLabel);
             // When label is clicked, change element to text input so user can update checklist item
             newLabel.addEventListener('click', function() {
-                newSpan.innerText = "";
+                newTdLabel.innerText = "";
                 let newTextInput = document.createElement('input');
                 newTextInput.type = 'text';
                 newTextInput.value = item.item;
                 newTextInput.name = 'checklist-item-' + item.id;
-                newSpan.appendChild(newTextInput);
+                newTdLabel.appendChild(newTextInput);
                 let updateBtn = document.createElement('button');
                 updateBtn.innerText = "Update";
                 updateBtn.className = "btn btn-info btn-sm";
@@ -183,12 +173,26 @@ function readChecklistItems(teamId, taskId){
                         readChecklistItems(teamId, taskId);
                     }, 500);
                 });
-                newSpan.appendChild(updateBtn);
+                newTdLabel.appendChild(updateBtn);
             });
-            newDiv.appendChild(newSpan);
+            newTr.appendChild(newTdLabel);
+
+            // Create delete button for checklist item
+            let newTdDelete = document.createElement('td');
+            let deleteBtn = document.createElement('button');
+            deleteBtn.innerText = "Delete";
+            deleteBtn.className = "btn btn-secondary btn-sm";
+            deleteBtn.addEventListener('click', async () => {
+                await deleteChecklistItem(teamId, item.id);
+                setTimeout( function() {
+                    readChecklistItems(teamId, taskId);
+                }, 500);
+            });
+            newTdDelete.appendChild(deleteBtn);
+            newTr.appendChild(newTdDelete);
 
             // Append div container to parent container
-            parentElement.appendChild(newDiv);
+            parentElement.appendChild(newTr);
         }
     })
 }
@@ -207,4 +211,8 @@ window.addEventListener('load', () => {
     readChecklistItems(teamId, taskId);
     // Get checked items count and display progress
     displayChecklistItemsProgress(teamId, taskId);
+
+    document.querySelector('#check-all').addEventListener('change', function() {
+        console.log(this)
+    })
 });
