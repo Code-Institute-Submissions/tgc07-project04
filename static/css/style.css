@@ -21,6 +21,10 @@ a:hover {
     color: white;
 }
 
+textarea {
+    height: 90px!important;
+}
+
 .container-fluid {
     max-width: 1920px;
 }
