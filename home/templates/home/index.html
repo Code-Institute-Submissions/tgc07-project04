@@ -4,12 +4,20 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
-    <h5>All teams get a 1 day free trial! Please try out our demo below.</h5>
-
-    <div id="tasks-grid">
-        {% include 'tasks/base-kanban-template.html' %}
+<div class="row my-4 mx-0">
+    <div class="col-12 col-md-6 col-lg-8 col-xl-7">
+        <h2>Collaborate as a team to track and squash those software bugs.</h2>
+        <p>Our kanban board layout enables you to organise and prioritise your tasks easily.</p>
     </div>
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="btn btn-primary" href="{% url 'account_signup' %}">Sign up now!</a>
+        <h5 class="my-3">All teams get a 1 day free trial!</h5>
+    </div>
+</div>
+
+<div id="tasks-grid">
+    {% include 'tasks/base-kanban-template.html' %}
+</div>
 {% endblock %}
 
 {% block javascript_page_specific %}<script src="{% static 'js/drag-and-drop.js' %}"></script>{% endblock %}
