@@ -51,7 +51,8 @@ def update_team(request, team_id):
                 kwargs={'team_id':team_id}))
         else:
             return render(request, 'teams/update-team.html', {
-                'form': form
+                'form': form,
+                'team': team_to_update,
             })
     
     # GET method requests
@@ -75,7 +76,8 @@ def update_team(request, team_id):
             else:
                 form = TeamForm(instance=team_to_update)
                 return render(request, 'teams/update-team.html', {
-                    'form': form
+                    'form': form,
+                    'team': team_to_update,
                 })
         # If no matches, or current user is not admin
         else:
