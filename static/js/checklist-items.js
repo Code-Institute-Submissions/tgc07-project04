@@ -163,6 +163,7 @@ function readChecklistItems(teamId, taskId){
                 newTextInput.type = 'text';
                 newTextInput.value = item.item;
                 newTextInput.name = 'checklist-item-' + item.id;
+                newTextInput.className = 'checklist-text-input mr-2 pl-2';
                 newTdLabel.appendChild(newTextInput);
                 let updateBtn = document.createElement('button');
                 updateBtn.innerText = "Update";

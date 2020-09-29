@@ -110,6 +110,10 @@ a:hover {
     cursor: pointer;
 }
 
+.checklist-text-input {
+    border-radius: 4px;
+}
+
 @media (max-width: 560px) {
     .btn-sm {
         padding: 1px 8px;
