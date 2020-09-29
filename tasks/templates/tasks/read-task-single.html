@@ -4,38 +4,84 @@
 {% block title %}{{ task.title }}{% endblock %}
 
 {% block content %}
-    <h3>Bug</h3>
-    <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-light btn-sm">Back to {{ task.team }}'s tasks</a>
-    <h5>{{ task.title }}</h5>
-    <p class="mb-2">{% if task.description %}{{ task.description }}{% else %}<br>{% endif %}</p>
-    <p class="mb-2">{% if task.date_due %}Date due: {{ task.date_due }}{% else %}<br>{% endif %}</p>
-    <p class="mb-2">Stage: {{ task.stage }}</p>
-    <p class="mb-2 level-{{task.priority_level.id}} task-level">Priority: {{ task.priority_level.priority_level }}</p>
-    <p class="mb-2 level-{{task.severity_level.id}} task-level">Severity: {{ task.severity_level.severity_level }}</p>
-    <p>Assignees:</p>
-    <ul>
-        {% for assignee in task.assignee.all %}
-            <li>{{ assignee }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-info btn-sm">Edit</a>
-    {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
-    
-    <div>
-        <input type="hidden" name="{{ task.team.id }}" value="{{ task.id }}" id="task-id">
-        <label for="add-checklist-item">Add checklist item</label>
-        <input type="text" name="add-checklist-item" id="add-checklist-item-input" placeholder="Something to do">
-        <input type="submit" value="Add" id="add-checklist-item-btn">
-    </div>
+    <section class="row px-3">
+        <div class="contact-form col-12 py-5 d-flex justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
 
-    <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-            <span class="progress-bar-text"></span>
+                <div class="row">
+                    <div class="col mb-2 pt-3 pb-1">
+                        <h3>Bug report</h3>
+                    </div>
+                </div>
+            
+                <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-light btn-sm">Back to {{ task.team }}'s tasks</a>
+                <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-info btn-sm">Edit bug report</a>
+                {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete</a>{% endif %}
+                
+                <table class="table table-dark my-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">Bug title:</th>
+                            <th scope="col"><h5 class="mb-0">{{ task.title }}</h5></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Description:</th>
+                            <td>{% if task.description %}{{ task.description }}{% else %}unspecified{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date due:</th>
+                            <td>{% if task.date_due %}{{ task.date_due }}{% else %}unspecified{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Stage:</th>
+                            <td>{{ task.stage }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Priority:</th>
+                            <td><p class="mb-2 level-{{task.priority_level.id}} task-level">{{ task.priority_level.priority_level }}</p></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Severity:</th>
+                            <td><p class="mb-2 level-{{task.severity_level.id}} task-level">{{ task.severity_level.severity_level }}</p></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Assignees:</th>
+                            <td>
+                                <ul class="pl-3">
+                                    {% for assignee in task.assignee.all %}
+                                        <li>{{ assignee }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row mx-0">
+                    <div class="col-12 px-0">
+                        <h4>Checklist</h4>
+                    </div>
+                    <div class="col-12 mt-2 px-0">
+                        <input type="hidden" name="{{ task.team.id }}" value="{{ task.id }}" id="task-id">
+                        <label for="add-checklist-item">Add item</label>
+                        <input type="text" name="add-checklist-item" id="add-checklist-item-input" placeholder="Something to do">
+                        <input type="submit" value="Add" id="add-checklist-item-btn">
+                    </div>
+                </div>
+
+                <div class="progress row mt-3 mb-4 mx-0">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                        <span class="progress-bar-text"></span>
+                    </div>
+                </div>
+
+                <div id="checklist-items-container"></div>
+
+            </div>
         </div>
-    </div>
-
-    <div id="checklist-items-container"></div>
-    
+    </section>
 {% endblock %}
 
 {% block javascript_page_specific %}<script src="{% static 'js/checklist-items.js' %}"></script>{% endblock %}
