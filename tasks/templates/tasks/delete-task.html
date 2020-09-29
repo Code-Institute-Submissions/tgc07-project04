@@ -4,16 +4,76 @@
 {% block title %}Delete Bug Report{% endblock %}
 
 {%block content %}
+<section class="row px-3">
+    <div class="col-12 py-3 px-0 d-flex justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
 
-  <h1>Delete Bug Report</h1>
-  <p>Are you sure you want to delete this bug report: {{task.title}}?</p>
-  <p>{{task.description}}</p>
-  <p>{{task.team}}</p>
-  <p>{{task.task_creator}}</p>
-  <p>{{task.date_due}}</p>
-  <form method="POST">
-    {% csrf_token %}
-    <input type="submit" value="Delete Task">
-  </form>
+            <div class="row">
+                <div class="col mb-2 pt-3 pb-1">
+                    <h3>Delete Bug Report</h3>
+                </div>
+            </div>
+        
+            <a href="{% url 'tasks_team_route' team_id=task.team.id %}" class="btn btn-light btn-sm">Back to {{ task.team }}'s tasks</a>
+            <a href="{% url 'update_task_route' team_id=task.team.id task_id=task.id %}" class="btn btn-info btn-sm">Edit bug report</a>
+            
+            <h5 class="my-3">Are you sure you want to delete this bug report?</h5>
 
+            <table class="table table-dark my-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Bug title:</th>
+                        <th scope="col"><h5 class="mb-0">{{ task.title }}</h5></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Team:</th>
+                        <td>{{ task.team }}</td>
+                    </tr>
+                    <tr>
+                        <td>Created by:</th>
+                        <td>{{ task.task_creator }}</td>
+                    </tr>
+                    <tr>
+                        <td>Description:</th>
+                        <td>{% if task.description %}{{ task.description }}{% else %}unspecified{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date due:</th>
+                        <td>{% if task.date_due %}{{ task.date_due }}{% else %}unspecified{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Stage:</th>
+                        <td>{{ task.stage }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Priority:</th>
+                        <td><p class="mb-2 level-{{task.priority_level.id}} task-level">{{ task.priority_level.priority_level }}</p></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Severity:</th>
+                        <td><p class="mb-2 level-{{task.severity_level.id}} task-level">{{ task.severity_level.severity_level }}</p></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Assignees:</th>
+                        <td>
+                            <ul class="pl-3">
+                                {% for assignee in task.assignee.all %}
+                                    <li>{{ assignee }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Yes, delete">
+            </form>
+
+        </div>
+    </div>
+</section>
 {% endblock %}
