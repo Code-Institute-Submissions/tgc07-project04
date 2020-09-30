@@ -29,6 +29,10 @@ textarea {
     max-width: 1920px;
 }
 
+.btn-primary {
+    background-color: #167cc0;
+}
+
 .navbar-toggler {
     min-height: 34px;
 }
