@@ -127,6 +127,9 @@ textarea {
         font-size: 0.8rem;
         max-height: 16px;
     }
+    .task-level {
+        font-size: 11px;
+    }
     #reset-filter {
         display: none;
     }
