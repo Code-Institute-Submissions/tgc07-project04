@@ -3,6 +3,8 @@
 
 {% block title %}Team {{ membership.team }}'s Tasks{% endblock %}
 
+{% block logo_page_specific_any_user %}Team {{ membership.team }}{% endblock %}
+
 {% block nav_page_specific_is_authenticated %}
     <li class="nav-item active">
         <a class="nav-link" href="{% url 'checkout_select_subscription_route' team_id=membership.team.id %}">{{ membership.team }}'s subscription</a>
