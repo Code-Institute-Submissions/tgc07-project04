@@ -122,6 +122,23 @@ textarea {
     border-radius: 4px;
 }
 
+.service-container {
+    background-color: #d1d1d1;
+    color: #111111;
+    border-radius: 1rem;
+    padding: 2rem 0.5rem;
+}
+
+.service-container:hover {
+    cursor: pointer;
+}
+
+.service-selected {
+    background-color: #165a88;
+    color: white;
+    scale: 1.1;
+}
+
 @media (max-width: 560px) {
     .btn-sm {
         padding: 1px 8px;

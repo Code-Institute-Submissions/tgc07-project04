@@ -1,20 +1,33 @@
 {% extends 'base-template.html' %}
+{% load static %}
+{% load mathfilters %}
 
 {% block title %}Select Subscription{% endblock %}
 
 {% block content %}
-
-{{ team }}
-
 <form method="post">
     {% csrf_token %}
-    <p>{{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on {{ team.subscription_expiry }}.</p>
-    <p>Purchase an extra:</p>
-    {% for service in services %}
-        <label for="{{ service.service_name }}">{{ service.service_name }} until {{ service.new_expiry }}</label>
-        <input type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
-    {% endfor %}
-        <input type="submit" value="Purchase">
-</form>
+    <p class="mt-4">Team {{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on {{ team.subscription_expiry }}.</p>
 
+    <section class="row mt-5 mx-0 justify-content-around">
+        {% for service in services %}
+            <div id="service-{{ service.id }}-container" class="col-5 service-container" style="text-align: center;">
+                <div>
+                    <h4>{{ service.service_name }}</h4>
+                    <p>until {{ service.new_expiry }}</p>
+                    <input style="display: none;" type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
+                </div>
+                <div>
+                    <p>{{ service.service_description }}</p>
+                    <h3>${{ service.price|intdiv:100 }}</h3>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-12 mt-5" style="text-align: center;">
+            <input type="submit" value="Purchase">
+        </div>
+    </section>
+</form>
 {% endblock %}
+
+{% block javascript_page_specific %}<script src="{% static 'js/subscription-select.js' %}"></script>{% endblock %}
