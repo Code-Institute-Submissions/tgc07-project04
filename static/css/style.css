@@ -121,6 +121,11 @@ textarea {
 @media (max-width: 560px) {
     .btn-sm {
         padding: 1px 8px;
+        font-size: 0.8rem;
+    }
+    .task-title-link {
+        font-size: 0.8rem;
+        max-height: 16px;
     }
     #reset-filter {
         display: none;
