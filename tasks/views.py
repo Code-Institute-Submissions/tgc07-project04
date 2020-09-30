@@ -186,7 +186,8 @@ def create_task(request, team_id):
                 form.fields['assignee'].queryset = User.objects.filter(
                     id=request.user.id)
                 return render(request, 'tasks/create-task.html', {
-                    'form': form
+                    'form': form,
+                    'team_id': team_id,
                 })
         # If not member, redirect
         else:
