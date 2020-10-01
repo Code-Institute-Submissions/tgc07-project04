@@ -3,9 +3,19 @@
 }
 
 body {
-    background-color: #444444;
-    background-image: linear-gradient(#343a40, #444444);
+    /* background-color: #444444;
+    background-image: linear-gradient(#343a40, #444444); */
+    background: linear-gradient(#cc3d00, #ffa436);
     min-width: 320px;
+}
+
+table {
+    border-radius: 1rem;
+    border-top: hidden;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0)!important;
 }
 
 a {
