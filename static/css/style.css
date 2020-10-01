@@ -3,8 +3,6 @@
 }
 
 body {
-    /* background-color: #444444;
-    background-image: linear-gradient(#343a40, #444444); */
     background: linear-gradient(#cc3d00, #ffa436);
     min-width: 320px;
 }
@@ -14,25 +12,25 @@ table {
     border-top: hidden;
 }
 
-.navbar {
-    background-color: rgba(0, 0, 0, 0)!important;
+textarea {
+    height: 90px!important;
 }
 
-a {
+/* a {
     color: #52baff;
 }
 
 a:hover {
     color: #90d2ff;
-}
+} */
 
 #main {
     min-height: 100vh;
     color: white;
 }
 
-textarea {
-    height: 90px!important;
+.navbar {
+    background-color: rgba(0,0,0,0)!important;
 }
 
 .container-fluid {
@@ -88,16 +86,16 @@ textarea {
 }
 
 .task-title-link {
-    color: #007bff;
+    /* color: #007bff; */
     display: inline-block;
     max-height: 20px;
     max-width: 130px;
     overflow: hidden;
 }
 
-.task-title-link:hover {
+/* .task-title-link:hover {
     color: #20a6ff;
-}
+} */
 
 .task-level {
     border-radius: 0.2rem;
