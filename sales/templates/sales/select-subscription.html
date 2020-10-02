@@ -4,6 +4,12 @@
 
 {% block title %}Select Subscription{% endblock %}
 
+{% block nav_page_specific_is_authenticated %}
+<li class="nav-item active">
+    <a class="nav-link"  href="{% url 'tasks_team_route' team_id=team.id %}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="ml-1">{{ team.team_name }}'s tasks</span></a>
+</li>
+{% endblock %}
+
 {% block content %}
 <form method="post">
     {% csrf_token %}
