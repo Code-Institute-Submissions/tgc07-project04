@@ -1,0 +1,25 @@
+{% extends 'base-template.html' %}
+{% load static %}
+{% load mathfilters %}
+
+{% block title %}Pricing{% endblock %}
+
+{% block content %}
+    <h3 class="mt-5">Our available subscriptions</h3>
+
+    <section class="row mt-5 mx-0 justify-content-around">
+        {% for service in services %}
+            <div id="service-{{ service.id }}-container" class="col-5 py-5 pricing-container" style="text-align: center;">
+                <div>
+                    <h4>{{ service.service_name }}</h4>
+                    <p>until {{ service.new_expiry }}</p>
+                    <input style="display: none;" type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
+                </div>
+                <div>
+                    <p>{{ service.service_description }}</p>
+                    <h3>${{ service.price|intdiv:100 }}</h3>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from tasks.models import *
+from sales.models import Service
 
 def index(request):
     tasks = {}
@@ -20,6 +22,19 @@ def index(request):
         'demo': True
     })
 
+def pricing(request):
+    # Service subscriptions available for purchase
+    services_all = Service.objects.all()
+    service_list = []
+    for service in services_all:
+        service_list.append({
+            'id': service.id,
+            'service_name': service.service_name,
+            'price': service.price,
+            'service_description': service.service_description
+        })
+    return render(request, 'home/pricing.html', {'services':services_all})
+
+@login_required
 def user_profile(request):
     return render(request, 'home/user-profile.html')
-
