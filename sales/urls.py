@@ -3,7 +3,7 @@ from django.urls import path
 import sales.views
 
 urlpatterns = [
-    path('subscription/<team_id>', sales.views.select_subscription,
+    path('subscription/<team_id>/', sales.views.select_subscription,
         name='checkout_select_subscription_route'),
     path('stripe/', sales.views.checkout_stripe,
         name='checkout_stripe_route'),
