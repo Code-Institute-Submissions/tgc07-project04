@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Team</th>
+                <th scope="col" colspan="2">Team Tasks</th>
                 <th scope="col">Subscription Expiry</th>
                 <th scope="col">Team Controls</th>
                 <th scope="col">User Role</th>
@@ -20,14 +20,15 @@
             {% for membership in memberships %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <!-- Team, link to team's tasks -->
+                    <!-- Team, links to tasks -->
                     <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=membership.team.id %}">{{ membership.team }}</a></td>
+                    <td><a class="btn btn-light btn-sm" href="{% url 'tasks_team_route' team_id=membership.team.id %}?assignee={{ request.user.id }}">my tasks</a></td>
                     <!-- Subscription -->
                     <td><a class="btn btn-light btn-sm mr-2" href="{% url 'checkout_select_subscription_route' team_id=membership.team.id %}">{{ membership.team.subscription_expiry }}</a>{% if today > membership.team.subscription_expiry %}Expired!{% endif %}</td>
                     <!-- Team Controls -->
                     <td>
                         {% if membership.is_admin %}
-                            <a href="{% url 'update_team_route' team_id=membership.team.id %}" class="btn btn-info btn-sm">Edit team</a>
+                            <a href="{% url 'update_team_route' team_id=membership.team.id %}" class="btn btn-info btn-sm">Edit team name</a>
                             <a href="{% url 'delete_team_route' team_id=membership.team.id %}" class="btn btn-secondary btn-sm">Delete team</a>
                             <a href="{% url 'create_membership_route' team_id=membership.team.id %}" class="btn btn-light btn-sm">Add team member</a>
                             <a href="{% url 'team_transaction_history_route' team_id=membership.team.id %}" class="btn btn-light btn-sm">Transaction history</a>
