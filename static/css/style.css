@@ -10,6 +10,7 @@ body {
 table {
     border-radius: 1rem;
     border-top: hidden;
+    border-bottom: hidden;
 }
 
 textarea {
