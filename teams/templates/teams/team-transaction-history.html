@@ -6,21 +6,15 @@
 
 {% block nav_page_specific_is_authenticated %}
 <li class="nav-item active">
-    <a href="{% url 'update_team_route' team_id=team.id %}" class="nav-link">Edit team</a>
+    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ml-1">Transactions</span></a>
 </li>
 <li class="nav-item active">
-    <a href="{% url 'delete_team_route' team_id=team.id %}" class="nav-link">Delete team</a>
-</li>
-<li class="nav-item active">
-    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link">Add team member</a>
-</li>
-<li class="nav-item active">
-    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link">Transaction history</a>
+    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link"><i class="fa fa-plus-square" aria-hidden="true"></i><span class="ml-1">Member</span></a>
 </li>
 {% endblock %}
 
 {% block content %}
-<div class="table-responsive-xl">
+<div class="table-responsive-xl mt-4">
     <table class="table table-dark">
         <thead>
             <tr>
@@ -45,11 +39,14 @@
                 <!-- Membership Controls -->
                 <td><a href="{% url 'team_memberships_route' team_id=team.id %}" class="btn btn-light btn-sm">{{ team.team_name }}'s memberships</a></td>
             </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
         </tbody>
     </table>
 </div>
 
-<div class="table-responsive-xl">
+<div class="table-responsive-xl mt-4">
     <h5>Team {{ team }} Transaction History</h5>
     <table class="table table-dark">
         <thead>
@@ -73,6 +70,9 @@
                 <td>{{ transaction.transaction_ref }}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="6"></td>
+            </tr>
         </tbody>
     </table>
 </div>

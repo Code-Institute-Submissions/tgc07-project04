@@ -5,16 +5,10 @@
 
 {% block nav_page_specific_is_authenticated %}
 <li class="nav-item active">
-    <a href="{% url 'update_team_route' team_id=team.id %}" class="nav-link">Edit team</a>
+    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ml-1">Transactions</span></a>
 </li>
 <li class="nav-item active">
-    <a href="{% url 'delete_team_route' team_id=team.id %}" class="nav-link">Delete team</a>
-</li>
-<li class="nav-item active">
-    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link">Add team member</a>
-</li>
-<li class="nav-item active">
-    <a href="{% url 'team_transaction_history_route' team_id=team.id %}" class="nav-link">Transaction history</a>
+    <a href="{% url 'create_membership_route' team_id=team.id %}" class="nav-link"><i class="fa fa-plus-square" aria-hidden="true"></i><span class="ml-1">Member</span></a>
 </li>
 {% endblock %}
 
