@@ -47,6 +47,10 @@ a:hover {
     min-height: 34px;
 }
 
+.navbar-nav, .collapse {
+    background-color: rgba(0,0,0,0)!important;
+}
+
 #tasks-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
