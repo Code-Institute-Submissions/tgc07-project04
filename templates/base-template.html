@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- Toastr -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous">
     
     <!-- Own CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -52,9 +52,10 @@
                 <ul class="navbar-nav ml-auto mr-0 mt-lg-0">
                     {% if request.user.is_authenticated %}
 
-                        <!-- Page specific navbar links -->
+                        <!-- Page specific navbar links for logged in users -->
                         {% block nav_page_specific_is_authenticated %}{% endblock %}
 
+                        <!-- Links if user is logged in -->
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'create_team_route' %}"><i class="fa fa-plus-square" aria-hidden="true"></i><span class="ml-1">Team</span></a>
                         </li>
@@ -69,7 +70,7 @@
                         </li>
 
                     {% else %}
-
+                        <!-- Links if user is logged out -->
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
                         </li>
