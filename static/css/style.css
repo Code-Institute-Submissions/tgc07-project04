@@ -16,13 +16,14 @@ textarea {
     height: 90px!important;
 }
 
-/* a {
-    color: #52baff;
+a {
+    color: #172844;
+    font-weight: bold;
 }
 
 a:hover {
-    color: #90d2ff;
-} */
+    color: white;
+}
 
 #main {
     min-height: 100vh;
@@ -61,7 +62,7 @@ a:hover {
 }
 
 .task-container {
-    background-color: #cccccc;
+    background-color: #e4e4e4;
     border-radius: 0.5rem;
     height: 90%;
     padding: 0.2rem 0.6rem;
@@ -86,16 +87,16 @@ a:hover {
 }
 
 .task-title-link {
-    /* color: #007bff; */
+    color: #007bff;
     display: inline-block;
     max-height: 20px;
     max-width: 130px;
     overflow: hidden;
 }
 
-/* .task-title-link:hover {
-    color: #20a6ff;
-} */
+.task-title-link:hover {
+    color: #0062ff;
+}
 
 .task-level {
     border-radius: 0.2rem;
