@@ -13,7 +13,7 @@ class Service(models.Model):
 
 class Transaction(models.Model):
     date = models.DateField(blank=False)
-    team = models.ForeignKey(Team, on_delete=models.RESTRICT)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.RESTRICT)
     transaction_ref = models.CharField(blank=False, max_length=100)
     stripe_webhook_id = models.CharField(blank=False, max_length=100)
