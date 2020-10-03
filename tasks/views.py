@@ -111,7 +111,8 @@ def view_single_task(request, team_id, task_id):
         else:
             task = get_object_or_404(Task, pk=task_id)
             return render(request, 'tasks/read-task-single.html', {
-                'task': task
+                'task': task,
+                'membership': db_membership,
             })
     else:
         messages.add_message(request, messages.WARNING, "Sorry, you do \
