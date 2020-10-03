@@ -3,12 +3,31 @@
 {% block title %}{{ request.user }}'s Profile{% endblock %}
 
 {% block content %}
-
-    <h3>{{ request.user.id }}</h3>
-    <h3>{{ request.user }}</h3>
-    <h3>{{ request.user.email }}</h3>
-
-    <a class="nav-link" href="{% url 'account_email' %}">Change email</a>
-    <a class="nav-link" href="{% url 'account_change_password' %}">Change password</a>
-
+<div class="row mx-0 my-5 justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <h1>User Profile</h1>
+        <table class="table table-dark my-5">
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td>{{ request.user }}</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ request.user.email }}</td>
+                    <td><a href="{% url 'account_email' %}">Update email</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">Password</th>
+                    <td>●●●●●●●●</td>
+                    <td><a href="{% url 'account_change_password' %}">Change password</a></td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
