@@ -84,10 +84,14 @@ def select_subscription(request, team_id):
             service_list[0].update({'new_expiry': thirty_days_later})
             service_list[1].update({'new_expiry': one_year_later})
             
+            for membership in db_membership:
+                db_membership = membership
+
             return render(request, 'sales/select-subscription.html', {
                 'team': team_db,
                 'services': service_list,
-                'subscription_expired': subscription_expired
+                'subscription_expired': subscription_expired,
+                'membership': db_membership,
             })
         else:
             messages.add_message(request, messages.WARNING, "Sorry, you do \

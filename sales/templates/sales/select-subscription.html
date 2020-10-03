@@ -5,39 +5,47 @@
 {% block title %}Select Subscription{% endblock %}
 
 {% block nav_page_specific_is_authenticated %}
-<li class="nav-item active">
-    <a class="nav-link"  href="{% url 'tasks_team_route' team_id=team.id %}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="ml-1">{{ team.team_name }}'s tasks</span></a>
-</li>
+    <li class="nav-item active">
+        <a class="nav-link"  href="{% url 'tasks_team_route' team_id=team.id %}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="ml-1">{{ team.team_name }}'s tasks</span></a>
+    </li>
+    {% if membership.is_admin %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'team_memberships_route' team_id=membership.team.id %}"><i class="fa fa-users" aria-hidden="true"></i><span class="ml-1">{{ membership.team }}</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'create_membership_route' team_id=membership.team.id %}"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="ml-1">Member</span></a>
+    </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-    <section class="row mt-5 mx-0 justify-content-around">
-        <div class="col-10">
-            <h3>Subscription Options</h3>
-            <p class="py-5">Team {{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on <strong>{{ team.subscription_expiry }}</strong>.</p>
-        </div>
-
-        {% for service in services %}
-            <div id="service-{{ service.id }}-container" class="col-5 col-md-4 col-xl-3 py-5 px-4 px-md-5 service-container" style="text-align: center;">
-                <div>
-                    <h4>{{ service.service_name }}</h4>
-                    <p>until {{ service.new_expiry }}</p>
-                    <input style="display: none;" type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
-                </div>
-                <div>
-                    <p>{{ service.service_description }}</p>
-                    <h3>${{ service.price|intdiv:100 }}</h3>
-                </div>
+        <section class="row mt-5 mx-0 justify-content-around">
+            <div class="col-10">
+                <h3>Subscription Options</h3>
+                <p class="py-5">Team {{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on <strong>{{ team.subscription_expiry }}</strong>.</p>
             </div>
-        {% endfor %}
-        <div class="col-12 mt-5" style="text-align: center;">
-            <input type="submit" value="Purchase">
-        </div>
-    </section>
-</form>
+
+            {% for service in services %}
+                <div id="service-{{ service.id }}-container" class="col-5 col-md-4 col-xl-3 py-5 px-4 px-md-5 service-container" style="text-align: center;">
+                    <div>
+                        <h4>{{ service.service_name }}</h4>
+                        <p>until {{ service.new_expiry }}</p>
+                        <input style="display: none;" type="radio" name="service" id="service-{{ service.id }}" value="{{ service.id }}">
+                    </div>
+                    <div>
+                        <p>{{ service.service_description }}</p>
+                        <h3>${{ service.price|intdiv:100 }}</h3>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-12 mt-5" style="text-align: center;">
+                <input type="submit" value="Purchase">
+            </div>
+        </section>
+    </form>
 {% endblock %}
 
 {% block javascript_page_specific %}<script src="{% static 'js/subscription-select.js' %}"></script>{% endblock %}
