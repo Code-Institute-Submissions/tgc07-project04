@@ -185,31 +185,48 @@ def user_memberships(request):
 def create_membership(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
+        print(True if request.POST.get('is_admin') else False)
         submitted_form = MembershipForm(request.POST)
         if submitted_form.is_valid():
-            membership_model = submitted_form.save(commit=False)
-            membership_model.team = team
-            try:
-                # Try to create membership
-                membership_model.save()
-                messages.add_message(request, messages.SUCCESS, f"Membership \
-                    with {membership_model.team} has been created")
-                return redirect(reverse('team_memberships_route',
-                    kwargs={'team_id':team_id}))
-            except IntegrityError:
-                # If error (e.g. unique constraint failed) then flash message
-                messages.add_message(request, messages.WARNING, f"Membership \
-                    with {membership_model.team} already exists. Please \
-                        select another user.")
+            user = User.objects.filter(
+                username=request.POST.get('username')).filter(
+                    email=request.POST.get('email'))
+            if len(user):
+                membership_model = Membership(
+                    user = get_object_or_404(
+                        User,
+                        username=request.POST.get('username'),
+                        email=request.POST.get('email')
+                    ),
+                    team = team,
+                    is_admin = True if request.POST.get('is_admin') else False
+                )
+                try:
+                    # Try to create membership
+                    membership_model.save()
+                    messages.add_message(request, messages.SUCCESS, f"\
+                        Membership with {membership_model.team} has been \
+                            created")
+                    return redirect(reverse('team_memberships_route',
+                        kwargs={'team_id':team_id}))
+                except IntegrityError:
+                    # If error (unique constraint failed) then flash message
+                    messages.add_message(request, messages.WARNING, f"\
+                        {membership_model.user} is already a member of team \
+                            {membership_model.team}. Please select another \
+                                user.")
                 return render(request, "teams/create-membership.html", {
                     'form': submitted_form,
                     'team': team
                 })
-        else:
-            return render(request, "teams/create-membership.html", {
-                'form': submitted_form,
-                'team': team
-            })
+            else:
+                # If could not find user then flash message
+                messages.add_message(request, messages.WARNING, f"Those \
+                    details do not match any users. Please try again.")
+                return render(request, "teams/create-membership.html", {
+                    'form': submitted_form,
+                    'team': team
+                })
     
     # GET method requests
     else:
@@ -233,7 +250,7 @@ def create_membership(request, team_id):
                 form = MembershipForm()
                 return render(request, 'teams/create-membership.html', {
                     'form': form,
-                    'team': team
+                    'team': team,
                 })
         # If no matches, or current user is not admin
         else:
