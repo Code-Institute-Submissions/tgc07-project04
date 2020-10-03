@@ -13,11 +13,15 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <p class="mt-4">Team {{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on {{ team.subscription_expiry }}.</p>
 
     <section class="row mt-5 mx-0 justify-content-around">
+        <div class="col-10">
+            <h3>Subscription Options</h3>
+            <p class="py-5">Team {{ team }}'s current subscription {% if subscription_expired %} ended {% else %} will end {% endif %} on <strong>{{ team.subscription_expiry }}</strong>.</p>
+        </div>
+
         {% for service in services %}
-            <div id="service-{{ service.id }}-container" class="col-5 service-container" style="text-align: center;">
+            <div id="service-{{ service.id }}-container" class="col-5 col-md-4 col-xl-3 py-5 px-4 px-md-5 service-container" style="text-align: center;">
                 <div>
                     <h4>{{ service.service_name }}</h4>
                     <p>until {{ service.new_expiry }}</p>

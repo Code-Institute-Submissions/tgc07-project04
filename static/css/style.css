@@ -137,14 +137,15 @@ a:hover {
 }
 
 .pricing-container {
-    background-color: #d1d1d1;
+    /* background: linear-gradient(rgb(255, 222, 150), rgb(255, 255, 255)); */
+    background-color: rgb(255, 240, 210);
     color: #111111;
     border-radius: 1rem;
     padding: 2rem 0.5rem;
 }
 
 .service-container {
-    background-color: #d1d1d1;
+    background-color: rgb(255, 240, 210);
     color: #111111;
     border-radius: 1rem;
     padding: 2rem 0.5rem;

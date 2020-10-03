@@ -5,11 +5,15 @@
 {% block title %}Pricing{% endblock %}
 
 {% block content %}
-    <h3 class="mt-5">Our available subscriptions</h3>
 
     <section class="row mt-5 mx-0 justify-content-around">
+
+        <div class="col-10">
+            <h3 class="pb-5">Our available subscriptions</h3>
+        </div>
+
         {% for service in services %}
-            <div id="service-{{ service.id }}-container" class="col-5 py-5 pricing-container" style="text-align: center;">
+            <div id="service-{{ service.id }}-container" class="col-5 col-md-4 col-xl-3 py-5 px-4 px-md-5 pricing-container" style="text-align: center;">
                 <div>
                     <h4>{{ service.service_name }}</h4>
                     <p>until {{ service.new_expiry }}</p>
@@ -21,5 +25,15 @@
                 </div>
             </div>
         {% endfor %}
+
     </section>
+
+    <div class="row mt-5 mx-0 justify-content-center">
+        {% if request.user.is_authenticated %}
+            <a class="btn btn-light" href="{% url 'user_memberships_route' %}">My teams</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'account_signup' %}">My teams</a>
+        {% endif %}
+    </div>
+    
 {% endblock %}
