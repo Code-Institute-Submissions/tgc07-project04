@@ -217,7 +217,7 @@ def update_task(request, team_id, task_id):
             return redirect(reverse(
                 'task_single_route', kwargs={
                     'team_id': team_id,
-                    'task_id':task_id
+                    'task_id': task_id,
             }))
         else:
             return render(request, "tasks/update-task.html", {
@@ -251,6 +251,8 @@ def update_task(request, team_id, task_id):
                 return render(request, 'tasks/update-task.html', {
                     'form': form,
                     'team': team,
+                    'task': task_to_update,
+                    'membership': db_membership,
                 })
         # If current user is a member, but NOT admin
         elif len(db_membership) and not db_membership[0].is_admin:
@@ -272,6 +274,8 @@ def update_task(request, team_id, task_id):
                 return render(request, 'tasks/update-task.html', {
                     'form': form,
                     'team': team,
+                    'task': task_to_update,
+                    'membership': db_membership,
                 })
         # If not member, redirect
         else:

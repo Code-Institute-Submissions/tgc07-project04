@@ -13,9 +13,12 @@
                     <h3>Edit Bug Report</h3>
                 </div>
             </div>
-        
-            <a href="{% url 'tasks_team_route' team_id=team.id %}" class="btn btn-light btn-sm mb-3">Back to {{ team }}'s tasks</a>
             
+            <div class="mb-3">
+                <a href="{% url 'tasks_team_route' team_id=team.id %}" class="btn btn-light btn-sm">Back to {{ team }}'s tasks</a>
+                {% if membership.is_admin or request.user.id == task.task_creator.id %}<a href="{% url 'delete_task_route' team_id=team.id task_id=task.id %}" class="btn btn-secondary btn-sm">Delete bug report</a>{% endif %}
+            </div>
+
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
