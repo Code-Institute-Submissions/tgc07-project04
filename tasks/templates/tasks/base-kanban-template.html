@@ -2,7 +2,7 @@
     <section class="stage">
         <div class="row mx-0 px-1 justify-content-between">
             <h4 class="col-auto mt-lg-2 mb-1 px-0">{{ stage.stage_label }}</h4>
-            <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}href="{% url 'create_task_route' team_id=team_id %}"{% endif %} class="d-none d-lg-block my-2 btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
+            <a {% if demo %} onclick="toastr.info('This is just a demo. Please sign up for an account or log in to view your teams.')"{% else %}href="{% url 'create_task_route' team_id=team_id %}?stage={{ stage_id }}"{% endif %} class="d-none d-lg-block my-2 btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</a>
         </div>
         <div class="task-container" id="stage-{{ stage_id }}">
             {% for task in stage.tasks %}

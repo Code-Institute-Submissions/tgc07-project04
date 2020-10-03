@@ -144,7 +144,7 @@ def create_task(request, team_id):
 
     # GET method requests
     else:
-        form = TaskForm()
+        form = TaskForm(request.GET)
         # Query database membership matches for team_id and current user
         db_membership = Membership.objects.filter(team=team_id).filter(
             user=request.user)
