@@ -23,11 +23,17 @@ a {
 }
 
 a:hover {
+    color: white;
+    font-weight: bold;
     text-decoration: underline;
 }
 
 #main {
     min-height: 100vh;
+    color: white;
+}
+
+.invalid-feedback {
     color: white;
 }
 
