@@ -185,7 +185,6 @@ def user_memberships(request):
 def create_membership(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
-        print(True if request.POST.get('is_admin') else False)
         submitted_form = MembershipForm(request.POST)
         if submitted_form.is_valid():
             user = User.objects.filter(
