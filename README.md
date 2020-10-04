@@ -9,6 +9,9 @@ The sample user log in details below can be used to demo the project:
 
 This web app has been designed as a tool for users to collaborate in teams to log and track the progress of software bugs. Team admin users are able to perform higher access level features relating to the respective team vs limited users. It is possible for a user to be an admin user of some teams and a limited user of other teams. If a user is not a member of a team, they are unable to access that team's information. Subscription payments can be made by any team members, regardless of whether they have admin or limited access, but only admin users can view the team's purchase transaction history.
 
+![Desktop tasks summary page](report/screenshots/tasks-summary-desktop.png "Desktop page")
+![Mobile tasks summary page](report/screenshots/tasks-summary-mobile.png "Mobile page")
+
 ## UX
 
 ### Strategy - User Stories
@@ -35,9 +38,6 @@ Owners of the website would like to:
 - Earn subscription income
 - Disable access to a team's bug reports if team's subscription has lapsed
 - Use the web app themselves to track their own software bugs
-
-![Desktop tasks summary page](report/screenshots/<file-name>.png "Desktop page")
-![Mobile tasks summary page](report/screenshots/<file-name>.png "Mobile page")
 
 ### Scope
 Content requirements:
