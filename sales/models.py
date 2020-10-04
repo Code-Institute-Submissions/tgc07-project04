@@ -5,7 +5,7 @@ from teams.models import Team
 
 class Service(models.Model):
     service_name = models.CharField(max_length=50, blank=False)
-    price = models.IntegerField(blank=False)
+    price = models.PositiveIntegerField(blank=False)
     service_description = models.TextField(blank=False)
 
     def __str__(self):
