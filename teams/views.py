@@ -149,7 +149,7 @@ def team_memberships(request, team_id):
         user=request.user)
     is_admin = db_membership.all()[0].is_admin
     # If match found
-    if len(db_membership):
+    if len(db_membership) and is_admin:
         # Get all memberships for team
         db_membership = Membership.objects.filter(team=team_id)
         team = get_object_or_404(Team, pk=team_id)
