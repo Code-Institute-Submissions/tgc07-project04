@@ -20,7 +20,12 @@ class TeamForm(forms.ModelForm):
                     and be at least 4 characters long.")
         return data
 
-class MembershipForm(forms.Form):
+class CreateMembershipForm(forms.Form):
     username = forms.CharField(max_length=100, required=True)
     email = forms.EmailField(max_length=100, required=True)
     is_admin = forms.BooleanField(required=False)
+
+class MembershipForm(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = "__all__"

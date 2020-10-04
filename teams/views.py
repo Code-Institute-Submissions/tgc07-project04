@@ -185,7 +185,7 @@ def user_memberships(request):
 def create_membership(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == "POST":
-        submitted_form = MembershipForm(request.POST)
+        submitted_form = CreateMembershipForm(request.POST)
         if submitted_form.is_valid():
             user = User.objects.filter(
                 username=request.POST.get('username')).filter(
