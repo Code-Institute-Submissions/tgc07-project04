@@ -97,6 +97,7 @@ In addition to above features, team admins are able to:
 - Enable team admins to create custom priority and severity levels for their team's bug reports
 - Implement a better database on_delete policy
 - Dashboard for admin users for to provide such as number of tasks assigned to each team member, time taken to fix bugs, etc
+- Improve styling of web pages
 
 ## Technologies Used
 - Python
