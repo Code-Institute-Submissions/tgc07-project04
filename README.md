@@ -7,7 +7,60 @@ The sample user log in details below can be used to demo the project:
 |----------|----------|
 | test | pass123word |
 
-This web app has been designed as a tool for users to collaborate as teams to log and track the progress of software bugs.
+This web app has been designed as a tool for users to collaborate in teams to log and track the progress of software bugs. Team admin users are able to perform higher access level features relating to the respective team vs limited users. It is possible for a user to be an admin user of some teams and a limited user of other teams. If a user is not a member of a team, they are unable to access that team's information. Subscription payments can be made by any team members, regardless of whether they have admin or limited access, but only admin users can view the team's purchase transaction history.
+
+## UX
+
+### Strategy - User Stories
+Users would use the website to:
+- Create or join teams to keep track of the progress of reported software bugs
+- Log new software bug reports
+- Assign bug report tasks to themselves or leave it unassigned for admin user to assign later
+- Edit existing bug reports
+- Delete bug reports created by themselves
+- Update the progress of a reported bug by dragging from one stage and dropping into another stage (desktop only)
+- Make subscription payments
+
+If a user is a team admin, they would also need to be able to:
+- Assign bug report tasks to any team members
+- Delete team's bug reports
+- View all team members
+- Add/remove team members
+- Toggle admin status of team members
+- View team's past purchase transactions
+- Edit team name
+- Delete team
+
+Owners of the website would like to:
+- Earn subscription income
+- Use the web app themselves to track their own software bugs
+
+![Desktop tasks summary page](report/screenshots/<file-name>.png "Desktop page")
+![Mobile tasks summary page](report/screenshots/<file-name>.png "Mobile page")
+
+### Scope
+Content requirements:
+- text
+- icons
+
+Functional specification:
+- drag and drop tasks
+- filter tasks by search terms, priority, severity and assignee
+
+### Structure
+The website structure will be presented using the hierarchical model. Main sections will be:
+- 
+
+### Skeleton
+Wireframes for the tasks summary page can be viewed [here](report/wireframes).
+
+### Surface
+Functionality and clarity was the main focus and reason behind the colour scheme and typography choice, as it was assumed that PC hardware enthusiasts would place preference on these aspects. If there had been more time, the colour scheme and styling should be revisited.
+
+
+### Features Left to Implement
+- Use UUID for user IDs and team IDs for better security
+- Enable team admins to be able to create their own progress stages for each team with ability to have a variable number of progress stages
 
 ## Deployment
 A live demo of this project can be viewed [here](https://tgc07-project04.herokuapp.com/).
