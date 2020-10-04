@@ -330,7 +330,8 @@ def update_membership(request, team_id, membership_id):
         if len(db_membership) and db_membership[0].is_admin:
             return render(request, 'teams/update-membership.html', {
                 'form': form,
-                'team': team
+                'team': team,
+                'membership': membership_to_update,
             })
         # If no matches, or current user is not admin
         else:
