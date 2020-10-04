@@ -16,7 +16,7 @@ This web app has been designed as a tool for users to collaborate in teams to lo
 ## UX
 
 ### Strategy - User Stories
-Users would use the website to:
+Users' goals:
 - Create or join teams to keep track of the progress of reported software bugs
 - Log new software bug reports
 - Assign bug report tasks to themselves or leave it unassigned for admin user to assign later
@@ -26,7 +26,7 @@ Users would use the website to:
 - Make subscription payments
 - Filter tasks by search terms, priority, severity and assignee
 
-If a user is a team admin, they would also need to be able to:
+Team admin users' goals:
 - Assign bug report tasks to any team members
 - Delete team's bug reports
 - View all team members
@@ -36,7 +36,7 @@ If a user is a team admin, they would also need to be able to:
 - Edit team name
 - Delete team
 
-Owners of the website would like to:
+Site owners' goals:
 - Earn subscription income
 - Disable access to a team's bug reports if team's subscription has lapsed
 - Use the web app themselves to track their own software bugs
@@ -143,9 +143,9 @@ In addition to above features, team admins are able to:
 As logged out user
 
 |  1 | Try to access restricted content via URL | Redirected to login page | As expected |
-As logged in user with limited user membership rights to team
 
-|  2 | Add task | Should only see own self in list of assignees (admin access rights needed to list all team members) | As expected |
+As logged in user with limited user membership rights to team
+|  2 | Add/update task | Should only see own self in list of assignees (admin access rights needed to list all team members) | As expected |
 |  3 | View tasks summary page | Delete task buttons only displayed on tasks created by own self | As expected |
 |  4 | Drag task from one stage to another | Task's stage has been updated | As expected |
 |  5 | Filter tasks by text input field and/or priority level and/or severity level and/or assignee | Return tasks matching query | As expected |
@@ -156,13 +156,14 @@ As logged in user with limited user membership rights to team
 | 10 | Try to access team's tasks summary view for a team whose subscription has lapsed | Redirected to select subscription page | As expected |
 | 11 | Create/update team with same name as an existing team in database | Submit form is rejected and error message displayed | As expected |
 | 12 | Create/update team with incorrect regex requirements | Submit form is rejected and error message displayed | As expected |
-As team admin
 
+As team admin
 | 13 | Try to remove admin rights of last remaining admin user on team | Rejected and error message displayed | As expected |
 | 14 | Try to delete membership of last remaining admin user on team | Rejected and error message displayed | As expected |
 | 15 | View team's tasks summary page | Delete buttons are displayed for all tasks | As expected |
 | 16 | View team's purchase transaction history | Displays (only for team admin users) | As expected |
 | 17 | View team's members | Displays (only for team admin users) | As expected |
+| 18 | Add/update task | Able to select from all team members for assignees | As expected |
 
 ## Deployment
 A live demo of this project can be viewed [here](https://tgc07-project04.herokuapp.com/).
