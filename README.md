@@ -33,6 +33,7 @@ If a user is a team admin, they would also need to be able to:
 
 Owners of the website would like to:
 - Earn subscription income
+- Disable access to a team's bug reports if team's subscription has lapsed
 - Use the web app themselves to track their own software bugs
 
 ![Desktop tasks summary page](report/screenshots/<file-name>.png "Desktop page")
@@ -48,14 +49,21 @@ Functional specification:
 - filter tasks by search terms, priority, severity and assignee
 
 ### Structure
-The website structure will be presented using the hierarchical model. Main sections will be:
-- 
+#### Interaction Design
+- Drag and drop bug reports in order to update its progress status
+- Flash messages when additional stage change information needs to be passed to user
+
+#### Interaction Architecture
+- Kanban style view of team's bug reports
 
 ### Skeleton
 Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 
 ### Surface
-Functionality and clarity was the main focus and reason behind the colour scheme and typography choice, as it was assumed that PC hardware enthusiasts would place preference on these aspects. If there had been more time, the colour scheme and styling should be revisited.
+- Typography should be simple and functional for legibility and not distract the user
+- Colour scheme of orange and yellow was chosen to give a lively look to the website:
+
+![Colour scheme](report/colour-scheme/colour-scheme.png "Colour scheme")
 
 
 ### Features Left to Implement
