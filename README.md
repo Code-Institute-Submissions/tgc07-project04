@@ -24,6 +24,7 @@ Users would use the website to:
 - Delete bug reports created by themselves
 - Update the progress of a reported bug by dragging from one stage and dropping into another stage (desktop only)
 - Make subscription payments
+- Filter tasks by search terms, priority, severity and assignee
 
 If a user is a team admin, they would also need to be able to:
 - Assign bug report tasks to any team members
@@ -69,6 +70,25 @@ Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 ## Features
 
 ### Current Features
+Users are able to:
+- Create or join teams to keep track of the progress of reported software bugs
+- Log new software bug reports
+- Assign bug report tasks to themselves or leave it unassigned for admin user to assign later
+- Edit existing bug reports
+- Delete bug reports created by themselves
+- Update the progress of a reported bug by dragging from one stage and dropping into another stage (desktop only)
+- Make subscription payments
+- Filter tasks by search terms, priority, severity and assignee
+
+In addition to above features, team admins are able to:
+- Assign bug report tasks to any team members
+- Delete team's bug reports
+- View all team members
+- Add/remove team members
+- Toggle admin status of team members
+- View team's past purchase transactions
+- Edit team name
+- Delete team
 
 ### Features Left to Implement
 - Use UUID for user IDs and team IDs for better security
@@ -102,6 +122,11 @@ Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 - [GitHub](https://github.com/) for source control
 
 ## Programming Methodologies
+- Data driven approach to generating the team's tasks summary view
+- RESTful API to update tasks and create/read/update/delete checklist items
+- AJAX calls triggered when tasks are dragged from one progress stage and dropped in a different stage, and CRUD for checklist items
+- .env file used to store environment variables so that secret keys are not publicly viewable
+- git and GitHub for source control
 
 ## Database Design
 - The ER diagram for this project's database can be viewed [here](report/database/entity-relationship-diagram.png)
@@ -155,6 +180,7 @@ Back in the bash terminal:
 11. Use a web browser to navigate to `<ngrok_URL>:<port_number>`
 
 ## Credits and acknowledgements
-- Code to enable drag and drop feature was from [WebDevSimplified](https://github.com/WebDevSimplified/Drag-And-Drop)
-- Icons used were from [Font Awesome 4.7.0](https://fontawesome.com/v4.7.0/)
-- Favicon was from [favicon.io](https://favicon.io/emoji-favicons/mosquito/)
+- [WebDevSimplified](https://github.com/WebDevSimplified/Drag-And-Drop) for code to enable drag and drop feature
+- [Font Awesome 4.7.0](https://fontawesome.com/v4.7.0/) for icons
+- [favicon.io](https://favicon.io/emoji-favicons/mosquito/) for favicon
+- [Toptal](https://www.toptal.com/developers/gitignore/api/django) for .gitignore template
