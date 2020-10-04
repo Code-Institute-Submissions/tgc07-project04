@@ -91,6 +91,7 @@ In addition to above features, team admins are able to:
 - Delete team
 
 ### Features Left to Implement
+- Remember order of tasks within each stage by storing in database
 - Use UUID for user IDs and team IDs for better security
 - Enable team admins to create their own progress stages for each team with ability to have a variable number of progress stages
 - Enable team admins to create custom priority and severity levels for their team's bug reports
@@ -131,6 +132,37 @@ In addition to above features, team admins are able to:
 ## Database Design
 - The ER diagram for this project's database can be viewed [here](report/database/entity-relationship-diagram.png)
 - The database schema for this project's database can be viewed [here](report/database/database-schema.png)
+
+## Testing
+- A Test Driven Development (TDD) approach was taken when building the web app.
+- For automated testing, TestCase classes were created in each Django app, each with their own methods to test different CRUD operations.
+- In addition, the following manual tests were performed:
+
+|  # | Event | Expected Outcome | Actual Outcome |
+|----|-------|------------------|----------------|
+As logged out user
+
+|  1 | Try to access restricted content via URL | Redirected to login page | As expected |
+As logged in user with limited user membership rights to team
+
+|  2 | Add task | Should only see own self in list of assignees (admin access rights needed to list all team members) | As expected |
+|  3 | View tasks summary page | Delete task buttons only displayed on tasks created by own self | As expected |
+|  4 | Drag task from one stage to another | Task's stage has been updated | As expected |
+|  5 | Filter tasks by text input field and/or priority level and/or severity level and/or assignee | Return tasks matching query | As expected |
+|  6 | Create, update, delete checklist item | New checklist item is created via AJAX call | As expected |
+|  7 | Check/uncheck checklist item's checkbox | Progress bar is updated via AJAX call | As expected |
+|  8 | Try to access admin only content via URL | Redirected and flash message displayed saying user does not have necessary access rights | As expected |
+|  9 | Purchase team subscription | Payment via Stripe and redirected back to team's tasks summary view | As expected |
+| 10 | Try to access team's tasks summary view for a team whose subscription has lapsed | Redirected to select subscription page | As expected |
+| 11 | Create/update team with same name as an existing team in database | Submit form is rejected and error message displayed | As expected |
+| 12 | Create/update team with incorrect regex requirements | Submit form is rejected and error message displayed | As expected |
+As team admin
+
+| 13 | Try to remove admin rights of last remaining admin user on team | Rejected and error message displayed | As expected |
+| 14 | Try to delete membership of last remaining admin user on team | Rejected and error message displayed | As expected |
+| 15 | View team's tasks summary page | Delete buttons are displayed for all tasks | As expected |
+| 16 | View team's purchase transaction history | Displays (only for team admin users) | As expected |
+| 17 | View team's members | Displays (only for team admin users) | As expected |
 
 ## Deployment
 A live demo of this project can be viewed [here](https://tgc07-project04.herokuapp.com/).
