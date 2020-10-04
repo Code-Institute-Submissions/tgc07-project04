@@ -78,12 +78,34 @@ Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 - Dashboard for admin users for to provide such as number of tasks assigned to each team member, time taken to fix bugs, etc
 
 ## Technologies Used
+- Python
+- HTML
+- CSS
+- JavaScript
+- [Django 3.1.1](https://www.djangoproject.com/)
+- [django-allauth](https://django-allauth.readthedocs.io/en/latest/overview.html) for user authentication
+- [django-crispy-forms](https://django-crispy-forms.readthedocs.io/en/latest/) for form styling
+- [django-mathfilters](https://pypi.org/project/django-mathfilters/) for template calculations
+- [djangorestframework](https://www.django-rest-framework.org/) to build RESTful APIs
+- [dotenv](https://pypi.org/project/python-dotenv/) to use environment variables
+- [PostgreSQL](https://www.postgresql.org/) as the database
+- [psycopg2](https://pypi.org/project/psycopg2/) as the PostgreSQL database adapter for Python
+- [dj-database-url](https://pypi.org/project/dj-database-url/) to use DATABASE_URL environment variable to configure Django application
+- [Heroku](https://www.heroku.com/) to host the web app
+- [gunicorn 20.0.4](https://gunicorn.org/) as the Python WSGI HTTP Server for deployment
+- [WhiteNoise](http://whitenoise.evans.io/en/stable/) to simply static file serving
+- [Stripe](https://stripe.com/) to handle payments
+- [JQuery](https://jquery.com/) for DOM manipulation
+- [toastr](https://codeseven.github.io/toastr/) for flash messaging
+- [Bootstrap 4.5](https://getbootstrap.com/docs/4.5/getting-started/introduction/) for web page styling
+- [Font Awesome 4.7.0](https://fontawesome.com/v4.7.0/) for icons
+- [GitHub](https://github.com/) for source control
+
+## Programming Methodologies
 
 ## Database Design
 - The ER diagram for this project's database can be viewed [here](report/database/entity-relationship-diagram.png)
 - The database schema for this project's database can be viewed [here](report/database/database-schema.png)
-
-## Programming Methodologies
 
 ## Deployment
 A live demo of this project can be viewed [here](https://tgc07-project04.herokuapp.com/).
