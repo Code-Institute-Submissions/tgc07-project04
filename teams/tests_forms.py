@@ -45,20 +45,9 @@ class MembershipFormTestCase(TestCase):
 
     def test_form_valid(self):
         form = MembershipForm({
-            "user" : self.team_member,
             "is_admin" : True
         })
         self.assertTrue(form.is_valid())
-
-    def test_team_member_required(self):
-        form = MembershipForm({
-            "user": None,
-            "is_admin" : True
-        })
-        self.assertFalse(form.is_valid())
-        self.assertIn('user', form.errors.keys())
-        self.assertEqual(
-            form.errors['user'][0], 'This field is required.')
 
     def test_admin_boolean_not_required(self):
         form = MembershipForm({
