@@ -190,7 +190,17 @@ Using a file manager:
 - Create a file named `Procfile` without speech-marks or file extension and save `web gunicorn <Django app name without .py>.wsgi:application` on the first line of `Procfile` (in my case, the content of the Procfile was `web: gunicorn app_main.wsgi:application`)
 
 Using a web browser:
-- Log into [Heroku](https://id.heroku.com/login) and set environment variables for `SECRET_KEY = <your own key>`, `DEBUG_MODE = "False"`, `DATABASE_URL = <Heroku PostgreSQL database URL>`, `STRIPE_PUBLISHABLE_KEY = <Stripe publishable key>`, `STRIPE_SECRET_KEY = <Stripe secret key>`, `STRIPE_WEBHOOK_SIGNING_SECRET = <Stripe webhook endpoint signing secret>`, `EMAIL_HOST_PASSWORD = <email host password>`, `EMAIL_HOST_USER = <email address>`
+- Log into [Heroku](https://id.heroku.com/login) and set environment variables for
+```
+SECRET_KEY = "<your own key>"
+DEBUG_MODE = "False"
+DATABASE_URL = "<Heroku PostgreSQL database URL>"
+STRIPE_PUBLISHABLE_KEY = "<Stripe publishable key>"
+STRIPE_SECRET_KEY = "<Stripe secret key>"
+STRIPE_WEBHOOK_SIGNING_SECRET = "<Stripe webhook endpoint signing secret>"
+EMAIL_HOST_PASSWORD = "<email host password>"
+EMAIL_HOST_USER = "<email address>"
+```
 
 Back in the bash terminal:
 - Commit all new changes to GitHub `git add .` then `git commit -m “<message>"` then `git push`
@@ -203,11 +213,21 @@ Back in the bash terminal:
 4. Install `libpq-dev` `python3-dev` packages **before** installing `psycopg2` Python pip library `sudo apt install libpq-dev python3-dev` (Note: `dj-database-url` `gunicorn` `psycopg2` `whitenoise` Python pip libraries are only needed for Heroku deployment, so you may choose to skip this Step 4 and remove the respective Python pip libraries from the requirements.txt dependencies file.)
 5. Install the dependencies `pip install -r requirements.txt`
 6. Setup and run a public URL for testing using a service such as [ngrok](https://ngrok.com/) and your chosen <port_number>. Note down this public URL for use in step below referenced as <ngrok_URL>. This is required for Stripe webhook redirects.
-7. In root folder of project, create a `.env` file and set the following environment variables `export = SECRET_KEY = <your own key>`, `export = DEBUG_MODE = "True"`, `export = DEBUG_URL = "<ngrok_URL>"`, `export = STRIPE_PUBLISHABLE_KEY = <Stripe publishable key>`, `export = STRIPE_SECRET_KEY = <Stripe secret key>`, `export = STRIPE_WEBHOOK_DEBUG = <Stripe webhook endpoint signing secret>`
-8. Make database migrations `python manage.py makemigrations`
-9. Migrate `python manage.py migrate`
-10. Run the web app `python manage.py runserver <port_number>`
-11. Use a web browser to navigate to `<ngrok_URL>:<port_number>`
+7. Setup a Stripe webhook endpoint for `checkout.session.completed` from the "events to send" drop-down list
+8. In root folder of project, create a `.env` file and set the following environment variables
+```
+export SECRET_KEY = "<your own key>"
+export DEBUG_MODE = "True"
+export DEBUG_URL = "<ngrok_URL>"
+export STRIPE_PUBLISHABLE_KEY = "<Stripe publishable key>"
+export STRIPE_SECRET_KEY = "<Stripe secret key>"
+export STRIPE_WEBHOOK_DEBUG = "<Stripe webhook endpoint signing secret>"
+```
+9. Make database migrations `python manage.py makemigrations`
+10. Migrate `python manage.py migrate`
+11. Create superuser `python manage.py createsuperuser`
+12. Run the web app `python manage.py runserver <port_number>`
+13. Use a web browser to navigate to `<ngrok_URL>:<port_number>`
 
 ## Credits and acknowledgements
 - [WebDevSimplified](https://github.com/WebDevSimplified/Drag-And-Drop) for code to enable drag and drop feature
