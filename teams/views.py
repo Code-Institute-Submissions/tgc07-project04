@@ -246,7 +246,7 @@ def create_membership(request, team_id):
                     kwargs={'team_id':team_id}))
             # If subscription still valid, then display
             else:
-                form = MembershipForm()
+                form = CreateMembershipForm()
                 return render(request, 'teams/create-membership.html', {
                     'form': form,
                     'team': team,
