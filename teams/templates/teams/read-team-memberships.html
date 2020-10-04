@@ -33,7 +33,7 @@
                     <td>{% if membership.is_admin %}admin{% else %}limited user{% endif %}</td>
                     <td>{% if is_admin %}
                             <a href="{% url 'update_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-info btn-sm">Edit membership</a>
-                            <a href="{% url 'delete_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-secondary btn-sm">Delete membership</a>
+                            <a href="{% url 'delete_membership_route' team_id=membership.team.id membership_id=membership.id %}" class="btn btn-secondary btn-sm">Remove team member</a>
                         {% else %}
                             admin status required
                         {% endif %}
