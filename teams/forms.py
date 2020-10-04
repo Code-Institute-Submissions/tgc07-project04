@@ -28,4 +28,4 @@ class CreateMembershipForm(forms.Form):
 class MembershipForm(forms.ModelForm):
     class Meta:
         model = Membership
-        fields = "__all__"
+        fields = ["is_admin"]
