@@ -140,11 +140,9 @@ In addition to above features, team admins are able to:
 
 |  # | Event | Expected Outcome | Actual Outcome |
 |----|-------|------------------|----------------|
-As logged out user
-
+| As logged out user |
 |  1 | Try to access restricted content via URL | Redirected to login page | As expected |
-
-As logged in user with limited user membership rights to team
+| As logged in user with limited user membership rights to team |
 |  2 | Add/update task | Should only see own self in list of assignees (admin access rights needed to list all team members) | As expected |
 |  3 | View tasks summary page | Delete task buttons only displayed on tasks created by own self | As expected |
 |  4 | Drag task from one stage to another | Task's stage has been updated | As expected |
@@ -156,8 +154,7 @@ As logged in user with limited user membership rights to team
 | 10 | Try to access team's tasks summary view for a team whose subscription has lapsed | Redirected to select subscription page | As expected |
 | 11 | Create/update team with same name as an existing team in database | Submit form is rejected and error message displayed | As expected |
 | 12 | Create/update team with incorrect regex requirements | Submit form is rejected and error message displayed | As expected |
-
-As team admin
+| As team admin |
 | 13 | Try to remove admin rights of last remaining admin user on team | Rejected and error message displayed | As expected |
 | 14 | Try to delete membership of last remaining admin user on team | Rejected and error message displayed | As expected |
 | 15 | View team's tasks summary page | Delete buttons are displayed for all tasks | As expected |
