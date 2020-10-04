@@ -28,7 +28,7 @@ class Task(models.Model):
     date_due = models.DateField(blank=True, null=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     task_creator = models.ForeignKey(
-        User, related_name="task_creator", on_delete=models.RESTRICT)
+        User, related_name="task_creator", on_delete=models.CASCADE)
     stage = models.ForeignKey(Stage, on_delete=models.RESTRICT)
     priority_level = models.ForeignKey(
         PriorityLevel, on_delete=models.RESTRICT)
