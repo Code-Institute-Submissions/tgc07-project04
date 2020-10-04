@@ -66,6 +66,9 @@ Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 
 ![Colour scheme](report/colour-scheme/colour-scheme.png "Colour scheme")
 
+## Features
+
+### Current Features
 
 ### Features Left to Implement
 - Use UUID for user IDs and team IDs for better security
@@ -73,6 +76,14 @@ Wireframes for the tasks summary page can be viewed [here](report/wireframes).
 - Enable team admins to create custom priority and severity levels for their team's bug reports
 - Implement a better database on_delete policy
 - Dashboard for admin users for to provide such as number of tasks assigned to each team member, time taken to fix bugs, etc
+
+## Technologies Used
+
+## Database Design
+- The ER diagram for this project's database can be viewed [here](report/database/entity-relationship-diagram.png)
+- The database schema for this project's database can be viewed [here](report/database/database-schema.png)
+
+## Programming Methodologies
 
 ## Deployment
 A live demo of this project can be viewed [here](https://tgc07-project04.herokuapp.com/).
